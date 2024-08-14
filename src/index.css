@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  @apply overflow-hidden
+}
+
+* {
+  scrollbar-color: rgb(196, 196, 196) rgb(249, 250, 251);
+}
+
+:is(.dark ) * {
+  scrollbar-color: rgb(11, 18, 27) rgb(31, 41, 55);
+}

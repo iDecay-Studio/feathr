@@ -1,0 +1,23 @@
+.btn {
+  @apply disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm ring-1 duration-[50ms] hover:shadow select-none w-fit h-fit bg-transparent text-black ring-transparent hover:ring-gray-200 hover:bg-gray-100 active:bg-gray-200 active:ring-gray-200 dark:text-white dark:hover:ring-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-700 dark:active:ring-gray-700;
+}
+.btn-green {
+  @apply hover:shadow-none hover:ring-green-600 hover:bg-green-500 active:bg-green-600 active:ring-green-600 dark:text-white dark:hover:ring-green-600 dark:hover:bg-green-700 dark:active:ring-green-600 dark:active:bg-green-600;
+}
+.btn-yellow {
+  @apply hover:shadow-none hover:ring-yellow-600 hover:bg-yellow-500 active:bg-yellow-600 active:ring-yellow-600 dark:text-white dark:hover:ring-yellow-600 dark:hover:bg-yellow-700 dark:active:ring-yellow-600 dark:active:bg-yellow-600;
+}
+.btn-red {
+  @apply hover:shadow-none hover:ring-red-600 hover:bg-red-500 active:bg-red-600 active:ring-red-600 dark:text-white dark:hover:ring-red-600 dark:hover:bg-red-700 dark:active:ring-red-600 dark:active:bg-red-600;
+}
+
+.settings {
+  @apply w-fit px-2 py-1 m-[1px] ml-[5px] cursor-pointer font-thin;
+}
+.settings-selected {
+  @apply ml-1 bg-gray-100 dark:bg-gray-800 rounded-t border border-gray-200 dark:border-gray-700 border-b-0 z-10;
+}
+
+.header-text {
+  @apply !text-gray-700 dark:!text-gray-300 select-none truncate;
+}

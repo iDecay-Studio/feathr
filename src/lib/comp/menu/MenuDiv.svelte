@@ -1,0 +1,1 @@
+<div class="w-[1px] bg-gray-200 dark:bg-gray-700 !m-2 !my-1"/>

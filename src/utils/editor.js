@@ -11,7 +11,6 @@ export let statsDisplay = writable(null);
 
 //states
 export let textEdited = writable(false);
-export let textWrapEnabled = writable(true);
 export let isFullscreen = writable(false);
 
 let startingState = '';
@@ -47,7 +46,7 @@ export const saveFileAs = () => {
   }, () => message("Error while saving, please try again."));
 }
 
-const clear = () => {
+export const closeFile = () => {
   get(textEditor).value = '';
   startingState = '';
   currentFilePath = '';
@@ -57,7 +56,7 @@ const clear = () => {
 };
 
 export const open = (filePath) => {
-  clear();
+  closeFile();
   readTextFile(filePath).then((text) => {
     startingState = text;
     get(textEditor).value = text;
@@ -73,7 +72,7 @@ export const openInExplorer = () => {
 }
 
 export const newFile = () => savePrompt(clear);
-export const openFile = () => savePrompt(() => openDialog().then((filePath) => open(filePath), () => message("Error while opening file, please try again.")));
+export const openFile = (path = "") => savePrompt(() => openDialog({defaultPath: path}).then((filePath) => open(filePath), () => message("Error while opening file, please try again.")));
 export const closeApp = () => savePrompt(appWindow.close);
 
 export function calculateStats() {
@@ -87,7 +86,7 @@ export function calculateStats() {
   
   get(statsDisplay).innerText = `${lines} ${lineSuffix} | ${words} ${wordSuffix} | ${chars} ${charSuffix}`;
   textEdited.set(get(textEditor).value !== startingState);
-  console.log(textEdited);
+  console.log(get(textEdited));
 }
 
 const getFileNameFromPath = (filePath) => filePath.replace(/^.*(\\|\/|\:)/, "");

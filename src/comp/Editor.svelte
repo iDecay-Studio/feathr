@@ -1,5 +1,6 @@
 <script>
-  import {calculateStats, textEdited, textEditor, textWrapEnabled} from "@/utils/editor";
+  import {calculateStats, textEdited, textEditor} from "@/utils/editor";
+  import {wordWrap, fontType} from "@/utils/settings.js";
   import Menu from "./menu/Menu.svelte";
   import Stats from "@/comp/menu/Stats.svelte";
 </script>
@@ -8,8 +9,8 @@
   <Menu/>
   <div class="size-full text-black dark:text-white text-sm overflow-auto relative">
     <textarea autofocus spellCheck={false} on:input={() => {calculateStats(); textEdited.set(true)}}
-              wrap={$textWrapEnabled ? "on": "off"} bind:this={$textEditor}
-              class="p-3 w-full h-full outline-none resize-none bg-transparent -mb-[5px] cursor-auto"/>
+              wrap={$wordWrap ? "on": "off"} bind:this={$textEditor}
+              class="p-3 w-full h-full outline-none resize-none bg-transparent -mb-[5px] cursor-auto font-{$fontType}"/>
   </div>
   <Stats/>
 </div>

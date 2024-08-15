@@ -1,0 +1,20 @@
+<script>
+  import {isMenuOpen, openMenu} from "@/utils/menu.js";
+  import {flyIn} from "@/utils/transitions.js";
+  import {get} from "svelte/store";
+
+  export let title;
+</script>
+
+<div class="relative h-full cursor-default">
+  <button on:click={() => {isMenuOpen.set(!get(isMenuOpen)); openMenu.set(title)}}
+          on:mouseover={() => openMenu.set(title)}
+          class="btn header-text h-full" data-active={$isMenuOpen && $openMenu === title ? "" : undefined}>
+    {title}
+  </button>
+  {#if $isMenuOpen && $openMenu === title}
+    <div in:flyIn class="bg flex flex-col absolute top-0 z-50 min-w-[8rem] rounded-md border border-neutral-200/70 mt-7 text-sm p-1 shadow-md w-46 -translate-x-0.5">
+      <slot/>
+    </div>
+  {/if}
+</div>

@@ -1,5 +1,9 @@
+.bg {
+  @apply border-none bg-white text-neutral-800 dark:text-white dark:bg-gray-800;
+}
+
 .btn {
-  @apply disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm ring-1 duration-[50ms] hover:shadow select-none w-fit h-fit bg-transparent text-black ring-transparent hover:ring-gray-200 hover:bg-gray-100 active:bg-gray-200 active:ring-gray-200 dark:text-white dark:hover:ring-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-700 dark:active:ring-gray-700;
+  @apply disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm ring-1 duration-[50ms] hover:shadow select-none w-fit h-fit bg-transparent text-black ring-transparent hover:ring-gray-200 hover:bg-gray-100 active:bg-gray-200 data-[active]:bg-gray-200 active:ring-gray-200 dark:text-white dark:hover:ring-gray-700 dark:hover:bg-gray-700 dark:active:bg-gray-700 dark:active:ring-gray-700 dark:data-[active]:bg-gray-700;
 }
 .btn-green {
   @apply hover:shadow-none hover:ring-green-600 hover:bg-green-500 active:bg-green-600 active:ring-green-600 dark:text-white dark:hover:ring-green-600 dark:hover:bg-green-700 dark:active:ring-green-600 dark:active:bg-green-600;
@@ -20,4 +24,7 @@
 
 .header-text {
   @apply !text-gray-700 dark:!text-gray-400 select-none truncate;
+}
+.shortcut-text {
+  @apply !text-gray-600 dark:!text-gray-500 select-none truncate;
 }

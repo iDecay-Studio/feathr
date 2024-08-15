@@ -150,7 +150,7 @@ export default function Parchment() {
 
   return (
     <div class="flex flex-col flex-grow h-full border border-gray-200 dark:border-gray-700">
-      <div data-tauri-drag-region className="flex flex-row p-2 space-x-2 border-gray-200 dark:border-gray-700 bg-gray-100/50 dark:bg-gray-800/50 w-[100%] fixed">
+      <div data-tauri-drag-region className="flex flex-row p-2 space-x-2 border-gray-200 dark:border-gray-700 bg-gray-100/50 dark:bg-gray-800/50 w-full fixed">
         <div className="flex flex-row whitespace-nowrap mr-auto">
           
           <button className={`${minimalButton} ${headerTextColour} font-semibold hover:!text-gray-200`} onClick={openFile}>Open</button>
@@ -188,8 +188,8 @@ export default function Parchment() {
         </div>
       </div>
 
-      <div data-tauri-drag-region className={`flex flex-col text-sm bg-gray-100/50 dark:bg-gray-800/50 fixed mt-[40px] w-[100%] ${headerTextColour}`}>
-        <div data-tauri-drag-region className="flex flex-row px-1 w-[100%]">
+      <div data-tauri-drag-region className={`flex flex-col text-sm bg-gray-100/50 dark:bg-gray-800/50 fixed mt-[40px] w-full ${headerTextColour}`}>
+        <div data-tauri-drag-region className="flex flex-row px-1 w-full">
           <div className="flex !flex-row mr-auto">
             <span className={selectedSettingsTab() === "display" ? settingsSelectedStyle: settingsUnselectedStyle} onClick={() => setSelectedSettingsTab("display")}>Display</span>
             <span className={selectedSettingsTab() === "theme" ? settingsSelectedStyle: settingsUnselectedStyle} onClick={() => setSelectedSettingsTab("theme")}>Theme</span>
@@ -239,7 +239,7 @@ export default function Parchment() {
         </div>
       </div>
 
-      <div className="mt-[112px] w-[100%] h-[100%] text-black dark:text-white text-sm overflow-auto relative">
+      <div className="mt-[112px] size-full text-black dark:text-white text-sm overflow-auto relative">
         <textarea spellCheck={false} onInput={() => { calculateStats(); setTextEdited(true) }} wrap={textWrapEnabled() ? "on": "off"} ref={textEditor} class="p-3 w-full h-full outline-none resize-none bg-transparent -mb-[5px] cursor-auto"/>
       </div>
     </div>

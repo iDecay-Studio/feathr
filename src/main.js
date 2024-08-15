@@ -1,6 +1,6 @@
-import Editor from "./lib/comp/Editor.svelte";
+import Editor from "./comp/Editor.svelte";
 import 'uno.css';
-import './lib/styles/app.pcss';
+import './styles/app.pcss';
 
 if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
   document.querySelector("html").classList.add("dark");

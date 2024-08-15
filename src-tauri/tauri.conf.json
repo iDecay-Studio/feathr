@@ -61,10 +61,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 760,
+        "height": 560,
         "resizable": true,
         "title": "Parchment",
-        "width": 580,
+        "width": 640,
         "decorations": false,
         "transparent": true
       }

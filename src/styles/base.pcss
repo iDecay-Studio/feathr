@@ -16,3 +16,8 @@ html, body, #root {
 :is(.dark ) * {
   scrollbar-color: rgb(11, 18, 27) rgb(31, 41, 55);
 }
+
+.dragover::after {
+  z-index: 10;
+  background-color: rgba(211, 211, 211, 0.75);
+}

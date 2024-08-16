@@ -1,1 +1,0 @@
-<button class="btn header-text font-semibold hover:!text-gray-200" on:click><slot/></button>

@@ -8,7 +8,7 @@
 
 <div class="relative h-full cursor-default">
   <button on:click={() => {isMenuOpen.set(!get(isMenuOpen)); openMenu.set(title)}}
-          on:mouseover={() => openMenu.set(title)}
+          on:mouseover={() => openMenu.set(title)} on:focus={() => openMenu.set(title)}
           class="btn header-text h-full" data-active={$isMenuOpen && $openMenu === title ? "" : undefined}>
     {title}
   </button>

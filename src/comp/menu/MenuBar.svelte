@@ -1,10 +1,10 @@
 <script>
   //based on: https://devdojo.com/pines/docs/menubar
-  import {newFile, open, openFile, openInExplorer, saveFile, saveFileAs, discardChanges, closeFile, closeApp} from "@/utils/editor.js";
-  import {undo, redo, find, replace, copy, cut, paste} from "@/utils/menu.js";
+  import {newFile, open, openFile, openInExplorer, saveFile, saveFileAs, discardChanges, closeFile, closeApp} from "@/utils/editor/file.js";
+  import {undo, redo, find, replace, copy, cut, paste} from "@/utils/ui/menu.js";
   import {clickOutside} from "@/utils/events/clickOutside.js";
-  import {isMenuOpen} from "@/utils/menu.js";
-  import {defFontSize, focusMode, wordWrap, fontType, fontSize, theme, setFocusMode, setWordWrap, setFontType, setTheme, setFontSize, incrFontSizeBy} from "@/utils/settings.js";
+  import {isMenuOpen} from "@/utils/ui/menu.js";
+  import {defFontSize, focusMode, wordWrap, fontType, fontSize, theme, setFocusMode, setWordWrap, setFontType, setTheme, setFontSize, incrFontSizeBy} from "@/utils/core/settings.js";
   import Menu from "@/comp/menu/overlay/Menu.svelte";
   import MenuItem from "@/comp/menu/overlay/MenuItem.svelte";
   import SubMenu from "@/comp/menu/overlay/SubMenu.svelte";

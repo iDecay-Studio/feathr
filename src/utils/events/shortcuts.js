@@ -1,6 +1,6 @@
-import {closeApp, closeFile, saveFile, saveFileAs, discardChanges, newFile, openFile, openInExplorer} from "@/utils/editor.js";
-import {undo, redo, find, replace, copy, cut, paste} from "@/utils/menu.js";
-import {focusMode, fontSize, incrFontSizeBy, setFocusMode, setFontSize} from "@/utils/settings.js";
+import {closeApp, closeFile, saveFile, saveFileAs, discardChanges, newFile, openFile, openInExplorer} from "@/utils/editor/file.js";
+import {undo, redo, find, replace, copy, cut, paste} from "@/utils/ui/menu.js";
+import {focusMode, fontSize, incrFontSizeBy, setFocusMode, setFontSize} from "@/utils/core/settings.js";
 import {get} from "svelte/store";
 
 //maybe use the Tauri globalShortcut module instead, but I don't see any advantage over the native JS approach (https://tauri.app/v1/api/js/globalshortcut/)
@@ -8,6 +8,7 @@ const checkKey = (evt, key) => evt.key.toLowerCase() === key;
 const checkShortcut = (evt, key) => (evt.ctrlKey || evt.metaKey) && checkKey(evt, key);
 
 const onKeyDown = async (evt) => {
+  evt.preventDefault();
   if (evt.repeat) return;
 
   //file

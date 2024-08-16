@@ -1,5 +1,5 @@
 <script>
-  import {closeApp} from "@/utils/editor";
+  import {closeApp} from "@/utils/editor/file.js";
 </script>
 
 <button class="btn btn-red" onClick={closeApp}>

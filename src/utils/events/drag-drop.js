@@ -1,4 +1,4 @@
-import {open} from "@/utils/editor.js";
+import {open} from "@/utils/editor/file.js";
 
 /* Drag&drop to open a file */
 document.ondragover = (e) => {

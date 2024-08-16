@@ -1,5 +1,5 @@
 import App from "./comp/App.svelte";
-import {init as initSettings} from "@/utils/settings.js";
+import {init as initSettings} from "@/utils/core/settings.js";
 import 'uno.css';
 import './styles/app.pcss';
 

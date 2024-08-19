@@ -1,7 +1,6 @@
 <script>
   //based on: https://devdojo.com/pines/docs/menubar
   import app from "@/utils/core/app.js";
-  import {newFile, open, openFile, openInExplorer, saveFile, saveFileAs, discardChanges, closeFile} from "@/utils/editor/file.js";
   import {undo, redo, find, replace, copy, cut, paste, selectAutocomplete, selectSynonym, gotoLine, gotoPrevMarker, gotoNextMarker, gotoPrevFile, gotoNextFile} from "@/utils/ui/menu.js";
   import {clickOutside} from "@/utils/events/clickOutside.js";
   import {isMenuOpen} from "@/utils/ui/menu.js";
@@ -24,18 +23,18 @@
       <div class="w-full h-full p-1 border-none bg-gray-100/50 dark:bg-gray-800/50 border rounded-md">
         <div class="flex justify-between w-full h-full select-none text-neutral-900">
           <Menu title="File">
-            <MenuItem title="New" shortcut="Ctrl+N" action={newFile}/>
-            <MenuItem title="Open..." shortcut="Ctrl+O" action={openFile}/>
+            <MenuItem title="New" shortcut="Ctrl+N" action={() => app.project.newFile()}/>
+            <MenuItem title="Open..." shortcut="Ctrl+O" action={() => app.project.openFile()}/>
             <SubMenu title="Open Recent">
-              <MenuItem title="Test" action={() => open("C:")}/>
+              <MenuItem title="Test" action={() => app.project.openFile("C:")}/>
             </SubMenu>
-            <MenuItem title="Open in Explorer" shortcut="Ctrl+E" action={openInExplorer}/>
+            <MenuItem title="Open in Explorer" shortcut="Ctrl+E" action={() => app.project.openInExplorer()}/>
             <MenuDiv/>
-            <MenuItem title="Save" shortcut="Ctrl+S" action={saveFile}/>
-            <MenuItem title="Save as..." shortcut="Ctrl+Shift+S" action={saveFileAs}/>
+            <MenuItem title="Save" shortcut="Ctrl+S" action={() => app.project.save()}/>
+            <MenuItem title="Save as..." shortcut="Ctrl+Shift+S" action={() => app.project.save_as()}/>
             <MenuDiv/>
-            <MenuItem title="Discard Changes" shortcut="Ctrl+D" action={discardChanges}/>
-            <MenuItem title="Close File" shortcut="Ctrl+W" action={closeFile}/>
+            <MenuItem title="Discard Changes" shortcut="Ctrl+D" action={() => app.project.discard()}/>
+            <MenuItem title="Close File" shortcut="Ctrl+W" action={() => app.project.close()}/>
             <MenuItem title="Quit App" shortcut="Ctrl+Q" action={() => app.quit()}/>
           </Menu>
           

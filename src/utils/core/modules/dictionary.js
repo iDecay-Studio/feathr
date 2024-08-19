@@ -34,7 +34,7 @@ export function Dictionary() {
     const target = str.toLowerCase()
 
     for (const id in this.vocabulary) {
-      if (this.vocabulary[id].substr(0, target.length) !== target) continue
+      if (this.vocabulary[id].substring(0, target.length) !== target) continue
       return this.vocabulary[id]
     }
     return null
@@ -47,7 +47,7 @@ export function Dictionary() {
     if (this.synonyms[target]) return uniq(this.synonyms[target]);
 
     if (target[target.length - 1] === 's') {
-      const singular = this.synonyms[target.substr(0, target.length - 1)]
+      const singular = this.synonyms[target.substring(0, target.length - 1)]
       if (this.synonyms[singular]) return uniq(this.synonyms[singular])
     }
 

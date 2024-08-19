@@ -5,7 +5,8 @@
   position: absolute;
   -webkit-user-select: none;
   -webkit-app-region: drag;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: opacity 200ms 200ms, translateY 150ms, width 200ms;
   opacity: 1;
   height: calc(100vh - 120px);
@@ -20,7 +21,7 @@
     cursor: pointer;
     position: relative;
     -webkit-app-region: no-drag;
-    height: 20px;
+    //height: 20px;
 
     span {
       overflow: hidden;

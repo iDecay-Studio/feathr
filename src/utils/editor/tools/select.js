@@ -25,7 +25,7 @@ export function Select() {
     if (this.word.trim() !== '' && app.editor.suggestion && app.editor.suggestion.toLowerCase() !== app.editor.locate.active_word().toLowerCase()) {
       this.autocomplete()
     } else {
-      app.editor.insert.text('\u00a0\u00a0')
+      app.editor.insert.text('\t')
     }
   }
   

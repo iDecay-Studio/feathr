@@ -39,16 +39,17 @@ document.onkeyup = (e) => {
     }
   }
 
-  if (e.keyCode === 16) { // Shift
+  if (e.key === 'Shift') {
     app.stats.applySynonym()
     app.update()
     return
   }
-  if (e.keyCode !== 9) app.update()
+  if (e.key !== 'Tab') app.update()
 }
 
 document.onclick = function onClick(e) {
   app.editor.select.index = 0
-  app.operator.close()
+  app.operator.close();
+  app.project.page().pos = app.editor.el.selectionStart;
   app.update()
 }

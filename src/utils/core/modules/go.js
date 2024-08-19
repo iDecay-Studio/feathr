@@ -29,6 +29,8 @@ export function Go() {
   }
 
   this.to = function (from, to, scroll = true) {
+    if (scroll) this.scroll_to(from, to)
+    
     if (app.editor.el.setSelectionRange) app.editor.el.setSelectionRange(from, to)
     else if (app.editor.el.createTextRange) {
       const range = app.editor.el.createTextRange()
@@ -37,9 +39,6 @@ export function Go() {
       range.moveStart('character', from)
       range.select()
     }
-    app.editor.el.focus()
-
-    if (scroll) this.scroll_to(from, to)
 
     return from === -1 ? null : from
   }
@@ -47,18 +46,32 @@ export function Go() {
   this.to_next = function (str, scroll = true) {
     const ta = app.editor.el
     const text = ta.value
-    const range = text.substr(ta.selectionStart, text.length - ta.selectionStart)
+    const range = text.substring(ta.selectionStart, text.length - ta.selectionStart)
     const next = ta.selectionStart + range.indexOf(EOL)
     this.to(next, next, scroll)
   }
 
   this.scroll_to = function (from, to) {
-    const textVal = app.editor.el.value
-    const div = document.createElement('div')
-    div.innerHTML = textVal.slice(0, to)
-    document.body.appendChild(div)
-    animateScrollTo(app.editor.el, div.offsetHeight - 60, 200)
-    div.remove()
+    //cache current text-area state
+    const ta = app.editor.el
+    const text = ta.value
+    const sliceText = text.slice(0, to)
+    const scrollFrom = ta.scrollTop
+    const taPaddingTop = 30
+
+    // Textarea hack to get the proper scroll position of the selection
+    // This relies on textarea behavior where it scrolls to the bottom when focused
+    ta.scrollTop = 0
+    ta.blur()
+    ta.style.paddingTop = `${ta.clientHeight}px`
+    ta.value = sliceText
+    ta.focus()
+    ta.style.paddingTop = `${taPaddingTop}px`
+    ta.value = text
+
+    // Reset scroll position and scroll to new position
+    ta.scrollTop = scrollFrom
+    animateScrollTo(ta, ta.scrollTop - 60, 200)
   }
 
   function animateScrollTo(element, to, duration) {

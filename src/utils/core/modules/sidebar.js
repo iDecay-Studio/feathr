@@ -12,7 +12,7 @@ export function Sidebar() {
     for (const pid in app.project.pages) {
       const page = app.project.pages[pid]
       if (!page) { continue }
-      html += `<ul class="${app.project.index === parseInt(pid) ? 'active' : ''}">`
+      html += `<ul class="${app.project.index === parseInt(pid) ? 'active' : ''}" ondrop='app.project.pages[${[pid]}].on_drop(event)'>`
       html += this._page(parseInt(pid), page)
       const markers = page.markers()
       for (const i in markers) {

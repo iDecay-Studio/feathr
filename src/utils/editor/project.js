@@ -1,14 +1,20 @@
 import {Page} from "@/utils/editor/page.js";
 import app from "@/utils/core/app.js";
-import {fs} from "fs";
-import {discardPrompt} from "@/utils/ui/prompts.js";
+import {discardPrompt, savePrompt} from "@/utils/ui/prompts.js";
 import {isJSON} from "@/utils/core/utils.js";
+import {writeFile} from "@tauri-apps/api/fs";
+import {message, open as openDialog, save as saveDialog} from "@tauri-apps/api/dialog";
+import {open as openWithDefault} from "@tauri-apps/api/shell";
+import {fs} from "fs";
 
 export function Project() {
   this.pages = []
-
   this.index = 0
-  this.original = ''
+  
+  this.dialogFilters = [
+    { name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log'] },
+    { name: 'All Files', extensions: ['*'] }
+  ]
 
   // Load previous files
   if (localStorage.hasOwnProperty('paths')) {
@@ -25,14 +31,8 @@ export function Project() {
 
   this.add = function (path = null) {
     let page = new Page()
-
-    if (path) {
-      if (this.paths().indexOf(path) > -1) {
-        console.warn(`Already open(skipped): ${path}`);
-        return
-      }
-      page = new Page(this.load(path), path)
-    }
+    //only create a specific page if not already open
+    if (path && this.paths().indexOf(path) === -1) page = new Page(this.load(path), path)
 
     this.pages.push(page)
     app.go.to_page(this.pages.length - 1)
@@ -45,11 +45,10 @@ export function Project() {
   this.update = () => {
     if (!this.page()) console.warn('Missing page');
     else this.page().commit(app.editor.el.value)
+    app.titleRef.innerText = this.page().name();
   }
 
   this.load = function (path) {
-    // console.log(`Load: ${path}`)
-
     let data
     try {
       data = fs.readFileSync(path, 'utf-8')
@@ -62,73 +61,62 @@ export function Project() {
 
   // ========================
 
-  this.new = () => {
-    this.add()
-    app.reload()
+  this.newFile = () => {
+    savePrompt(() => {
+      this.add()
+      app.reload()
 
-    setTimeout(() => {
-      app.sidebar.next_page();
-      app.editor.el.focus()
-    }, 200)
+      setTimeout(() => {
+        app.sidebar.next_page();
+        app.editor.el.focus()
+      }, 200)
+    });
   }
 
-  this.open = () => {
-    // const paths = dialog.showOpenDialogSync(app.win, {properties: ['openFile', 'multiSelections']})
-    const paths = [];
-    if (!paths) {
-      console.error('Nothing to load');
-      return
-    }
+  this.openFile = () => {
+    savePrompt(() => openDialog({
+      multiple: true,
+      filters: this.dialogFilters
+    }).then(paths => {
+      for (const id in paths) this.add(paths[id])
 
-    for (const id in paths) this.add(paths[id])
+      setTimeout(() => {
+        app.sidebar.next_page();
+        app.update()
+      }, 200)
+    }, reason => message("Error while opening file:" + reason)));
+  }
 
-    setTimeout(() => {
-      app.sidebar.next_page();
-      app.update()
-    }, 200)
+  this.openInExplorer = () => {
+    if (this.page().path !== "") openWithDefault(this.page().path);
   }
 
   this.save = () => {
-    const page = this.page()
-
-    if (!page.path) {
-      this.save_as();
-      return
+    const page = this.page();
+    if (page.path) {
+      return new Promise((success) => {
+        writeFile({contents: page.text, path: page.path}).then(() => {
+          app.update();
+          success();
+        }, reason => message('An error occurred saving the file: ' + reason));
+      });
     }
-
-    fs.writeFile(page.path, page.text, (err) => {
-      if (err) {
-        alert('An error occurred updating the file' + err.message);
-        console.error(err);
-        return
-      }
-      app.update()
-      // setTimeout(() => app.stats.el.innerHTML = `<b>Saved</b> ${page.path}`, 200)
-    })
+    else this.save_as();
   }
 
   this.save_as = () => {
     const page = this.page()
-    // const path = dialog.showSaveDialogSync(app.win)
-    const path = ""
-    if (!path) return;
-
-    fs.writeFile(path, page.text, (err) => {
-      if (err) {
-        alert('An error ocurred creating the file ' + err.message);
-        return
-      }
-      
-      if (!page.path) page.path = path
-      else if (page.path !== path) this.pages.push(new Page(page.text, path))
-      
-      app.update()
-      // setTimeout(() => app.stats.el.innerHTML = `<b>Saved</b> ${page.path}`, 200)
-    })
+    return saveDialog({filters: this.dialogFilters}).then((filePath) => {
+      writeFile({contents: page.text, path: filePath}).then(
+        () => {
+          if (!page.path) page.path = filePath
+          else if (page.path !== filePath) this.pages.push(new Page(page.text, filePath))
+          app.update()
+        }, reason => message('An error occurred creating the file:' + reason));
+    }, reason => message('An error occurred creating the file:' + reason));
   }
 
   this.close = () => {
-    // if (this.pages.length === 1) return
     if (this.page().has_changes()) discardPrompt(this._close);
     else this._close();
   }
@@ -138,7 +126,7 @@ export function Project() {
   }
 
   this.force_close = () => {
-    if (this.pages.length === 1) app.quit();
+    if (this.pages.length === 1) this.add();
     else {
       this.pages.splice(this.index, 1)
       app.go.to_page(this.index - 1)

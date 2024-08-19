@@ -4,11 +4,11 @@ import {exec} from "@/utils/core/utils.js";
 export function Replace() {
   this.active_word = (word) => {
     const l = app.editor.locate.active_word_location()
-    const w = app.editor.el.value.substr(l.from, l.to - l.from)
+    const w = app.editor.el.value.substring(l.from, l.to - l.from)
 
     // Preserve capitalization
-    if (w.substr(0, 1) === w.substr(0, 1).toUpperCase()) {
-      word = word.substr(0, 1).toUpperCase() + word.substr(1, word.length)
+    if (w.substring(0, 1) === w.substring(0, 1).toUpperCase()) {
+      word = word.substring(0, 1).toUpperCase() + word.substring(1, word.length)
     }
 
     app.editor.el.setSelectionRange(l.from, l.to)

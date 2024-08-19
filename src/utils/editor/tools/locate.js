@@ -43,11 +43,11 @@ export function Locate() {
   }
   this.active_word = () => {
     const l = this.active_word_location()
-    return app.editor.el.value.substr(l.from, l.to - l.from)
+    return app.editor.el.value.substring(l.from, l.to - l.from)
   }
 
   this.active_line_id = () => {
-    const segments = app.editor.el.value.substr(0, app.editor.el.selectionEnd).split(EOL)
+    const segments = app.editor.el.value.substring(0, app.editor.el.selectionEnd).split(EOL)
     return segments.length - 1
   }
 
@@ -67,6 +67,6 @@ export function Locate() {
 
   // this.prev_character = () => {
   //   const l = this.active_word_location()
-  //   return app.editor.el.value.substr(l.from - 1, 1)
+  //   return app.editor.el.value.substring(l.from - 1, 1)
   // }
 }

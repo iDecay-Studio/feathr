@@ -1,21 +1,6 @@
-import {get} from "svelte/store";
 import app from "@/utils/core/app.js";
-import {startingState, textEdited} from "@/utils/_trash/states.js";
 import {EOL} from "@tauri-apps/api/os";
 import {clamp} from "@/utils/core/utils.js";
-
-export function calculateStats() {
-  const lines = app.editor.el.value.split(/\r|\r\n|\n/).length;
-  const words = app.editor.el.value.trim().replace("\n", " ").split(/(\s+)/).filter((word) => word.trim().length > 0).length;
-  const chars = app.editor.el.value.replace("\n", "").replace(" ", "").length;
-
-  const lineSuffix = lines === 1 ? "line" : "lines";
-  const wordSuffix = words === 1 ? "word" : "words";
-  const charSuffix = chars === 1 ? "char" : "chars";
-
-  app.stats.el.innerText = `${lines} ${lineSuffix} | ${words} ${wordSuffix} | ${chars} ${charSuffix}`;
-  textEdited.set(app.editor.el.value !== get(startingState));
-}
 
 export function Stats () {
   this.el = document.getElementById('stats')
@@ -96,7 +81,7 @@ export function Stats () {
     return ul
   }
 
-  this._suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substr(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`
+  this._suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`
   this._selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`
 
   this._url = () => {
@@ -108,13 +93,13 @@ export function Stats () {
     text = text.length > 5 ? text.trim() : app.editor.el.value
 
     const h = {}
-    const words = text.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ')
+    const words = text.trim().replace("\n", " ").split(/(\s+)/).filter((word) => word.trim().length > 0).length;
     for (const id in words) h[words[id]] = 1
 
     const stats = {}
-    stats.l = text.split(EOL).length // lines_count
-    stats.w = text.split(' ').length // words_count
-    stats.c = text.length // chars_count
+    stats.l = text.split(EOL).length
+    stats.w = words.length
+    stats.c = text.replace("\n", "").replace(" ", "").length;
     stats.v = Object.keys(h).length
     stats.p = stats.c > 0 ? clamp((app.editor.el.selectionEnd / stats.c) * 100, 0, 100).toFixed(2) : 0
     return stats

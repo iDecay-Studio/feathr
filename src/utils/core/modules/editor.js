@@ -21,7 +21,7 @@ export function Editor() {
   this.synonyms = null;
 
   this.update = () => {
-    const nextChar = this.el.value.substr(this.el.selectionEnd, 1)
+    const nextChar = this.el.value.substring(this.el.selectionEnd, 1)
 
     this.select.word = this.locate.active_word()
     this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null
@@ -31,11 +31,11 @@ export function Editor() {
 
   this.selection = () => {
     const from = this.el.selectionStart
-    return this.el.value.substr(from, this.el.selectionEnd - from)
+    return this.el.value.substring(from, this.el.selectionEnd - from)
   }
   
   // this.autocomplete = () => {
-  //   this.insert.text(this.suggestion.substr(this.select.word.length, this.suggestion.length) + ' ')
+  //   this.insert.text(this.suggestion.substring(this.select.word.length, this.suggestion.length) + ' ')
   // }
 
   // this.open_url = function (target = this.locate.active_url()) {

@@ -1,15 +1,17 @@
-import app from "@/utils/core/app.js";
-import {EOL} from "@tauri-apps/api/os";
-import {ask as askDialog} from "@tauri-apps/api/dialog";
-import {fs} from "fs";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
+import {ask as askDialog} from "@tauri-apps/plugin-dialog";
+import {stat, readTextFile} from "@tauri-apps/plugin-fs";
 
-export function Page(text = '', path = null) {
-  this.text = text.replace(/\r?\n/g, '\n');
-  this.path = path;
-  this.size = 0;
-  this.pos = 0;
+export class Page {
+  constructor(text = '', path = null) {
+    this.text = text.replace(/\r?\n/g, '\n');
+    this.path = path;
+    this.size = 0;
+    this.pos = 0;
+  }
 
-  this.name = () => {
+  name = () => {
     let suffix = this.has_changes() ? "*" : "";
     if (!this.path) return 'Untitled' + suffix;
 
@@ -17,18 +19,19 @@ export function Page(text = '', path = null) {
     return parts[parts.length - 1] + suffix;
   };
 
-  this.has_changes = () => {
+  has_changes = async () => {
     if (!this.path) return this.text && this.text.length > 0;
 
     const last_size = this.size;
-    const result = this.load() !== this.text;
+    const result = await this.load() !== this.text;
 
     // was this change done outside the app?
     if (result && (last_size !== this.size)) {
-      askDialog("File was modified outside the app. Do you want to reload it?").then(confirmed => {
+      askDialog("File was modified outside the app. Do you want to reload it?").then(async confirmed => {
         if (confirmed) {
-          app.project.page().commit(app.project.page().load());
-          app.reload();
+          let data = await app.project.page().load();
+          app.project.page().commit(data);
+          await app.reload();
           return !result; // return false as it was reloaded
         }
       });
@@ -37,30 +40,30 @@ export function Page(text = '', path = null) {
     return result;
   };
 
-  this.commit = (text = app.editor.el.value) => this.text = text;
+  commit = (text = app.editor.el.value) => this.text = text;
 
-  this.reload = function (force = false) {
-    if (this.path && (!this.has_changes() || force)) this.commit(this.load());
+  reload = async function (force = false) {
+    if (this.path && (!await this.has_changes() || force)) this.commit(await this.load());
   };
 
-  this.load = () => {
+  load = async () => {
     if (!this.path) return;
 
     let data;
     try {
-      data = fs.readFileSync(this.path, 'utf-8');
+      data = await readTextFile(this.path);
     } catch (err) {
       this.path = null;
       return;
     }
 
     // update file size
-    this.size = fs.statSync(this.path).size;
+    this.size = (await stat(this.path)).size;
 
     return data;
   };
 
-  this.markers = () => {
+  markers = () => {
     const result = [];
     const lines = this.text.split(EOL);
 
@@ -81,7 +84,7 @@ export function Page(text = '', path = null) {
     return result;
   };
 
-  this.on_drop = function (e) {
+  on_drop = (e) => {
     const text = e.dataTransfer.getData('text');
     this.text += EOL;
     this.text += text;

@@ -1,5 +1,5 @@
-import {EOL} from "@tauri-apps/api/os";
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 
 export function Locate() {
   this.find = (word) => {

@@ -1,13 +1,14 @@
-import app from "@/utils/core/app.js";
-import {EOL} from "@tauri-apps/api/os";
-import {clamp} from "@/utils/core/utils.js";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 
-export function Stats() {
-  this.el = document.getElementById('stats');
+export class Stats {
+  init = async () => {
+    this.el = document.getElementById('stats');
+  }
 
-  this.update = function () {
-    if (app.insert.is_active) {
-      this.el.innerHTML = app.insert.status();
+  update = async () => {
+    if (app.editor.insert.is_active) {
+      this.el.innerHTML = app.editor.insert.status();
       return;
     }
 
@@ -17,29 +18,29 @@ export function Stats() {
       this.el.appendChild(this._synonyms());
     } else if (app.editor.select.word && app.editor.suggestion) this.el.innerHTML = this._suggestion();
     else if (app.editor.select.url) this.el.innerHTML = this._url();
-    else this.el.innerHTML = this._default();
+    else this.el.innerHTML = "";
   };
 
-  this._default = () => {
+  _default = () => {
     const stats = this.parse(app.editor.selection());
-    const date = new Date();
 
     const sep = ", ";
-    const lineSuffix = stats.l === 1 ? "line" : "lines";
-    const wordSuffix = stats.w === 1 ? "word" : "words";
-    const charSuffix = stats.c === 1 ? "char" : "chars";
-
-    return `${stats.l}${lineSuffix}${sep}${stats.w}${wordSuffix} (${stats.v} unique)${sep}${stats.c}${charSuffix}${sep}${stats.p}% <span class='right'>${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}</span>`;
+    let result = "";
+    result += stats.l + ' ' + (stats.l === 1 ? "line" : "lines") + sep;
+    result += stats.c + ' ' + (stats.c === 1 ? "char" : "chars") + sep;
+    result += stats.w + ' ' + (stats.w === 1 ? "word" : "words") + ` (${stats.v} unique)`;
+    
+    return result;
   };
 
-  this.incrementSynonym = () => {
+  incrementSynonym = () => {
     app.editor.select.index = (app.editor.select.index + 1) % app.editor.synonyms.length;
   };
 
-  this.list = null;
-  this.isSynonymsActive = false;
+  list = null;
+  isSynonymsActive = false;
 
-  this.nextSynonym = () => {
+  nextSynonym = () => {
     this.isSynonymsActive = true;
 
     // Save the previous word element
@@ -56,14 +57,14 @@ export function Stats() {
     currentWord.scrollIntoView({behavior: 'smooth'});
   };
 
-  this.applySynonym = () => {
+  applySynonym = () => {
     if (!this.isSynonymsActive) return;
 
     // Replace the current word with the selected synonym
     app.editor.replace.active_word(app.editor.synonyms[app.editor.select.index % app.editor.synonyms.length]);
   };
 
-  this._synonyms = () => {
+  _synonyms = () => {
     app.editor.select.index = 0;
     const ul = document.createElement('ul');
 
@@ -80,27 +81,26 @@ export function Stats() {
     return ul;
   };
 
-  this._suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`;
-  this._selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`;
+  _suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`;
+  _selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`;
 
-  this._url = () => {
+  _url = () => {
     const date = new Date();
     return `Open <b>${app.editor.select.url}</b> with &lt;c-b&gt; <span class='right'>${date.getHours()}:${date.getMinutes()}</span>`;
   };
 
-  this.parse = function (text = app.editor.el.value) {
+  parse = (text = app.editor.el.value) => {
     text = text.length > 5 ? text.trim() : app.editor.el.value;
 
     const h = {};
-    const words = text.trim().replace("\n", " ").split(/(\s+)/).filter((word) => word.trim().length > 0).length;
+    const words = text.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ')
     for (const id in words) h[words[id]] = 1;
 
     const stats = {};
     stats.l = text.split(EOL).length;
     stats.w = words.length;
-    stats.c = text.replace("\n", "").replace(" ", "").length;
+    stats.c = text.length;
     stats.v = Object.keys(h).length;
-    stats.p = stats.c > 0 ? clamp((app.editor.el.selectionEnd / stats.c) * 100, 0, 100).toFixed(2) : 0;
     return stats;
   };
 }

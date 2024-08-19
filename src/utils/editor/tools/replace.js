@@ -1,4 +1,5 @@
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 import {exec} from "@/utils/core/utils.js";
 
 export function Replace() {
@@ -16,13 +17,13 @@ export function Replace() {
     app.editor.el.focus();
   };
 
-  this.selection = function (characters) {
+  this.selection = (characters) => {
     exec('insertText', characters);
     app.update();
   };
 
   // del is an optional arg for deleting the line, used in actions
-  // this.line = function (id, newText, del = false) {
+  // this.line = (id, newText, del = false) => {
   //   const lineArr = app.editor.el.value.split(EOL, parseInt(id) + 1)
   //   const arrJoin = lineArr.join(EOL)
   //

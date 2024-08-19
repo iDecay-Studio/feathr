@@ -1,21 +1,22 @@
-import app from "@/utils/core/app.js";
-import {EOL} from "@tauri-apps/api/os";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 
 //opens a bar at the bottom for various actions like find&replace, goto line, ...
-export function Operator() {
-  this.el = document.getElementById('operator');
-  this.is_active = false;
-  this.index = 0;
+export class Operator {
+  init = async () => {
+    this.el = document.getElementById('operator');
+    this.is_active = false;
+    this.index = 0;
 
-  this.el.addEventListener('keyup', (e) => {
-    app.operator.on_change(e, false);
-  });
-  this.el.addEventListener('keydown', (e) => {
-    app.operator.on_change(e, true);
-  });
+    this.el.addEventListener('keyup', (e) => {
+      app.operator.on_change(e, false);
+    });
+    this.el.addEventListener('keydown', (e) => {
+      app.operator.on_change(e, true);
+    });
+  }
 
-  this.open = function (f = '') {
-    app.controller.set('operator');
+  open = (f = '') => {
     this.is_active = true;
 
     app.editor.el.blur();
@@ -26,17 +27,15 @@ export function Operator() {
     app.update();
   };
 
-  this.update = () => {
+  update = () => {
     this.el.className = this.is_active ? 'active' : 'inactive';
     if (!this.is_active) return;
 
     this.passive();
   };
 
-  this.close = () => {
+  close = () => {
     if (!this.is_active) return;
-
-    app.controller.set('default');
     this.is_active = false;
 
     this.el.value = '';
@@ -47,7 +46,7 @@ export function Operator() {
     app.update();
   };
 
-  this.on_change = function (e, down = false) {
+  on_change = (e, down = false) => {
     if (!this.is_active) return;
 
     if (e.key === 'ArrowUp' && down) {
@@ -64,7 +63,7 @@ export function Operator() {
     }
   };
 
-  this.passive = () => {
+  passive = () => {
     if (this.el.value.indexOf(' ') < 0) return;
 
     const cmd = this.el.value.split(' ')[0].replace(':', '').trim();
@@ -78,7 +77,7 @@ export function Operator() {
     this[cmd](params);
   };
 
-  this.active = () => {
+  active = () => {
     if (this.el.value.indexOf(' ') < 0) return;
 
     this.prev = this.el.value;
@@ -94,7 +93,7 @@ export function Operator() {
     this[cmd](params, true);
   };
 
-  this.find_next = () => {
+  find_next = () => {
     if (!this.prev || !this.prev.includes('find:')) return;
     const word = this.prev.replace('find:', '').trim();
 
@@ -102,7 +101,7 @@ export function Operator() {
     this.find(word, true);
   };
 
-  this.find = function (q, bang = false) {
+  find = (q, bang = false) => {
     if (q.length < 3) return;
 
     const results = app.editor.locate.find(q);
@@ -133,7 +132,7 @@ export function Operator() {
     }
   };
 
-  this.replace = function (q, bang = false) {
+  replace = (q, bang = false) => {
     if (q.indexOf('->') < 0) return;
 
     const a = q.split('->')[0].trim();
@@ -164,7 +163,7 @@ export function Operator() {
     }
   };
 
-  this.goto = function (q, bang = false) {
+  goto = (q, bang = false) => {
     const target = parseInt(q, 10);
 
     const linesCount = app.editor.el.value.split(EOL).length - 1;

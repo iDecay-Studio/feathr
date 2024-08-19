@@ -1,16 +1,16 @@
 import {get, writable} from "svelte/store";
 import {clamp} from "@/utils/core/utils.js";
 
-export function Settings() {
-  this.autoIndent = new Setting('auto-indent', true);
-  this.showSidebar = new Setting('show-sidebar', true);
-  this.focusMode = new Setting('focus-mode', false);
-  this.wordWrap = new Setting('word-wrap', true);
-  this.fontType = new Setting('font-type', 'sans');
-  this.fontSize = new FontSize();
+export class Settings {
+  autoIndent = new Setting('auto-indent', true);
+  showSidebar = new Setting('show-sidebar', true);
+  focusMode = new Setting('focus-mode', false);
+  wordWrap = new Setting('word-wrap', true);
+  fontType = new Setting('font-type', 'sans');
+  fontSize = new FontSize();
 
-  let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-  this.theme = new Setting('theme', prefersDarkTheme ? "dark" : "light", (val) => {
+  #prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+  theme = new Setting('theme', this.#prefersDarkTheme ? "dark" : "light", (val) => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(val);
   });
@@ -44,8 +44,8 @@ class FontSize extends Setting {
     super('font-size', 16);
   }
 
-  set = (value) => super.set(clamp(value, 6, 32));
-  increase = () => this.set(this.get() + this.#increaseBy);
-  decrease = () => this.set(this.get() - this.#increaseBy);
   #increaseBy = 2;
+  increase = () => this.#set(this.get() + this.#increaseBy);
+  decrease = () => this.#set(this.get() - this.#increaseBy);
+  #set = (value) => this.set(clamp(value, 6, 32));
 }

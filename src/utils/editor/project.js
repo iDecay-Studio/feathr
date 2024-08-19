@@ -1,38 +1,39 @@
 import {Page} from "@/utils/editor/page.js";
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
 import {discardPrompt, savePrompt} from "@/utils/ui/prompts.js";
 import {isJSON} from "@/utils/core/utils.js";
-import {writeFile} from "@tauri-apps/api/fs";
-import {message, open as openDialog, save as saveDialog} from "@tauri-apps/api/dialog";
-import {open as openWithDefault} from "@tauri-apps/api/shell";
-import {fs} from "fs";
+import {readTextFile, writeFile} from "@tauri-apps/plugin-fs";
+import {message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
+import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
-export function Project() {
-  this.pages = [];
-  this.index = 0;
+export class Project {
+  init = async () => {
+    this.pages = [];
+    this.index = 0;
 
-  this.dialogFilters = [
-    {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
-    {name: 'All Files', extensions: ['*']},
-  ];
+    this.dialogFilters = [
+      {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
+      {name: 'All Files', extensions: ['*']},
+    ];
 
-  // Load previous files
-  if (localStorage.hasOwnProperty('paths')) {
-    if (isJSON(localStorage.getItem('paths'))) {
-      const paths = JSON.parse(localStorage.getItem('paths'));
-      for (const id in paths) this.add(paths[id]);
+    // Load previous files
+    if (localStorage.hasOwnProperty('paths')) {
+      if (isJSON(localStorage.getItem('paths'))) {
+        const paths = JSON.parse(localStorage.getItem('paths'));
+        for (const id in paths) this.add(paths[id]);
+      }
+    }
+
+    if (this.pages.length === 0) {
+      this.pages.push(new Page());
+      app.go.to_page(0);
     }
   }
 
-  if (this.pages.length === 0) {
-    this.pages.push(new Page());
-    app.go.to_page(0);
-  }
-
-  this.add = function (path = null) {
+  add = async (path = null) => {
     let page = new Page();
     //only create a specific page if not already open
-    if (path && this.paths().indexOf(path) === -1) page = new Page(this.load(path), path);
+    if (path && this.paths().indexOf(path) === -1) page = new Page(await this.load(path), path);
 
     this.pages.push(page);
     app.go.to_page(this.pages.length - 1);
@@ -40,31 +41,28 @@ export function Project() {
     localStorage.setItem('paths', JSON.stringify(this.paths()));
   };
 
-  this.page = () => this.pages[this.index];
+  page = () => this.pages[this.index];
 
-  this.update = () => {
+  update = async () => {
     if (!this.page()) console.warn('Missing page');
     else this.page().commit(app.editor.el.value);
     app.titleRef.innerText = this.page().name();
   };
 
-  this.load = function (path) {
-    let data;
+  load = async function (path) {
     try {
-      data = fs.readFileSync(path, 'utf-8');
+      return await readTextFile(path);
     } catch (err) {
       console.warn(`Could not load ${path}`);
-      return;
     }
-    return data;
   };
 
   // ========================
 
-  this.newFile = () => {
-    savePrompt(() => {
-      this.add();
-      app.reload();
+  newFile = () => {
+    savePrompt(async () => {
+      await this.add();
+      await app.reload();
 
       setTimeout(() => {
         app.sidebar.next_page();
@@ -73,12 +71,12 @@ export function Project() {
     });
   };
 
-  this.openFile = () => {
+  openFile = () => {
     savePrompt(() => openDialog({
       multiple: true,
       filters: this.dialogFilters,
-    }).then(paths => {
-      for (const id in paths) this.add(paths[id]);
+    }).then(async paths => {
+      for (const id in paths) await this.add(paths[id]);
 
       setTimeout(() => {
         app.sidebar.next_page();
@@ -87,11 +85,11 @@ export function Project() {
     }, reason => message("Error while opening file:" + reason)));
   };
 
-  this.openInExplorer = () => {
+  openInExplorer = () => {
     if (this.page().path !== "") openWithDefault(this.page().path);
   };
 
-  this.save = () => {
+  save = () => {
     const page = this.page();
     if (page.path) {
       return new Promise((success) => {
@@ -103,7 +101,7 @@ export function Project() {
     } else this.save_as();
   };
 
-  this.save_as = () => {
+  save_as = () => {
     const page = this.page();
     return saveDialog({filters: this.dialogFilters}).then((filePath) => {
       writeFile({contents: page.text, path: filePath}).then(
@@ -115,32 +113,32 @@ export function Project() {
     }, reason => message('An error occurred creating the file:' + reason));
   };
 
-  this.close = () => {
+  close = () => {
     if (this.page().has_changes()) discardPrompt(this._close);
     else this._close();
   };
-  this._close = () => {
+  _close = () => {
     this.force_close();
     localStorage.setItem('paths', JSON.stringify(this.paths()));
   };
 
-  this.force_close = () => {
-    if (this.pages.length === 1) this.add();
+  force_close = async () => {
+    if (this.pages.length === 1) await this.add();
     else {
       this.pages.splice(this.index, 1);
       app.go.to_page(this.index - 1);
     }
   };
 
-  this.discard = () => discardPrompt(() => app.reload(true));
+  discard = () => discardPrompt(async () => await app.reload(true));
 
-  this.has_changes = () => {
+  has_changes = () => {
     for (const id in this.pages)
       if (this.pages[id].has_changes()) return true;
     return false;
   };
 
-  this.paths = () => {
+  paths = () => {
     const a = [];
     for (const id in this.pages) {
       const page = this.pages[id];

@@ -1,4 +1,5 @@
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 
 export function Select() {
   this.word = null;
@@ -11,7 +12,7 @@ export function Select() {
   //   const from = app.editor.el.value.split(target)[0].length
   //   this.set(from, from + target.length)
   // }
-  // this.line = function (id) {
+  // this.line = (id) => {
   //   const lineArr = app.editor.el.value.split(EOL, parseInt(id) + 1)
   //   const arrJoin = lineArr.join(EOL)
   //

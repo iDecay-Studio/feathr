@@ -1,6 +1,6 @@
 <script>
   import {exec} from "@/utils/core/utils.js";
-  import app from "@/utils/core/app.js";
+  import {app} from "@/utils/core/app.js";
   
   $: wordWrap = app.settings.wordWrap.store; 
   $: fontType = app.settings.fontType.store; 
@@ -25,7 +25,7 @@
   }
 </script>
 
-<div class="size-full text-black dark:text-white text-sm overflow-auto relative">
+<div class="text-black dark:text-white text-sm overflow-auto relative">
     <textarea id="editor" class="p-3 w-full h-full outline-none resize-none bg-transparent -mb-[5px] cursor-auto font-{$fontType}"
               spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
               wrap={$wordWrap ? "on": "off"}

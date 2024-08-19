@@ -1,4 +1,4 @@
-import {open as openWithDefault} from '@tauri-apps/api/shell';
+import {open as openWithDefault} from '@tauri-apps/plugin-shell';
 import {getVersion} from "@tauri-apps/api/app";
 
 export let version = "";

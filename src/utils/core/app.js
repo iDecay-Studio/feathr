@@ -7,42 +7,56 @@ import {Stats} from "@/utils/core/modules/stats.js";
 import {Sidebar} from "@/utils/core/modules/sidebar.js";
 import {Project} from "@/utils/editor/project.js";
 import {discardPrompt} from "@/utils/ui/prompts.js";
-import {appWindow} from "@tauri-apps/api/window";
+import {getCurrentWebviewWindow} from "@tauri-apps/api/webviewWindow";
+import {initEvents} from "@/utils/events/events.js";
+import {initDragDrop} from "@/utils/events/drag-drop.js";
 
-function App() {
-  //references
-  this.titleRef = document.getElementById('title');
+class App {
+  dictionary = new Dictionary();
+  editor = new Editor();
+  operator = new Operator();
+  project = new Project();
+  settings = new Settings();
+  sidebar = new Sidebar();
+  stats = new Stats();
+  go = new Go();
+  
+  init = async () => {
+    //references
+    this.titleRef = document.getElementById('title');
 
-  //init modules
-  this.editor = new Editor();
-  this.settings = new Settings();
-  this.project = new Project();
-  this.dictionary = new Dictionary();
-  this.operator = new Operator();
-  this.sidebar = new Sidebar();
-  this.stats = new Stats();
-  this.go = new Go();
-  this.update();
-
-  this.update = () => {
-    this.editor.update();
-    this.project.update();
-    this.sidebar.update();
-    this.stats.update();
+    //init modules
+    await this.editor.init();
+    await this.sidebar.init();
+    await this.stats.init();
+    await this.project.init();
+    await this.dictionary.init();
+    await this.operator.init();
+    await this.go.init();
+    
+    await this.update();
+    initEvents();
+    initDragDrop();
+  }
+  
+  update = async () => {
+    await this.editor.update();
+    await this.project.update();
+    await this.sidebar.update();
+    await this.stats.update();
   };
 
-  this.load = (text) => {
+  load = (text) => {
     this.editor.el.value = text || '';
     this.update();
   };
 
-  this.reload = (force = false) => {
+  reload = async (force = false) => {
     this.project.page().reload(force);
     this.load(this.project.page().text);
   };
 
-  this.quit = () => discardPrompt(appWindow.close);
+  quit = () => discardPrompt(getCurrentWebviewWindow().close);
 }
 
-const app = new App();
-export default app;
+export const app = await new App();

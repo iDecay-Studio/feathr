@@ -1,5 +1,5 @@
 import {writable} from "svelte/store";
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
 import {exec} from "@/utils/core/utils.js";
 
 //states

@@ -1,26 +1,28 @@
-import {EOL} from "@tauri-apps/api/os";
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
+import {EOL} from "@/utils/core/utils.js";
 import {Insert} from "@/utils/editor/tools/insert.js";
 import {Locate} from "@/utils/editor/tools/locate.js";
 import {Replace} from "@/utils/editor/tools/replace.js";
 import {Select} from "@/utils/editor/tools/select.js";
 
-export function Editor() {
-  this.el = document.getElementById('editor');
-  this.el.select.reset();
-  this.el.focus();
+export class Editor {
+  init = async () => {
+    this.el = document.getElementById('editor');
+    this.el.focus();
 
-  //editor tools
-  this.insert = new Insert();
-  this.locate = new Locate();
-  this.replace = new Replace();
-  this.select = new Select();
+    //editor tools
+    this.insert = new Insert();
+    this.locate = new Locate();
+    this.replace = new Replace();
+    this.select = new Select();
+    this.select.reset();
 
-  //states
-  this.suggestion = null;
-  this.synonyms = null;
+    //states
+    this.suggestion = null;
+    this.synonyms = null;
+  }
 
-  this.update = () => {
+  update = async () => {
     const nextChar = this.el.value.substring(this.el.selectionEnd, 1);
 
     this.select.word = this.locate.active_word();
@@ -29,16 +31,16 @@ export function Editor() {
     this.select.url = this.locate.active_url();
   };
 
-  this.selection = () => {
+  selection = () => {
     const from = this.el.selectionStart;
     return this.el.value.substring(from, this.el.selectionEnd - from);
   };
 
-  // this.autocomplete = () => {
+  // autocomplete = () => {
   //   this.insert.text(this.suggestion.substring(this.select.word.length, this.suggestion.length) + ' ')
   // }
 
-  // this.open_url = function (target = this.locate.active_url()) {
+  // open_url = (target = this.locate.active_url()) => {
   //   if (!target) return;
   //
   //   this.select.word(target)

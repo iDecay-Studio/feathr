@@ -1,5 +1,5 @@
 import {exec} from "@/utils/core/utils.js";
-import app from "@/utils/core/app.js";
+import {app} from "@/utils/core/app.js";
 
 export function Insert() {
   this.text = (characters = '__') => {

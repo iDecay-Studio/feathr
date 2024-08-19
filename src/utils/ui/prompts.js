@@ -1,5 +1,5 @@
-import {ask as askDialog} from "@tauri-apps/api/dialog";
-import app from "@/utils/core/app.js";
+import {ask as askDialog} from "@tauri-apps/plugin-dialog";
+import {app} from "@/utils/core/app.js";
 
 export const savePrompt = (action) => {
   if (!app.project.page().has_changes()) action();

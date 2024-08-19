@@ -3,11 +3,11 @@ import app from "@/utils/core/app.js";
 
 export function Insert() {
   this.text = (characters = '__') => {
-    const pos = app.editor.el.selectionStart
-    app.editor.el.setSelectionRange(pos, pos)
-    exec('insertText', characters)
-    app.update()
-  }
+    const pos = app.editor.el.selectionStart;
+    app.editor.el.setSelectionRange(pos, pos);
+    exec('insertText', characters);
+    app.update();
+  };
   // this.line = (characters = '__') => {
   //   app.editor.select.line(app.editor.locate.active_line_id())
   //   this.text(characters)

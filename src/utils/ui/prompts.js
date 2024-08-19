@@ -7,9 +7,9 @@ export const savePrompt = (action) => {
     askDialog("Would you like to save your changes?").then(confirmed => {
       if (confirmed) app.project.save().then(action);
       else action();
-    })
+    });
   }
-}
+};
 
 export const discardPrompt = (action) => {
   if (!app.project.page().has_changes()) action();
@@ -18,4 +18,4 @@ export const discardPrompt = (action) => {
       if (confirmed) action();
     });
   }
-}
+};

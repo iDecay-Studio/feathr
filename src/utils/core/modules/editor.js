@@ -8,32 +8,32 @@ import {Select} from "@/utils/editor/tools/select.js";
 export function Editor() {
   this.el = document.getElementById('editor');
   this.el.select.reset();
-  this.el.focus()
+  this.el.focus();
 
   //editor tools
   this.insert = new Insert();
   this.locate = new Locate();
   this.replace = new Replace();
   this.select = new Select();
-  
+
   //states
   this.suggestion = null;
   this.synonyms = null;
 
   this.update = () => {
-    const nextChar = this.el.value.substring(this.el.selectionEnd, 1)
+    const nextChar = this.el.value.substring(this.el.selectionEnd, 1);
 
-    this.select.word = this.locate.active_word()
-    this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null
-    this.synonyms = app.dictionary.find_synonym(this.select.word)
-    this.select.url = this.locate.active_url()
-  }
+    this.select.word = this.locate.active_word();
+    this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null;
+    this.synonyms = app.dictionary.find_synonym(this.select.word);
+    this.select.url = this.locate.active_url();
+  };
 
   this.selection = () => {
-    const from = this.el.selectionStart
-    return this.el.value.substring(from, this.el.selectionEnd - from)
-  }
-  
+    const from = this.el.selectionStart;
+    return this.el.value.substring(from, this.el.selectionEnd - from);
+  };
+
   // this.autocomplete = () => {
   //   this.insert.text(this.suggestion.substring(this.select.word.length, this.suggestion.length) + ' ')
   // }

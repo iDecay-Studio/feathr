@@ -11,54 +11,54 @@ export function Page(text = '', path = null) {
 
   this.name = () => {
     let suffix = this.has_changes() ? "*" : "";
-    if (!this.path) return 'Untitled' + suffix
+    if (!this.path) return 'Untitled' + suffix;
 
-    const parts = this.path.replace(/\\/g, '/').split('/')
-    return parts[parts.length - 1] + suffix
-  }
+    const parts = this.path.replace(/\\/g, '/').split('/');
+    return parts[parts.length - 1] + suffix;
+  };
 
   this.has_changes = () => {
     if (!this.path) return this.text && this.text.length > 0;
 
-    const last_size = this.size
-    const result = this.load() !== this.text
+    const last_size = this.size;
+    const result = this.load() !== this.text;
 
     // was this change done outside the app?
     if (result && (last_size !== this.size)) {
       askDialog("File was modified outside the app. Do you want to reload it?").then(confirmed => {
         if (confirmed) {
-          app.project.page().commit(app.project.page().load())
-          app.reload()
-          return !result // return false as it was reloaded
+          app.project.page().commit(app.project.page().load());
+          app.reload();
+          return !result; // return false as it was reloaded
         }
       });
     }
-    
+
     return result;
-  }
+  };
 
   this.commit = (text = app.editor.el.value) => this.text = text;
 
   this.reload = function (force = false) {
-    if (this.path && (!this.has_changes() || force)) this.commit(this.load())
-  }
+    if (this.path && (!this.has_changes() || force)) this.commit(this.load());
+  };
 
   this.load = () => {
-    if (!this.path) return
-    
+    if (!this.path) return;
+
     let data;
     try {
-      data = fs.readFileSync(this.path, 'utf-8')
+      data = fs.readFileSync(this.path, 'utf-8');
     } catch (err) {
-      this.path = null
-      return
+      this.path = null;
+      return;
     }
 
     // update file size
-    this.size = fs.statSync(this.path).size
+    this.size = fs.statSync(this.path).size;
 
-    return data
-  }
+    return data;
+  };
 
   this.markers = () => {
     const result = [];
@@ -68,7 +68,7 @@ export function Page(text = '', path = null) {
       id: result.length,
       text: line.replace(symbol, '').trim(),
       line: parseInt(id),
-      type: type
+      type: type,
     });
 
     for (const id in lines) {
@@ -79,15 +79,15 @@ export function Page(text = '', path = null) {
     }
 
     return result;
-  }
+  };
 
   this.on_drop = function (e) {
-    const text = e.dataTransfer.getData('text')
-    this.text += EOL
-    this.text += text
+    const text = e.dataTransfer.getData('text');
+    this.text += EOL;
+    this.text += text;
     if (this === app.project.page()) {
-      app.go.to_page(app.project.index)
-      app.go.to(app.project.page().pos, app.project.page().pos)
+      app.go.to_page(app.project.index);
+      app.go.to(app.project.page().pos, app.project.page().pos);
     }
-  }
+  };
 }

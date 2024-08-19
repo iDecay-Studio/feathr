@@ -1,5 +1,20 @@
 import app from "@/utils/core/app.js";
-import {undo, redo, find, replace, copy, cut, paste, gotoPrevMarker, gotoLine, gotoNextMarker, gotoPrevFile, gotoNextFile, selectAutocomplete, selectSynonym} from "@/utils/ui/menu.js";
+import {
+  copy,
+  cut,
+  find,
+  gotoLine,
+  gotoNextFile,
+  gotoNextMarker,
+  gotoPrevFile,
+  gotoPrevMarker,
+  paste,
+  redo,
+  replace,
+  selectAutocomplete,
+  selectSynonym,
+  undo,
+} from "@/utils/ui/menu.js";
 
 //maybe use the Tauri globalShortcut module instead, but I don't see any advantage over the native JS approach (https://tauri.app/v1/api/js/globalshortcut/)
 const checkKey = (e, key) => e.key.toLowerCase() === key;
@@ -40,7 +55,7 @@ export function handleShortcuts(e) {
   if (checkCtrl(e, "down")) gotoNextMarker();
   if (checkCtrl(e, "left")) gotoPrevFile();
   if (checkCtrl(e, "right")) gotoNextFile();
-  
+
   //view
   if (checkCtrl(e, "tab")) app.settings.showSidebar.toggle();
   if (checkCtrl(e, "enter")) app.settings.focusMode.toggle();

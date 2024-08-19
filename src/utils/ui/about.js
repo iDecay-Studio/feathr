@@ -1,5 +1,5 @@
 import {open as openWithDefault} from '@tauri-apps/api/shell';
-import {getVersion} from "@tauri-apps/api/app"
+import {getVersion} from "@tauri-apps/api/app";
 
 export let version = "";
 getVersion().then(data => version = data);

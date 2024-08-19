@@ -6,13 +6,13 @@ export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
 export const exec = (cmd, val = null, focus = true) => {
   if (focus) app.editor.el.focus();
   document.execCommand(cmd, false, val);
-}
+};
 
 export function isJSON(text) {
   try {
     JSON.parse(text);
-    return true
+    return true;
   } catch (error) {
-    return false
+    return false;
   }
 }

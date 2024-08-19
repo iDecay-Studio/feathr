@@ -3,7 +3,7 @@ import app from "@/utils/core/app.js";
 export function Select() {
   this.word = null;
   this.index = 1;
-  
+
   this.set = (from, to) => app.editor.el.setSelectionRange(from, to);
   this.reset = () => app.editor.el.setSelectionRange(0, 0);
 
@@ -20,21 +20,21 @@ export function Select() {
   //
   //   this.set(from, to)
   // }
-  
+
   this.autocomplete = () => {
     if (this.word.trim() !== '' && app.editor.suggestion && app.editor.suggestion.toLowerCase() !== app.editor.locate.active_word().toLowerCase()) {
-      this.autocomplete()
+      this.autocomplete();
     } else {
-      app.editor.insert.text('\t')
+      app.editor.insert.text('\t');
     }
-  }
-  
+  };
+
   this.synonym = () => {
     const syn = app.editor.synonyms;
     if (!syn) return;
-    
-    app.editor.replace.active_word(syn[this.index % syn.length])
-    app.stats.update()
-    this.index = (this.index + 1) % syn.length
-  }
+
+    app.editor.replace.active_word(syn[this.index % syn.length]);
+    app.stats.update();
+    this.index = (this.index + 1) % syn.length;
+  };
 }

@@ -16,7 +16,7 @@ function App() {
   //init modules
   this.editor = new Editor();
   this.settings = new Settings();
-  this.project = new Project()
+  this.project = new Project();
   this.dictionary = new Dictionary();
   this.operator = new Operator();
   this.sidebar = new Sidebar();
@@ -26,20 +26,20 @@ function App() {
 
   this.update = () => {
     this.editor.update();
-    this.project.update()
-    this.sidebar.update()
-    this.stats.update()
-  }
+    this.project.update();
+    this.sidebar.update();
+    this.stats.update();
+  };
 
   this.load = (text) => {
-    this.editor.el.value = text || ''
-    this.update()
-  }
+    this.editor.el.value = text || '';
+    this.update();
+  };
 
   this.reload = (force = false) => {
-    this.project.page().reload(force)
-    this.load(this.project.page().text)
-  }
+    this.project.page().reload(force);
+    this.load(this.project.page().text);
+  };
 
   this.quit = () => discardPrompt(appWindow.close);
 }

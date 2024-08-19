@@ -22,21 +22,21 @@ class Setting {
     this.def = def;
     this.store = writable(def);
     this.onChange = onChange;
-    
+
     this.set(this.#get(this.key, this.def));
   }
-  
+
   get = () => !get(this.store);
   set = (value) => this.#set(this.key, this.store, value, this.onChange);
   toggle = () => this.set(!this.get());
   reset = () => this.set(this.def);
-  
+
   #get = (key, defVal) => localStorage.getItem(key) || defVal;
   #set = (key, store, val, action) => {
     store.set(val);
     localStorage.setItem(key, val);
     action && action(val);
-  }
+  };
 }
 
 class FontSize extends Setting {

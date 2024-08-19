@@ -2,106 +2,105 @@ import app from "@/utils/core/app.js";
 import {EOL} from "@tauri-apps/api/os";
 import {clamp} from "@/utils/core/utils.js";
 
-export function Stats () {
-  this.el = document.getElementById('stats')
+export function Stats() {
+  this.el = document.getElementById('stats');
 
   this.update = function () {
     if (app.insert.is_active) {
-      this.el.innerHTML = app.insert.status()
-      return
+      this.el.innerHTML = app.insert.status();
+      return;
     }
 
-    if (app.editor.el.selectionStart !== app.editor.el.selectionEnd) this.el.innerHTML = this._selection()
+    if (app.editor.el.selectionStart !== app.editor.el.selectionEnd) this.el.innerHTML = this._selection();
     else if (app.editor.synonyms) {
-      this.el.innerHTML = ''
-      this.el.appendChild(this._synonyms())
-    }
-    else if (app.editor.select.word && app.editor.suggestion) this.el.innerHTML = this._suggestion()
-    else if (app.editor.select.url) this.el.innerHTML = this._url()
-    else this.el.innerHTML = this._default()
-  }
+      this.el.innerHTML = '';
+      this.el.appendChild(this._synonyms());
+    } else if (app.editor.select.word && app.editor.suggestion) this.el.innerHTML = this._suggestion();
+    else if (app.editor.select.url) this.el.innerHTML = this._url();
+    else this.el.innerHTML = this._default();
+  };
 
   this._default = () => {
-    const stats = this.parse(app.editor.selection())
-    const date = new Date()
-    
+    const stats = this.parse(app.editor.selection());
+    const date = new Date();
+
     const sep = ", ";
     const lineSuffix = stats.l === 1 ? "line" : "lines";
     const wordSuffix = stats.w === 1 ? "word" : "words";
     const charSuffix = stats.c === 1 ? "char" : "chars";
-    
-    return `${stats.l}${lineSuffix}${sep}${stats.w}${wordSuffix} (${stats.v} unique)${sep}${stats.c}${charSuffix}${sep}${stats.p}% <span class='right'>${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}</span>`
-  }
+
+    return `${stats.l}${lineSuffix}${sep}${stats.w}${wordSuffix} (${stats.v} unique)${sep}${stats.c}${charSuffix}${sep}${stats.p}% <span class='right'>${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}</span>`;
+  };
 
   this.incrementSynonym = () => {
-    app.editor.select.index = (app.editor.select.index + 1) % app.editor.synonyms.length
-  }
+    app.editor.select.index = (app.editor.select.index + 1) % app.editor.synonyms.length;
+  };
 
-  this.list = null
-  this.isSynonymsActive = false
+  this.list = null;
+  this.isSynonymsActive = false;
 
   this.nextSynonym = () => {
-    this.isSynonymsActive = true
+    this.isSynonymsActive = true;
 
     // Save the previous word element
-    const previousWord = this.list.children[app.editor.select.index]
+    const previousWord = this.list.children[app.editor.select.index];
 
     // Increment the index
-    this.incrementSynonym()
+    this.incrementSynonym();
 
     // Get the current word element, add/remove appropriate active class
-    const currentWord = this.list.children[app.editor.select.index]
-    previousWord.classList.remove('active')
-    currentWord.classList.add('active')
+    const currentWord = this.list.children[app.editor.select.index];
+    previousWord.classList.remove('active');
+    currentWord.classList.add('active');
 
-    currentWord.scrollIntoView({behavior: 'smooth'})
-  }
+    currentWord.scrollIntoView({behavior: 'smooth'});
+  };
 
   this.applySynonym = () => {
     if (!this.isSynonymsActive) return;
 
     // Replace the current word with the selected synonym
-    app.editor.replace.active_word(app.editor.synonyms[app.editor.select.index % app.editor.synonyms.length])
-  }
+    app.editor.replace.active_word(app.editor.synonyms[app.editor.select.index % app.editor.synonyms.length]);
+  };
 
   this._synonyms = () => {
-    app.editor.select.index = 0
-    const ul = document.createElement('ul')
+    app.editor.select.index = 0;
+    const ul = document.createElement('ul');
 
     app.editor.synonyms.forEach((syn) => {
-      const li = document.createElement('li')
-      li.textContent = syn
-      ul.appendChild(li)
-    })
+      const li = document.createElement('li');
+      li.textContent = syn;
+      ul.appendChild(li);
+    });
 
-    ul.children[0].classList.add('active')
-    this.el.scrollLeft = 0
-    this.list = ul
+    ul.children[0].classList.add('active');
+    this.el.scrollLeft = 0;
+    this.list = ul;
 
-    return ul
-  }
+    return ul;
+  };
 
-  this._suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`
-  this._selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`
+  this._suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`;
+  this._selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`;
 
   this._url = () => {
-    const date = new Date()
-    return `Open <b>${app.editor.select.url}</b> with &lt;c-b&gt; <span class='right'>${date.getHours()}:${date.getMinutes()}</span>`
-  }
-  
+    const date = new Date();
+    return `Open <b>${app.editor.select.url}</b> with &lt;c-b&gt; <span class='right'>${date.getHours()}:${date.getMinutes()}</span>`;
+  };
+
   this.parse = function (text = app.editor.el.value) {
-    text = text.length > 5 ? text.trim() : app.editor.el.value
+    text = text.length > 5 ? text.trim() : app.editor.el.value;
 
-    const h = {}
+    const h = {};
     const words = text.trim().replace("\n", " ").split(/(\s+)/).filter((word) => word.trim().length > 0).length;
-    for (const id in words) h[words[id]] = 1
+    for (const id in words) h[words[id]] = 1;
 
-    const stats = {}
-    stats.l = text.split(EOL).length
-    stats.w = words.length
+    const stats = {};
+    stats.l = text.split(EOL).length;
+    stats.w = words.length;
     stats.c = text.replace("\n", "").replace(" ", "").length;
-    stats.v = Object.keys(h).length
-    stats.p = stats.c > 0 ? clamp((app.editor.el.selectionEnd / stats.c) * 100, 0, 100).toFixed(2) : 0
-    return stats
-  }
+    stats.v = Object.keys(h).length;
+    stats.p = stats.c > 0 ? clamp((app.editor.el.selectionEnd / stats.c) * 100, 0, 100).toFixed(2) : 0;
+    return stats;
+  };
 }

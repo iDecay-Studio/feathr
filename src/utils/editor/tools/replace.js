@@ -3,23 +3,23 @@ import {exec} from "@/utils/core/utils.js";
 
 export function Replace() {
   this.active_word = (word) => {
-    const l = app.editor.locate.active_word_location()
-    const w = app.editor.el.value.substring(l.from, l.to - l.from)
+    const l = app.editor.locate.active_word_location();
+    const w = app.editor.el.value.substring(l.from, l.to - l.from);
 
     // Preserve capitalization
     if (w.substring(0, 1) === w.substring(0, 1).toUpperCase()) {
-      word = word.substring(0, 1).toUpperCase() + word.substring(1, word.length)
+      word = word.substring(0, 1).toUpperCase() + word.substring(1, word.length);
     }
 
-    app.editor.el.setSelectionRange(l.from, l.to)
-    exec('insertText', word)
-    app.editor.el.focus()
-  }
+    app.editor.el.setSelectionRange(l.from, l.to);
+    exec('insertText', word);
+    app.editor.el.focus();
+  };
 
   this.selection = function (characters) {
-    exec('insertText', characters)
-    app.update()
-  }
+    exec('insertText', characters);
+    app.update();
+  };
 
   // del is an optional arg for deleting the line, used in actions
   // this.line = function (id, newText, del = false) {

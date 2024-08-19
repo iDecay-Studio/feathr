@@ -1,12 +1,9 @@
 import App from "./comp/App.svelte";
-import {init as initSettings} from "@/utils/core/settings.js";
 import 'uno.css';
 import './styles/app.pcss';
 
-const app = new App({
+const main = new App({
   target: document.getElementById('app')
 })
 
-initSettings();
-
-export default app
+export default main;

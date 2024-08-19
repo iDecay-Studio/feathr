@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Parchment",
+    "productName": "Leaf",
     "version": "1.0.0"
   },
   "tauri": {
@@ -33,7 +33,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tywil04.Parchment",
+      "identifier": "com.justDeek.Leaf",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -63,7 +63,7 @@
         "fullscreen": false,
         "height": 560,
         "resizable": true,
-        "title": "Parchment",
+        "title": "Leaf",
         "width": 640,
         "decorations": false,
         "transparent": true

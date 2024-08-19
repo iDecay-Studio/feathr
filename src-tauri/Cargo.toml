@@ -1,11 +1,11 @@
 [package]
-name = "parchment"
+name = "leaf"
 version = "1.0.0"
 description = "A minimal text editor written using web technologies for Windows, Linux and MacOS"
 authors = ["you"]
 license = "mit"
-repository = "github.com/tywil04/parchment"
-default-run = "parchment"
+repository = "github.com/justDeek/leaf-editor"
+default-run = "leaf"
 edition = "2021"
 rust-version = "1.57"
 

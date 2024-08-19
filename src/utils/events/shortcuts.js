@@ -1,46 +1,50 @@
-import {closeApp, closeFile, saveFile, saveFileAs, discardChanges, newFile, openFile, openInExplorer} from "@/utils/editor/file.js";
-import {undo, redo, find, replace, copy, cut, paste} from "@/utils/ui/menu.js";
-import {focusMode, fontSize, incrFontSizeBy, setFocusMode, setFontSize} from "@/utils/core/settings.js";
-import {get} from "svelte/store";
+import {closeFile, saveFile, saveFileAs, discardChanges, newFile, openFile, openInExplorer} from "@/utils/editor/file.js";
+import {undo, redo, find, replace, copy, cut, paste, gotoPrevMarker, gotoLine, gotoNextMarker, gotoPrevFile, gotoNextFile, selectAutocomplete, selectSynonym} from "@/utils/ui/menu.js";
+import app from "@/utils/core/app.js";
 
 //maybe use the Tauri globalShortcut module instead, but I don't see any advantage over the native JS approach (https://tauri.app/v1/api/js/globalshortcut/)
-const checkKey = (evt, key) => evt.key.toLowerCase() === key;
-const checkShortcut = (evt, key) => (evt.ctrlKey || evt.metaKey) && checkKey(evt, key);
+const checkKey = (e, key) => e.key.toLowerCase() === key;
+const checkCtrl = (e, key) => (e.ctrlKey || e.metaKey) && checkKey(e, key);
+const checkShift = (e, key) => e.shiftKey && checkKey(e, key);
+const checkCtrlShift = (e, key) => e.shiftKey && checkCtrl(e, key);
 
-const onKeyDown = async (evt) => {
-  evt.preventDefault();
-  if (evt.repeat) return;
+export function handleShortcuts(e) {
+  if (e.repeat) return;
+
+  //general
+  if (checkKey(e, "escape")) app.settings.focusMode.set(false);
 
   //file
-  if (checkKey(evt, "n")) newFile();
-  if (checkKey(evt, "o")) openFile();
-  if (checkKey(evt, "e")) openInExplorer();
-  if (checkKey(evt, "s")) saveFile();
-  if (checkShortcut(evt, "s")) saveFileAs();
-  if (checkShortcut(evt, "c")) discardChanges();
-  if (checkKey(evt, "w")) closeFile();
-  if (checkKey(evt, "q")) closeApp();
+  if (checkCtrl(e, "n")) newFile();
+  if (checkCtrl(e, "o")) openFile();
+  if (checkCtrl(e, "e")) openInExplorer();
+  if (checkCtrl(e, "s")) saveFile();
+  if (checkCtrlShift(e, "s")) saveFileAs();
+  if (checkCtrlShift(e, "c")) discardChanges();
+  if (checkCtrl(e, "w")) closeFile();
+  if (checkCtrl(e, "q")) app.quit();
 
   //edit
-  if (checkKey(evt, "z")) undo();
-  if (checkKey(evt, "y")) redo();
-  if (checkKey(evt, "f")) find();
-  if (checkKey(evt, "r")) replace();
-  if (checkKey(evt, "x")) cut();
-  if (checkKey(evt, "c")) copy();
-  if (checkKey(evt, "v")) paste();
+  if (checkCtrl(e, "z")) undo();
+  if (checkCtrl(e, "y")) redo();
+  if (checkCtrl(e, "f")) find();
+  if (checkCtrl(e, "r")) replace();
+  if (checkCtrl(e, "x")) cut();
+  if (checkCtrl(e, "c")) copy();
+  if (checkCtrl(e, "v")) paste();
+  if (checkKey(e, "tab")) selectAutocomplete();
+  if (checkShift(e, "tab")) selectSynonym();
+
+  //go to
+  if (checkCtrl(e, "g")) gotoLine();
+  if (checkCtrl(e, "up")) gotoPrevMarker();
+  if (checkCtrl(e, "down")) gotoNextMarker();
+  if (checkCtrl(e, "left")) gotoPrevFile();
+  if (checkCtrl(e, "right")) gotoNextFile();
   
   //view
-  if (checkKey(evt, "enter")) setFocusMode(!get(focusMode));
-  if (checkKey(evt, "+")) setFontSize(get(fontSize) + incrFontSizeBy);
-  if (checkKey(evt, "-")) setFontSize(get(fontSize) - incrFontSizeBy);
-  
-  //general
-  if (checkKey(evt, "escape")) await onEscape();
+  if (checkCtrl(e, "tab")) app.settings.showSidebar.toggle();
+  if (checkCtrl(e, "enter")) app.settings.focusMode.toggle();
+  if (checkCtrl(e, "+")) app.settings.fontSize.increase();
+  if (checkCtrl(e, "-")) app.settings.fontSize.decrease();
 }
-
-const onEscape = () => {
-  if (get(focusMode)) setFocusMode(false);
-}
-
-window.addEventListener('keydown', onKeyDown);

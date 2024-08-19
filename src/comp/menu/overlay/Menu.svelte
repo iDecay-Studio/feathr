@@ -1,6 +1,6 @@
 <script>
   import {isMenuOpen, openMenu} from "@/utils/ui/menu.js";
-  import {flyIn} from "@/utils/core/transitions.js";
+  import {flyIn} from "@/utils/ui/transitions.js";
   import {get} from "svelte/store";
 
   export let title;

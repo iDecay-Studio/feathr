@@ -1,8 +1,9 @@
 <script>
-  import {fileNameRef, textEdited} from "@/utils/core/states.js";
+  import {app} from "@/utils/core/app.js";
+  import {textEdited} from "@/utils/_trash/states.js";
 </script>
 
-<span bind:this={$fileNameRef} class="flex gap-0 w-fit pointer-events-none select-none truncate text-black dark:text-white/80">
-  {$fileNameRef?.innerText ?? "Untitled"}
+<span id="title" class="flex gap-0 w-fit pointer-events-none select-none truncate text-black dark:text-white/80">
+  {app.titleRef?.innerText ?? "Untitled"}
   {#if $textEdited}<span>*</span>{/if}
 </span>

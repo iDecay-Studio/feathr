@@ -1,30 +1,59 @@
-# Parchment
-Parchment is a minimal text editor written using web technologies for Windows, Linux and MacOS.
+<div id="top"></div>
 
-Special thanks to the following libraries and assets:
-- [SolidJS](https://www.solidjs.com/) - for a very performant and lightweight javascript framework
-- [TailwindCSS](https://tailwindcss.com/) to allow for simple styling of the application
-- [Tauri](https://tauri.app/) - a rust wrapper that allows you to create fast and secure desktop applications using web technologies
-- Uses this [Notepad](https://www.flaticon.com/free-icon/notebook_346081?related_id=346081&origin=search) icon from Flaticon (free to use for personal and commercial purposes) for the taskbar icon.
-- [Tabler Icons](https://tablericons.com/) for the few icons used within this application.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/justDeek/leaf-editor">
+    <img src="/app-icon.png" alt="Logo" width="60" height="60">
+  </a>
+
+  <h1 align="center">Leaf Editor</h1>
+
+<h3 align="center">A minimal text editor for Windows, Linux and MacOS.</h2>
+
+  <p align="center">
+    Download for:&nbsp;
+    <a href="https://denote-csttwfha1-denote.vercel.app/">Windows</a>
+    ·
+    <a href="https://github.com/justDeek/DeNote/issues">MacOS</a>
+    ·
+    <a href="https://github.com/justDeek/DeNote/issues">Linux</a>
+  </p>
+</div>
+
+![Leaf Text Editor](/parchment.webp)
+
+# About
+
+This project is based on [Parchment](https://github.com/tywil04/parchment) and includes the following changes:
+- [x] convert from solid-js to svelte and replace tailwind with unocss;
+- [x] custom menubar with common text-editor features and shortcuts;
+- [x] implement various features from other open-source text-editors like [Left](https://github.com/hundredrabbits/Left);
+- [x] support for opening files via drag-and-drop;
+- [ ] recover current progress in case the OS/app crashed;
+- [ ] add focus-mode for distraction-free writing;
+
+Used libraries and assets:
+- [Svelte](https://svelte.dev/) - for a very performant and lightweight javascript framework;
+- [UnoCSS](https://unocss.dev/) - to allow for simple styling of the application;
+- [Tauri](https://tauri.app/) - a rust wrapper that allows you to create fast and secure desktop applications using web technologies;
+- [Tabler Icons](https://tablericons.com/) - for the few icons used within this application;
 
 This app should work on Windows, MacOS and Linux however it only has been tested on Windows. 
 
 # Usage
-Head to the releases page to download pre-built executables. If you want you can build it, please follow the building section below.
+Head to the releases page to download pre-built executables.
 
 # Building
-Before you build, you need to have everything required installed follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#installing) to install Tauri and its dependencies. 
+Before you build, you need to have everything required installed.\
+Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#installing) to install Tauri and its dependencies. 
 
-Once everything needed is installed, building this app is very simple:
+Once everything needed is installed, run the following commands:
 ```
-git clone https://github.com/tywil04/parchment.git
-cd parchment
-npm install
-npm run tauri build
+git clone https://github.com/justDeek/leaf-editor.git
+cd leaf-editor
+pnpm install
+pnpm build-app
 ```
 
-Once the build has been completed, you will find the executables in src-tauri/target/release/bundle
-
-# Screenshots
-![Parchment Text Editor](/parchment.webp)
+Once the build has been completed, you will find the executables in ```src-tauri/target/release/bundle```.

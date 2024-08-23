@@ -7,6 +7,8 @@
   $: fontSize = app.settings.fontSize.store; 
   
   function onInput(e) {
+    app.editor.caret.update(e);
+    app.editor.highlighter.onInput();
     app.project.page().commit();
   }
 
@@ -26,11 +28,22 @@
   }
 </script>
 
-<div>
-  <textarea id="editor" class="p-3 size-full outline-none resize-none bg-transparent text-black dark:text-white text-sm overflow-auto -mb-[5px] cursor-auto font-{$fontType}"
+<div id="container">
+  <div id="backdrop">
+    <div id="highlights"></div>
+  </div>
+  <textarea id="editor" class=" font-{$fontType}"
             style={`font-size:${$fontSize}px`}
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
             wrap={$wordWrap ? "on": "off"}
-            on:input={onInput} on:select={onSelect} on:dragleave={onDragLeave}
+            on:input={onInput}
+            on:select={onSelect}
+            on:dragleave={onDragLeave}
+            on:click={e => app.editor.caret.update(e)}
+            on:scroll={e => {app.editor.highlighter.onScroll(); app.editor.caret.onScroll(e)}}
+            on:selectionchange={e => app.editor.caret.update(e)}
+            on:keypress={e => app.editor.suggestions.update(e)}
+            on:keydown={e => app.editor.suggestions.update(e)}
+            on:keyup={e => app.editor.suggestions.update(e)}
   />
 </div>

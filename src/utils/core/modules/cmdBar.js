@@ -11,8 +11,7 @@ export const replaceCmd = "replace";
 export class CmdBar {
   init = async () => {
     this.el = document.getElementById('cmdBar');
-    this.prefix = document.getElementById('cmdBar-prefix');
-    this.input = document.getElementById('cmdBar-input');
+    this.input = document.getElementById('cmdBar-search');
     this.is_active = false;
     this.prev = []; //list of previous inputs
     this.index = 0;
@@ -20,13 +19,13 @@ export class CmdBar {
 
   open = (cmd) => {
     this.is_active = true;
-    app.stats.el.classList.add('hide');
+    app.stats.el.classList.add('hidden');
     currCmd.set(cmd);
     
     this.input.value = "";
     this.input.focus();
 
-    let input2 = document.getElementById('cmdBar-input2');
+    let input2 = document.getElementById('cmdBar-replace');
     if (input2) input2.value = "";
 
     this.update();
@@ -43,7 +42,7 @@ export class CmdBar {
   close = () => {
     if (!this.is_active) return;
     this.is_active = false;
-    app.stats.el.classList.remove('hide');
+    app.stats.el.classList.remove('hidden');
 
     app.editor.el.focus();
 
@@ -55,7 +54,9 @@ export class CmdBar {
     if (!this.is_active) return;
 
     if (e.key === 'ArrowUp' && down) {
-      this.input.value = this.prev;
+      this.index--;
+      if (this.index < 0) this.index = this.prev.length-1;
+      this.input.value = this.prev[this.index];
       e.preventDefault();
       return;
     }
@@ -108,6 +109,10 @@ export class CmdBar {
     }
 
     if (run && result) {
+      if (!this.prev.includes(input)) {
+        this.prev.push(input);
+        this.index = this.prev.length-1;
+      }
       app.go.to(result, result + input.length);
       app.cmdBar.close();
     }
@@ -115,7 +120,7 @@ export class CmdBar {
 
   replace = (input, run, all = false) => {
     const a = input;
-    const b = document.getElementById('cmdBar-input2').value;
+    const b = document.getElementById('cmdBar-replace').value;
 
     const results = app.editor.locate.find(a);
     if (results.length < 1) return;

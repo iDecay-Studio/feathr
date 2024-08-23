@@ -20,3 +20,34 @@ export function isJSON(text) {
     return false;
   }
 }
+
+//returns x, y coordinates for absolute positioning of a span within a given text input at a given selection point
+export const getCaretXY = (input, selectionPoint) => {
+  const {offsetLeft: inputX, offsetTop: inputY} = input;
+  const div = document.createElement('div');
+  const span = document.createElement('span');
+
+  const copyStyle = getComputedStyle(input);
+  for (const prop of copyStyle) div.style[prop] = copyStyle[prop];
+  div.style.height = 'auto';
+
+  div.textContent = input.value.substring(0, selectionPoint);
+  span.textContent = input.value.substring(selectionPoint) || '.';
+
+  div.appendChild(span);
+  document.body.appendChild(div);
+
+  const {offsetLeft: spanX, offsetTop: spanY} = span;
+  document.body.removeChild(div);
+
+  return {x: inputX + spanX, y: inputY + spanY};
+};
+
+const markerClass = 'marker';
+export const createMarker = (content, modifier) => {
+  const marker = document.createElement('div');
+  marker.classList.add(markerClass, `${markerClass}--${modifier}`);
+  marker.textContent = content;
+
+  return marker;
+};

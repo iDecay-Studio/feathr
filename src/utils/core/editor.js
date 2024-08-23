@@ -4,6 +4,9 @@ import {Insert} from "@/utils/editor/tools/insert.js";
 import {Locate} from "@/utils/editor/tools/locate.js";
 import {Replace} from "@/utils/editor/tools/replace.js";
 import {Select} from "@/utils/editor/tools/select.js";
+import {Caret} from "@/utils/editor/tools/caret.js";
+import {Highlighter} from "@/utils/editor/tools/highlighter.js";
+import {Suggestions} from "@/utils/editor/tools/suggestions.js";
 
 export class Editor {
   init = async () => {
@@ -11,6 +14,9 @@ export class Editor {
     this.el.focus();
 
     //editor tools
+    this.caret = new Caret();
+    this.highlighter = new Highlighter();
+    this.suggestions = new Suggestions();
     this.insert = new Insert();
     this.locate = new Locate();
     this.replace = new Replace();

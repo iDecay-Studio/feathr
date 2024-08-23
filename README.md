@@ -29,7 +29,10 @@ This project is based on [Parchment](https://github.com/tywil04/parchment) and i
 - [x] convert from solid-js to svelte and replace tailwind with unocss;
 - [x] custom menubar with common text-editor features and shortcuts;
 - [x] implement various features from other open-source text-editors like [Left](https://github.com/hundredrabbits/Left);
+- [x] support for multiple baked-in themes;
 - [x] support for opening files via drag-and-drop;
+- [x] improved search and replace bar and highlighter;
+- [x] custom animated caret for a smooth writing experience;
 - [ ] recover current progress in case the OS/app crashed;
 - [ ] add focus-mode for distraction-free writing;
 

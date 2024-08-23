@@ -84,10 +84,7 @@ export class Stats {
   _suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`;
   _selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this._default()}`;
 
-  _url = () => {
-    const date = new Date();
-    return `Open <b>${app.editor.select.url}</b> with &lt;c-b&gt; <span class='right'>${date.getHours()}:${date.getMinutes()}</span>`;
-  };
+  _url = () => `Open <b>${app.editor.select.url}</b> with &lt;Ctrl+B&gt;`;
 
   parse = (text = app.editor.el.value) => {
     text = text.length > 5 ? text.trim() : app.editor.el.value;

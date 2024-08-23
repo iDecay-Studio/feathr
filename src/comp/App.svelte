@@ -11,11 +11,9 @@
   onMount(async () => app.init());
 </script>
 
-<div class="flex flex-col flex-grow h-full border border-gray-200 dark:border-gray-700">
-  <Header/>
-  <MenuBar/>
-  <Sidebar/>
-  <Editor/>
-  <Stats/>
-  <CmdBar/>
-</div>
+<Header/>
+<MenuBar/>
+<Sidebar/>
+<Editor/>
+<Stats/>
+<CmdBar/>

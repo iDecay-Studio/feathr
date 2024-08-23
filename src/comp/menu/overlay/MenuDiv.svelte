@@ -1,1 +1,1 @@
-<div class="h-px my-1 -mx-1 bg-neutral-200 dark:bg-gray-600"></div>
+<div class="highlight h-px my-1 -mx-1"></div>

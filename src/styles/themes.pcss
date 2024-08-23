@@ -1,0 +1,69 @@
+.theme {
+  --caret: #e5e5e5;
+  --mark: #b1d5e5;
+  --mark-sel: #e0ebf0;
+  --comment: gray;
+  --link: rgb(29, 155, 240);
+}
+
+/*light themes*/
+.theme-light {
+  --bg: #ecedf0;
+  --text: #222222;
+  --editor: #ffffff;
+  --header-text: rgb(55 65 81);
+  --shortcut: rgb(75 85 99);
+  --overlay: rgb(255 255 255);
+  --highlight: rgba(194, 194, 194, 0.25);
+  --scrollbar: rgb(196, 196, 196) rgb(249, 250, 251);
+  --stats: rgb(0 0 0 / 0.3);
+}
+
+/*dark themes*/
+.theme-dark, .theme-dimmed, .theme-cappuccino {
+  --bg: #17202e;
+  --text: #d3d3d3;
+  --editor: rgb(55 65 81);
+  --header-text: rgb(156 163 175);
+  --shortcut: rgb(107 114 128);
+  --overlay: rgb(31 41 55);
+  --highlight: rgb(55 65 81);
+  --scrollbar: rgb(11, 18, 27) rgb(31, 41, 55);
+  --stats: rgb(255 255 255 / 0.3);
+}
+
+/*overrides*/
+.theme-dimmed {
+  --bg: rgb(106, 112, 126) !important;
+}
+
+.theme-cappuccino {
+  --bg: #282730 !important;
+  --highlight: #36323e !important;
+}
+
+/*components*/
+.bg {
+  background-color: var(--bg);
+}
+.text {
+  color: var(--text);
+}
+.editor {
+  background: var(--editor);
+}
+.header-text {
+  color: var(--header-text);
+}
+.shortcut {
+  color: var(--shortcut);
+}
+.overlay {
+  background-color: var(--overlay);
+}
+.highlight {
+  background-color: var(--highlight);
+}
+.stats {
+  color: var(--stats);
+}

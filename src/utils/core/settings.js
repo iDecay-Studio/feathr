@@ -3,6 +3,7 @@ import {clamp} from "@/utils/core/utils.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
+  matchWords = new Setting('match-words', false);
   showSidebar = new Setting('show-sidebar', true);
   focusMode = new Setting('focus-mode', false);
   autoIndent = new Setting('auto-indent', true);
@@ -10,10 +11,13 @@ export class Settings {
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
 
-  #prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-  theme = new Setting('theme', this.#prefersDarkTheme ? "dark" : "light", (val) => {
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(val);
+  theme = new Setting('theme', "system", (val) => {
+    if (val === "system") {
+      let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+      val = prefersDarkTheme ? "dark" : "light";
+    }
+    
+    document.documentElement.className = `theme theme-${val}`;
   });
 }
 

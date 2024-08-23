@@ -1,1 +1,1 @@
-<span id="title" class="flex gap-0 w-fit pointer-events-none select-none truncate text-black dark:text-white/80"></span>
+<span id="title" class="flex gap-0 w-fit pointer-events-none select-none truncate"></span>

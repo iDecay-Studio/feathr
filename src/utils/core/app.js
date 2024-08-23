@@ -1,5 +1,5 @@
-import {Editor} from "@/utils/core/modules/editor.js";
-import {Settings} from "@/utils/core/modules/settings.js";
+import {Editor} from "@/utils/core/editor.js";
+import {Settings} from "@/utils/core/settings.js";
 import {Dictionary} from "@/utils/core/modules/dictionary.js";
 import {CmdBar} from "@/utils/core/modules/cmdBar.js";
 import {Go} from "@/utils/core/modules/go.js";

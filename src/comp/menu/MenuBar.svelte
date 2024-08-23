@@ -9,6 +9,8 @@
   import SubMenu from "@/comp/menu/overlay/SubMenu.svelte";
   import MenuDiv from "@/comp/menu/overlay/MenuDiv.svelte";
   
+  let caseSensitive = app.settings.caseSensitive.store;
+  let matchWords = app.settings.matchWords.store;
   let autoIndent = app.settings.autoIndent.store;
   let showSidebar = app.settings.showSidebar.store;
   let focusMode = app.settings.focusMode.store;
@@ -17,8 +19,8 @@
   let theme = app.settings.theme.store;
 </script>
 
-<div class="flex flex-row items-center whitespace-nowrap mr-auto border-gray-200 dark:border-gray-700 bg-gray-100/50 dark:bg-gray-800/50 w-full">
-  <div class="flex size-full p-0.5 select-none text-neutral-900"
+<div class="flex flex-row items-center whitespace-nowrap mr-auto w-full">
+  <div class="flex size-full p-0.5 select-none"
        use:clickOutside on:click_outside={() => $isMenuOpen = false}>
     <Menu title="File">
       <MenuItem title="New" shortcut="Ctrl+N" action={() => app.project.newFile()}/>
@@ -65,7 +67,11 @@
       <MenuDiv/>
       <SubMenu title="Text">
         <MenuItem title="Auto-Indent" active={$autoIndent} action={() => app.settings.autoIndent.toggle()}/>
-        <MenuItem title="Word-Wrap" active={$wordWrap} action={() => $wordWrap = !$wordWrap}/>
+        <MenuItem title="Word-Wrap" active={$wordWrap} action={() => app.settings.wordWrap.toggle()}/>
+      </SubMenu>
+      <SubMenu title="Search">
+        <MenuItem title="Case-sensitive" active={$caseSensitive} action={() => app.settings.caseSensitive.toggle()}/>
+        <MenuItem title="Match Words" active={$matchWords} action={() => app.settings.matchWords.toggle()}/>
       </SubMenu>
       <SubMenu title="Font Type">
         <MenuItem title="Sans" active={$fontType === "sans"} action={() => app.settings.fontType.set("sans")}/>
@@ -78,8 +84,11 @@
         <MenuItem title="Reset" action={() => app.settings.fontSize.reset()} closeOnClick={false}/>
       </SubMenu>
       <SubMenu title="Theme">
-        <MenuItem title="Light" active={$theme === "light"} action={() => app.settings.theme.set("light")}/>
-        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")}/>
+        <MenuItem title="System" active={$theme === "system"} action={() => app.settings.theme.set("system")} closeOnClick={false}/>
+        <MenuItem title="Light" active={$theme === "light"} action={() => app.settings.theme.set("light")} closeOnClick={false}/>
+        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")} closeOnClick={false}/>
+        <MenuItem title="Dimmed" active={$theme === "dimmed"} action={() => app.settings.theme.set("dimmed")} closeOnClick={false}/>
+        <MenuItem title="Cappuccino" active={$theme === "cappuccino"} action={() => app.settings.theme.set("cappuccino")} closeOnClick={false}/>
       </SubMenu>
     </Menu>
   </div>

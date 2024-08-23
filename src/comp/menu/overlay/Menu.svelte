@@ -13,7 +13,7 @@
     {title}
   </button>
   {#if $isMenuOpen && $openMenu === title}
-    <div in:flyIn class="bg flex flex-col absolute top-0 z-50 min-w-[9rem] rounded-md border border-neutral-200/70 mt-7 text-sm p-1 shadow-md w-48 -translate-x-0.5">
+    <div in:flyIn class="bg flex flex-col absolute top-0 z-50 min-w-[9rem] rounded-md mt-7 text-sm p-1 shadow-md w-48 -translate-x-0.5">
       <slot/>
     </div>
   {/if}

@@ -86,9 +86,9 @@
       <SubMenu title="Theme">
         <MenuItem title="System" active={$theme === "system"} action={() => app.settings.theme.set("system")} closeOnClick={false}/>
         <MenuItem title="Light" active={$theme === "light"} action={() => app.settings.theme.set("light")} closeOnClick={false}/>
-        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")} closeOnClick={false}/>
         <MenuItem title="Dimmed" active={$theme === "dimmed"} action={() => app.settings.theme.set("dimmed")} closeOnClick={false}/>
         <MenuItem title="Cappuccino" active={$theme === "cappuccino"} action={() => app.settings.theme.set("cappuccino")} closeOnClick={false}/>
+        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")} closeOnClick={false}/>
       </SubMenu>
     </Menu>
   </div>

@@ -31,6 +31,7 @@ export class Caret {
       if (this.isActive && !this.el) {
         this.el = createMarker('', 'caret');
         document.body.appendChild(this.el);
+        this.updateSize();
         document.addEventListener('click', processClick);
       } else {
         document.body.removeChild(this.el);
@@ -43,6 +44,15 @@ export class Caret {
     if (this.isActive) this.#updatePos();
   };
 
+  updateSize = () => {
+    if (!this.el) return;
+    
+    let height = app.settings.fontSize.storeVal();
+    let width = height < 16 ? 2 : height < 24 ? 3 : 4;
+    this.el.style.width = `${width}px`;
+    this.el.style.height = `${height}px`;
+  }
+  
   #updatePos = () => {
     const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = this.input;
     const {lineHeight, paddingRight} = getComputedStyle(this.input);
@@ -51,6 +61,7 @@ export class Caret {
     const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));
 
-    this.el.setAttribute('style', `left: ${newLeft}px; top: ${newTop}px`);
+    this.el.style.top = `${newTop}px`;
+    this.el.style.left = `${newLeft}px`;
   }
 }

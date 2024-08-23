@@ -51,3 +51,8 @@ export const createMarker = (content, modifier) => {
 
   return marker;
 };
+
+// #copyStyles(src, dest, copyStyles) {
+//   let styles = window.getComputedStyle(src);
+//   copyStyles.forEach((stl) => dest.style[stl] = styles[stl]);
+// }

@@ -2,18 +2,14 @@
   import {exec} from "@/utils/core/utils.js";
   import {app} from "@/utils/core/app.js";
   
-  $: wordWrap = app.settings.wordWrap.store; 
-  $: fontType = app.settings.fontType.store; 
-  $: fontSize = app.settings.fontSize.store; 
+  let wordWrap = app.settings.wordWrap.store; 
+  let fontType = app.settings.fontType.store; 
+  let fontSize = app.settings.fontSize.store; 
   
   function onInput(e) {
     app.editor.caret.update(e);
     app.editor.highlighter.onInput();
     app.project.page().commit();
-  }
-
-  function onSelect(e) {
-    app.update();
   }
 
   function onDragLeave(e) {
@@ -29,16 +25,14 @@
 </script>
 
 <div id="container">
-  <div id="backdrop">
-    <div id="highlights"></div>
-  </div>
-  <textarea id="editor" class=" font-{$fontType}"
+  <div id="highlights" class="font-{$fontType}" style={`font-size:${$fontSize}px`}/>
+  <textarea id="editor" class="font-{$fontType}"
             style={`font-size:${$fontSize}px`}
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
             wrap={$wordWrap ? "on": "off"}
             on:input={onInput}
-            on:select={onSelect}
             on:dragleave={onDragLeave}
+            on:select={() => app.update()}
             on:click={e => app.editor.caret.update(e)}
             on:scroll={e => {app.editor.highlighter.onScroll(); app.editor.caret.onScroll(e)}}
             on:selectionchange={e => app.editor.caret.update(e)}

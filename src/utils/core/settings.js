@@ -1,5 +1,6 @@
 import {get, writable} from "svelte/store";
 import {clamp} from "@/utils/core/utils.js";
+import {app} from "@/utils/core/app.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
@@ -27,30 +28,34 @@ class Setting {
     this.def = def;
     this.store = writable(def);
     this.onChange = onChange;
-
-    this.set(this.#get(this.key, this.def));
+    this.set(this.#get(), true);
   }
 
-  get = () => get(this.store);
-  set = (value) => this.#set(this.key, this.store, value, this.onChange);
-  toggle = () => this.set(!this.get());
-  reset = () => this.set(this.def);
-
-  #get = (key, defVal) => localStorage.getItem(key) || defVal;
-  #set = (key, store, val, action) => {
-    store.set(val);
-    localStorage.setItem(key, val);
-    action && action(val);
+  set = (val, isInit = false) => {
+    this.store.set(val);
+    localStorage.setItem(this.key, JSON.stringify(val));
+    this.onChange && this.onChange(val, isInit);
   };
+  #get = () => {
+    let storedVal = localStorage.getItem(this.key);
+    return storedVal ? JSON.parse(storedVal) : this.def;
+  }
+
+  storeVal = () => get(this.store);
+  toggle = () => this.set(!this.storeVal());
+  reset = () => this.set(this.def);
 }
 
 class FontSize extends Setting {
   constructor() {
-    super('font-size', 16);
+    super('font-size', 18, (val, isInit) => {
+      if (isInit) return;
+      app.editor.highlighter.onInput();
+    });
   }
 
   #increaseBy = 2;
-  increase = () => this.#set(this.get() + this.#increaseBy);
-  decrease = () => this.#set(this.get() - this.#increaseBy);
+  increase = () => this.#set(this.storeVal() + this.#increaseBy);
+  decrease = () => this.#set(this.storeVal() - this.#increaseBy);
   #set = (value) => this.set(clamp(value, 12, 32));
 }

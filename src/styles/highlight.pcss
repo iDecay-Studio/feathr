@@ -1,46 +1,23 @@
-/*#container, #backdrop, #editor {*/
-/*  width: 460px;*/
-/*  height: 180px;*/
-/*}*/
-
 #highlights, #editor {
-  width: 100vw;
+  width: 98.5%;
+  margin: 2px 0.75%;
   height: calc(100vh - var(--header-height));
   padding: 10px 12px;
-  font: 20px/28px monospace;
-  /*font: 20px/28px 'Open Sans', sans-serif;*/
-  /*letter-spacing: 1px;*/
+  position: absolute;
+  z-index: 1;
+  overflow: auto;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
   line-height: 18px;
   outline: 0;
   caret-color: transparent;
 }
 
-#backdrop {
-  position: absolute;
-  z-index: 1;
-  overflow: auto;
-  background: var(--editor);
-  border-radius: 16px;
-}
-
 #highlights {
   white-space: pre-wrap;
   word-wrap: break-word;
-}
-
-#editor {
-  display: block;
-  position: absolute;
-  z-index: var(--layer-editor);
-  margin: 0;
-  background-color: transparent;
-  overflow: auto;
-  color: transparent;
-  resize: none;
+  background-color: var(--editor);
 }
 
 mark {

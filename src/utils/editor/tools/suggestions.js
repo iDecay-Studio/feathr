@@ -157,6 +157,7 @@ export class Suggestions {
     const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));
 
-    this.dropDown.setAttribute('style', `left: ${newLeft}px; top: ${newTop}px`);
+    this.dropDown.style.top = `${newTop}px`;
+    this.dropDown.style.left = `${newLeft}px`;
   }
 }

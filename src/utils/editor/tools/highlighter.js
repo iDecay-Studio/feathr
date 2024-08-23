@@ -2,7 +2,6 @@ import {app} from "@/utils/core/app.js";
 
 export class Highlighter {
   constructor() {
-    this.backdrop = document.getElementById('backdrop');
     this.highlights = document.getElementById('highlights');
     this.textarea = app.editor.el;
     
@@ -13,21 +12,18 @@ export class Highlighter {
     
     let ua = window.navigator.userAgent.toLowerCase();
     this.isIE = !!ua.match(/msie|trident\/7|edge/);
-
-    this.observer = new ResizeObserver(this.onResize.bind(this));
-    this.observer.observe(this.textarea);
     
     this.onInput();
-    
+
+    //bring backdrop to front for clicking on link markers
     document.addEventListener('keydown', e => {
-      //bring backdrop to front for clicking on link markers
-      if (e.ctrlKey) this.#setBackdropZPos(3);
+      if (e.ctrlKey) this.#setZPos(3);
     });
     
-    document.addEventListener('keyup', () => this.#setBackdropZPos());
+    document.addEventListener('keyup', () => this.#setZPos());
   }
   
-  #setBackdropZPos = (id = 1) => this.backdrop.style.zIndex = id; 
+  #setZPos = (id = 1) => this.highlights.style.zIndex = id; 
 
   onInput = () => {
     this.highlights.innerHTML = this.#markText();
@@ -36,22 +32,11 @@ export class Highlighter {
   }
 
   onScroll() {
-    this.backdrop.scrollTop = this.textarea.scrollTop || 0;
-    this.backdrop.scrollLeft = this.textarea.scrollLeft || 0;
+    this.highlights.scrollTop = this.textarea.scrollTop || 0;
+    this.highlights.scrollLeft = this.textarea.scrollLeft || 0;
 
     // let sclLeft = this.textarea.scrollLeft;
-    // this.backdrop.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
-  }
-
-  onResize() {
-    let styles = window.getComputedStyle(this.textarea);
-    let width = this.textarea.scrollWidth;
-    let height = this.textarea.offsetHeight;
-
-    this.backdrop.style.cssText = `width: ${width}px; height: ${height}px; margin: ${styles.marginTop} ${styles.marginRight} ${styles.marginBottom} ${styles.marginLeft}`;
-    this.#copyStyles(this.textarea, this.highlights, ['width', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom', 'borderTop', 'letterSpacing', 'borderLeft', 'borderRight', 'borderBottom', 'fontFamily', 'fontSize', 'fontWeight', 'lineHeight']);
-    this.highlights.style.minHeight = styles.height;
-    this.highlights.style.whiteSpace = 'pre-wrap';
+    // this.highlights.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
   search(arg, sensitive, word) {
@@ -106,11 +91,6 @@ export class Highlighter {
   #escapeString(txt) {
     let specials = ['-', '[', ']', '/', '{', '}', '(', ')', '*', '+', '?', '.', '\\', '^', '$', '|'];
     return txt.replace(RegExp(`[${specials.join('\\')}]`, 'g'), '\\$&');
-  }
-
-  #copyStyles(src, dest, copyStyles) {
-    let styles = window.getComputedStyle(src);
-    copyStyles.forEach((stl) => dest.style[stl] = styles[stl]);
   }
 
   #setSelection(scroll = false) {

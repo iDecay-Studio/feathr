@@ -1,17 +1,17 @@
 .theme {
-  --caret: #e5e5e5;
-  --mark: #b1d5e5;
-  --mark-sel: #e0ebf0;
+  --mark: #cbf9fb;
+  --mark-sel: #83c8e6;
   --comment: gray;
   --link: rgb(29, 155, 240);
 }
 
 /*light themes*/
 .theme-light {
-  --bg: #ecedf0;
+  --bg: #e5e8f2;
   --text: #222222;
   --editor: #ffffff;
-  --header-text: rgb(55 65 81);
+  --caret: #222222cc;
+  --btn-text: rgb(55 65 81);
   --shortcut: rgb(75 85 99);
   --overlay: rgb(255 255 255);
   --highlight: rgba(194, 194, 194, 0.25);
@@ -23,22 +23,30 @@
 .theme-dark, .theme-dimmed, .theme-cappuccino {
   --bg: #17202e;
   --text: #d3d3d3;
-  --editor: rgb(55 65 81);
-  --header-text: rgb(156 163 175);
+  --editor: rgb(46, 57, 75);
+  --caret: #e5e5e5;
+  --btn-text: rgb(156 163 175);
   --shortcut: rgb(107 114 128);
   --overlay: rgb(31 41 55);
-  --highlight: rgb(55 65 81);
+  --highlight: rgb(55 65 81 / 0.5);
   --scrollbar: rgb(11, 18, 27) rgb(31, 41, 55);
   --stats: rgb(255 255 255 / 0.3);
 }
 
 /*overrides*/
 .theme-dimmed {
-  --bg: rgb(106, 112, 126) !important;
+  --bg: rgb(98, 107, 126) !important;
+  --text: #ffffff !important;
+  --editor: rgb(125, 134, 154) !important;
+  --btn-text: rgb(205, 211, 222) !important;
+  --shortcut: rgb(155, 167, 189) !important;
+  --highlight: rgba(123, 136, 158, 0.5) !important;
 }
 
 .theme-cappuccino {
   --bg: #282730 !important;
+  --text: #cfcfcf !important;
+  --editor: rgb(56, 55, 65) !important;
   --highlight: #36323e !important;
 }
 
@@ -51,9 +59,6 @@
 }
 .editor {
   background: var(--editor);
-}
-.header-text {
-  color: var(--header-text);
 }
 .shortcut {
   color: var(--shortcut);

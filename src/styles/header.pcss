@@ -3,7 +3,8 @@
 }
 
 .btn {
-  @apply flex items-center disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm duration-[50ms] select-none size-fit transition-all duration-100;
+  @apply flex items-center select-none truncate disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm duration-[50ms] select-none size-fit transition-all duration-100;
+  color: var(--btn-text);
 
   &:hover, &:active, &[data-active] {
     background-color: var(--highlight);
@@ -20,11 +21,4 @@
 }
 .btn-red {
   @apply hover:shadow-none hover:!bg-red-500 active:!bg-red-600;
-}
-
-.header-text {
-  @apply select-none truncate;
-}
-.shortcut {
-  @apply select-none truncate;
 }

@@ -9,7 +9,7 @@
   export let closeOnClick = true;
 </script>
 
-<button on:click={() => {action && action(); closeOnClick && isMenuOpen.set(false)}} class="btn header-text relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 transition-all duration-100 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none" data-disabled={disabled ? "" : undefined}>
+<button on:click={() => {action && action(); closeOnClick && isMenuOpen.set(false)}} class="btn relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 transition-all duration-100 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none" data-disabled={disabled ? "" : undefined}>
   <span>{title}</span>
   {#if shortcut !== ""}
     <span class="shortcut ml-auto text-xs tracking-widest transition-all duration-100">{shortcut}</span>

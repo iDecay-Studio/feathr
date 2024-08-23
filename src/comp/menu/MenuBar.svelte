@@ -9,16 +9,16 @@
   import SubMenu from "@/comp/menu/overlay/SubMenu.svelte";
   import MenuDiv from "@/comp/menu/overlay/MenuDiv.svelte";
   
-  $: autoIndent = app.settings.autoIndent.store;
-  $: showSidebar = app.settings.showSidebar.store;
-  $: focusMode = app.settings.focusMode.store;
-  $: wordWrap = app.settings.wordWrap.store;
-  $: fontType = app.settings.fontType.store;
-  $: theme = app.settings.theme.store;
+  let autoIndent = app.settings.autoIndent.store;
+  let showSidebar = app.settings.showSidebar.store;
+  let focusMode = app.settings.focusMode.store;
+  let wordWrap = app.settings.wordWrap.store;
+  let fontType = app.settings.fontType.store;
+  let theme = app.settings.theme.store;
 </script>
 
 <div class="flex flex-row items-center whitespace-nowrap mr-auto border-gray-200 dark:border-gray-700 bg-gray-100/50 dark:bg-gray-800/50 w-full">
-  <div class="flex w-full h-full p-1 select-none text-neutral-900"
+  <div class="flex size-full p-0.5 select-none text-neutral-900"
        use:clickOutside on:click_outside={() => $isMenuOpen = false}>
     <Menu title="File">
       <MenuItem title="New" shortcut="Ctrl+N" action={() => app.project.newFile()}/>
@@ -38,10 +38,10 @@
     
     <Menu title="Edit">
       <MenuItem title="Undo" shortcut="Ctrl+Z" action={undo}/>
-      <MenuItem title="Redo" shortcut="Ctrl+Y" action={redo} disabled={true}/>
+      <MenuItem title="Redo" shortcut="Ctrl+Y" action={redo}/>
       <MenuDiv/>
-      <MenuItem title="Find" shortcut="Ctrl+F" action={find}/>
-      <MenuItem title="Find & Replace" shortcut="Ctrl+R" action={replace}/>
+      <MenuItem title="Find..." shortcut="Ctrl+F" action={find}/>
+      <MenuItem title="Replace..." shortcut="Ctrl+R" action={replace}/>
       <MenuDiv/>
       <MenuItem title="Cut" shortcut="Ctrl+X" action={cut}/>
       <MenuItem title="Copy" shortcut="Ctrl+C" action={copy}/>
@@ -49,10 +49,9 @@
       <MenuDiv/>
       <MenuItem title="Autocomplete" shortcut="Tab" action={selectAutocomplete}/>
       <MenuItem title="Select Synonym" shortcut="Shift+Tab" action={selectSynonym}/>
-      <MenuItem title="Auto-Indent" active={$autoIndent} action={() => app.settings.autoIndent.toggle()}/>
     </Menu>
     
-    <Menu title="Go to">
+    <Menu title="Go">
       <MenuItem title="Line..." shortcut="Ctrl+G" action={gotoLine}/>
       <MenuItem title="Prev. Marker" shortcut="Ctrl+Up" action={gotoPrevMarker}/>
       <MenuItem title="Next Marker" shortcut="Ctrl+Down" action={gotoNextMarker}/>
@@ -64,11 +63,14 @@
       <MenuItem title="Show Sidebar" active={$showSidebar} shortcut="Ctrl+Tab" action={() => app.settings.showSidebar.toggle()}/>
       <MenuItem title="Focus Mode" active={$focusMode} shortcut="Ctrl+Enter" action={() => app.settings.focusMode.toggle()}/>
       <MenuDiv/>
-      <MenuItem title="Word-Wrap" active={$wordWrap} action={() => app.settings.wordWrap.toggle()} closeOnClick={false}/>
+      <SubMenu title="Text">
+        <MenuItem title="Auto-Indent" active={$autoIndent} action={() => app.settings.autoIndent.toggle()}/>
+        <MenuItem title="Word-Wrap" active={$wordWrap} action={() => $wordWrap = !$wordWrap}/>
+      </SubMenu>
       <SubMenu title="Font Type">
-        <MenuItem title="Sans" active={$fontType === "sans"} action={() => () => app.settings.fontType.set("sans")} closeOnClick={false}/>
-        <MenuItem title="Sans-Serif" active={$fontType === "sans-serif"} action={() => app.settings.fontType.set("sans-serif")} closeOnClick={false}/>
-        <MenuItem title="Mono" active={$fontType === "mono"} action={() => app.settings.fontType.set("mono")} closeOnClick={false}/>
+        <MenuItem title="Sans" active={$fontType === "sans"} action={() => app.settings.fontType.set("sans")}/>
+        <MenuItem title="Sans-Serif" active={$fontType === "sans-serif"} action={() => app.settings.fontType.set("sans-serif")}/>
+        <MenuItem title="Mono" active={$fontType === "mono"} action={() => app.settings.fontType.set("mono")}/>
       </SubMenu>
       <SubMenu title="Font Size">
         <MenuItem title="Increase" shortcut="Ctrl+[+]" action={() => app.settings.fontSize.increase()} closeOnClick={false}/>
@@ -76,8 +78,8 @@
         <MenuItem title="Reset" action={() => app.settings.fontSize.reset()} closeOnClick={false}/>
       </SubMenu>
       <SubMenu title="Theme">
-        <MenuItem title="Light" active={$theme === "light"} action={() => app.settings.theme.set("light")} closeOnClick={false}/>
-        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")} closeOnClick={false}/>
+        <MenuItem title="Light" active={$theme === "light"} action={() => app.settings.theme.set("light")}/>
+        <MenuItem title="Dark" active={$theme === "dark"} action={() => app.settings.theme.set("dark")}/>
       </SubMenu>
     </Menu>
   </div>

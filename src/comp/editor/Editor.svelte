@@ -4,6 +4,7 @@
   
   $: wordWrap = app.settings.wordWrap.store; 
   $: fontType = app.settings.fontType.store; 
+  $: fontSize = app.settings.fontSize.store; 
   
   function onInput(e) {
     app.project.page().commit();
@@ -25,10 +26,11 @@
   }
 </script>
 
-<div class="text-black dark:text-white text-sm overflow-auto relative">
-    <textarea id="editor" class="p-3 w-full h-full outline-none resize-none bg-transparent -mb-[5px] cursor-auto font-{$fontType}"
-              spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
-              wrap={$wordWrap ? "on": "off"}
-              on:input={onInput} on:select={onSelect} on:dragleave={onDragLeave}
-    />
+<div>
+  <textarea id="editor" class="p-3 size-full outline-none resize-none bg-transparent text-black dark:text-white text-sm overflow-auto -mb-[5px] cursor-auto font-{$fontType}"
+            style={`font-size:${$fontSize}px`}
+            spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
+            wrap={$wordWrap ? "on": "off"}
+            on:input={onInput} on:select={onSelect} on:dragleave={onDragLeave}
+  />
 </div>

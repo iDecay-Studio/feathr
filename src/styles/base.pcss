@@ -14,6 +14,7 @@ body {
 }
 
 * {
+  border-style: none;
   scrollbar-color: rgb(196, 196, 196) rgb(249, 250, 251);
 }
 :is(.dark ) * {
@@ -23,4 +24,8 @@ body {
 .dragover::after {
   z-index: 10;
   background-color: rgba(211, 211, 211, 0.75);
+}
+
+.hide {
+  display: none;
 }

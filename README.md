@@ -21,7 +21,7 @@
   </p>
 </div>
 
-![Leaf Text Editor](/parchment.webp)
+![Leaf Text Editor](/app-preview.webp)
 
 # About
 

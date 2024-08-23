@@ -1,1 +1,1 @@
-<span id="stats" class="absolute bottom-0 left-0 w-fit p-1.5 truncate text-sm pointer-events-none select-none font-thin text-black dark:text-white/30"></span>
+<span id="stats" class="fixed bottom-0 left-0 w-fit p-1.5 truncate text-sm pointer-events-none select-none font-thin text-black dark:text-white/30"></span>

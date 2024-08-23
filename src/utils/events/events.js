@@ -49,8 +49,9 @@ export function initEvents() {
   };
 
   document.onclick = () => {
+    if (app.cmdBar.is_active) return;
+    
     app.editor.select.index = 0;
-    app.operator.close();
     app.project.page().pos = app.editor.el.selectionStart;
     app.update();
   };

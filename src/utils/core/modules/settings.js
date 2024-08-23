@@ -2,9 +2,10 @@ import {get, writable} from "svelte/store";
 import {clamp} from "@/utils/core/utils.js";
 
 export class Settings {
-  autoIndent = new Setting('auto-indent', true);
+  caseSensitive = new Setting('case-sensitive', false);
   showSidebar = new Setting('show-sidebar', true);
   focusMode = new Setting('focus-mode', false);
+  autoIndent = new Setting('auto-indent', true);
   wordWrap = new Setting('word-wrap', true);
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
@@ -26,7 +27,7 @@ class Setting {
     this.set(this.#get(this.key, this.def));
   }
 
-  get = () => !get(this.store);
+  get = () => get(this.store);
   set = (value) => this.#set(this.key, this.store, value, this.onChange);
   toggle = () => this.set(!this.get());
   reset = () => this.set(this.def);
@@ -47,5 +48,5 @@ class FontSize extends Setting {
   #increaseBy = 2;
   increase = () => this.#set(this.get() + this.#increaseBy);
   decrease = () => this.#set(this.get() - this.#increaseBy);
-  #set = (value) => this.set(clamp(value, 6, 32));
+  #set = (value) => this.set(clamp(value, 12, 32));
 }

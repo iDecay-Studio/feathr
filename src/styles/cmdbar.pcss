@@ -1,0 +1,39 @@
+#cmdBar {
+  height: 40px;
+  overflow: hidden;
+  bottom: -40px;
+  transition: bottom 150ms;
+  
+  p {
+    @apply font-thin pointer-events-none select-none;
+  }
+
+  input:not([type="checkbox"]) {
+    all: unset;
+    @apply text-dark;
+  }
+
+  input[type="checkbox"] {
+    width: 12px;
+    height: auto;
+    margin-left: 3px;
+    margin-right: 1px;
+  }
+  
+  label {
+    margin-top: 1px;
+    margin-bottom: auto;
+  }
+  
+  &.active {
+    bottom: 0;
+  }
+}
+.dark #cmdBar {
+  p {
+    @apply text-white/40;
+  }
+  input {
+    @apply text-white/80;
+  }
+}

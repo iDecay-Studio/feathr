@@ -55,26 +55,34 @@ export class Go {
   // };
 
   scroll_to = (from, to) => {
-    //cache current text-area state
-    const ta = app.editor.el;
-    const text = ta.value;
-    const sliceText = text.slice(0, to);
-    const scrollFrom = ta.scrollTop;
-    const taPaddingTop = 30;
-
-    // Textarea hack to get the proper scroll position of the selection
-    // This relies on textarea behavior where it scrolls to the bottom when focused
-    ta.scrollTop = 0;
-    ta.blur();
-    ta.style.paddingTop = `${ta.clientHeight}px`;
-    ta.value = sliceText;
-    ta.focus();
-    ta.style.paddingTop = `${taPaddingTop}px`;
-    ta.value = text;
-
-    // Reset scroll position and scroll to new position
-    ta.scrollTop = scrollFrom;
-    this.animateScrollTo(ta, ta.scrollTop - 60, 200);
+    const textVal = app.editor.el.value
+    const div = document.createElement('div')
+    div.innerHTML = textVal.slice(0, to)
+    document.body.appendChild(div)
+    this.animateScrollTo(app.editor.el, div.offsetHeight - 60, 200)
+    div.remove()
+    
+    //---
+    // //cache current text-area state
+    // const ta = app.editor.el;
+    // const text = ta.value;
+    // const sliceText = text.slice(0, to);
+    // const scrollFrom = ta.scrollTop;
+    // const taPaddingTop = 30;
+    //
+    // // Textarea hack to get the proper scroll position of the selection
+    // // This relies on textarea behavior where it scrolls to the bottom when focused
+    // ta.scrollTop = 0;
+    // ta.blur();
+    // ta.style.paddingTop = `${ta.clientHeight}px`;
+    // ta.value = sliceText;
+    // ta.focus();
+    // ta.style.paddingTop = `${taPaddingTop}px`;
+    // ta.value = text;
+    //
+    // // Reset scroll position and scroll to new position
+    // ta.scrollTop = scrollFrom;
+    // this.animateScrollTo(ta, ta.scrollTop - 60, 200);
   };
 
   animateScrollTo = (element, to, duration) => {

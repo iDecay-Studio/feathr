@@ -1,7 +1,7 @@
 import {Editor} from "@/utils/core/modules/editor.js";
 import {Settings} from "@/utils/core/modules/settings.js";
 import {Dictionary} from "@/utils/core/modules/dictionary.js";
-import {Operator} from "@/utils/core/modules/operator.js";
+import {CmdBar} from "@/utils/core/modules/cmdBar.js";
 import {Go} from "@/utils/core/modules/go.js";
 import {Stats} from "@/utils/core/modules/stats.js";
 import {Sidebar} from "@/utils/core/modules/sidebar.js";
@@ -14,7 +14,7 @@ import {initDragDrop} from "@/utils/events/drag-drop.js";
 class App {
   dictionary = new Dictionary();
   editor = new Editor();
-  operator = new Operator();
+  cmdBar = new CmdBar();
   project = new Project();
   settings = new Settings();
   sidebar = new Sidebar();
@@ -31,7 +31,7 @@ class App {
     await this.stats.init();
     await this.project.init();
     await this.dictionary.init();
-    await this.operator.init();
+    await this.cmdBar.init();
     await this.go.init();
     
     await this.update();

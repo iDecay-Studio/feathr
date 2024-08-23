@@ -2,7 +2,7 @@
   import Editor from "@/comp/editor/Editor.svelte";
   import Header from "@/comp/header/Header.svelte";
   import MenuBar from "@/comp/menu/MenuBar.svelte";
-  import Operator from "@/comp/editor/Operator.svelte";
+  import CmdBar from "@/comp/editor/CmdBar.svelte";
   import Sidebar from "@/comp/editor/Sidebar.svelte";
   import Stats from "@/comp/editor/Stats.svelte";
   import {onMount} from "svelte";
@@ -17,5 +17,5 @@
   <Sidebar/>
   <Editor/>
   <Stats/>
-  <Operator/>
+  <CmdBar/>
 </div>

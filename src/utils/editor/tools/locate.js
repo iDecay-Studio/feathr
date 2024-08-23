@@ -15,7 +15,6 @@ export function Locate() {
     }
 
     a.splice(-1, 1);
-
     return a;
   };
 

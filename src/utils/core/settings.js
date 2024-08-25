@@ -24,7 +24,7 @@ export class Settings {
     document.documentElement.className = `theme theme-${val}`;
   });
   
-  constructor() {
+  init() {
     this.focusMode.set(false);
   }
 }

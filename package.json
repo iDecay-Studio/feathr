@@ -1,22 +1,26 @@
 {
   "name": "leaf",
-  "author": "Deek (https://github.com/justDeek)",
   "version": "1.0.0",
-  "type": "module",
-  "description": "A minimal text editor for Windows, Linux and MacOS",
-  "scripts": {
-    "dev-web": "vite",
-    "dev-app": "tauri dev",
-    "build-web": "vite build",
-    "build-app": "tauri build"
-  },
+  "description": "A modern and minimal text editor for desktop and mobile",
+  "author": "Deek (https://github.com/justDeek)",
   "license": "GPL-3.0",
+  "type": "module",
+  "scripts": {
+    "dev-web": "vite dev",
+    "dev-app": "tauri dev",
+    "dev-android": "tauri android dev",
+    "build-web": "vite build",
+    "build-app": "tauri build",
+    "build-android": "tauri android build"
+  },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0-rc.0",
     "@tauri-apps/plugin-dialog": "^2.0.0-rc.0",
     "@tauri-apps/plugin-fs": "^2.0.0-rc.1",
     "@tauri-apps/plugin-os": "^2.0.0-rc.0",
+    "@tauri-apps/plugin-process": "^2.0.0-rc.0",
     "@tauri-apps/plugin-shell": "^2.0.0-rc.0",
+    "@tauri-apps/plugin-updater": "^2.0.0-rc.0",
     "@unocss/postcss": "^0.62.1",
     "@unocss/reset": "^0.62.1",
     "unocss": "^0.62.1"

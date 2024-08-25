@@ -9,7 +9,9 @@ import {Project} from "@/utils/editor/project.js";
 import {discardPrompt} from "@/utils/ui/prompts.js";
 import {initEvents} from "@/utils/events/events.js";
 import {initDragDrop} from "@/utils/events/drag-drop.js";
-import { getCurrentWindow } from '@tauri-apps/api/window';
+import {getCurrentWindow} from '@tauri-apps/api/window';
+// import {check} from "@tauri-apps/plugin-updater";
+// import {relaunch} from "@tauri-apps/plugin-process";
 
 class App {
   dictionary = new Dictionary();
@@ -26,6 +28,7 @@ class App {
     this.titleRef = document.getElementById('title');
 
     //init modules
+    await this.settings.init();
     await this.editor.init();
     await this.sidebar.init();
     await this.stats.init();
@@ -37,6 +40,12 @@ class App {
     await this.update();
     initEvents();
     initDragDrop();
+
+    // const update = await check();
+    // if (update?.available) {
+    //   await update.downloadAndInstall();
+    //   await relaunch();
+    // }
   }
   
   update = async () => {

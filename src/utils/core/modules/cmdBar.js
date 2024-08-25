@@ -48,6 +48,7 @@ export class CmdBar {
 
     this.update();
     app.update();
+    app.editor.highlighter.clear()
   };
 
   on_change = (e, down = false) => {

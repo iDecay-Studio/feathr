@@ -20,7 +20,7 @@
 </script>
 
 <div class="flex flex-row items-center whitespace-nowrap mr-auto w-full">
-  <div class="flex size-full p-0.5 select-none"
+  <div class="flex size-full px-1 select-none"
        use:clickOutside on:click_outside={() => $isMenuOpen = false}>
     <Menu title="File">
       <MenuItem title="New" shortcut="Ctrl+N" action={() => app.project.newFile()}/>

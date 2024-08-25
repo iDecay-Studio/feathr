@@ -9,7 +9,7 @@
 
   <h1 align="center">Leaf Editor</h1>
 
-<h3 align="center">A minimal text editor for Windows, Linux and MacOS.</h2>
+<h3 align="center">A modern and minimal text editor for Windows, Linux and MacOS.</h2>
 
   <p align="center">
     Download for:&nbsp;
@@ -25,24 +25,20 @@
 
 # About
 
-This project is based on [Parchment](https://github.com/tywil04/parchment) and includes the following changes:
-- [x] convert from solid-js to svelte and replace tailwind with unocss;
-- [x] custom menubar with common text-editor features and shortcuts;
-- [x] implement various features from other open-source text-editors like [Left](https://github.com/hundredrabbits/Left);
-- [x] support for multiple baked-in themes;
-- [x] support for opening files via drag-and-drop;
-- [x] improved search and replace bar and highlighter;
-- [x] custom animated caret for a smooth writing experience;
-- [ ] recover current progress in case the OS/app crashed;
-- [ ] add focus-mode for distraction-free writing;
+This project is based on other open-source editors like [Parchment](https://github.com/tywil04/parchment) and [Left](https://github.com/hundredrabbits/Left) while adding the following features:
+- [x] theming - support for multiple baked-in themes;
+- [x] drag-and-drop: open files by dragging them into the app;
+- [x] menu-bar - custom menubar with common text-editor options and shortcuts;
+- [x] command-bar - improved search and replace bar and text-highlighter;
+- [x] custom caret - animated input-caret for a smooth writing experience;
+- [ ] backup text - recover current progress in case the OS/app crashed;
+- [ ] focus-mode - for distraction-free writing;
 
 Used libraries and assets:
 - [Svelte](https://svelte.dev/) - for a very performant and lightweight javascript framework;
 - [UnoCSS](https://unocss.dev/) - to allow for simple styling of the application;
 - [Tauri](https://tauri.app/) - a rust wrapper that allows you to create fast and secure desktop applications using web technologies;
-- [Tabler Icons](https://tablericons.com/) - for the few icons used within this application;
-
-This app should work on Windows, MacOS and Linux however it only has been tested on Windows. 
+- [Tabler Icons](https://tablericons.com/) & [Phosphor Icons](https://phosphoricons.com/) - for the few icons used within this application;
 
 # Usage
 Head to the releases page to download pre-built executables.
@@ -51,7 +47,7 @@ Head to the releases page to download pre-built executables.
 Before you build, you need to have everything required installed.\
 Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#installing) to install Tauri and its dependencies. 
 
-Once everything needed is installed, run the following commands:
+After everything is installed, run the following commands:
 ```
 git clone https://github.com/justDeek/leaf-editor.git
 cd leaf-editor

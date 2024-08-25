@@ -28,7 +28,7 @@ export class Sidebar {
     this.el.innerHTML = html;
   };
 
-  _page = async (id, page) => `<li class='page ${await page.has_changes() ? 'changes' : ''}' onclick='app.go.to_page(${id})'>${page.name()}</li>`;
+  _page = async (id, page) => `<li class='page ${await page.has_changes() ? 'changes' : ''}' onclick='app.go.to_page(${id})'>${await page.name()}</li>`;
   _marker = (pid, current, marker, markers) => `<li class='marker ${marker.type} ${current && current.line === marker.line ? 'active' : ''}' onclick='app.go.to_page(${pid}, ${marker.line})'><span>${marker.text}</span></li>`;
 
   next_page = () => {

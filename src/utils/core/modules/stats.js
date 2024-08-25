@@ -40,22 +40,22 @@ export class Stats {
   list = null;
   isSynonymsActive = false;
 
-  nextSynonym = () => {
-    this.isSynonymsActive = true;
-
-    // Save the previous word element
-    const previousWord = this.list.children[app.editor.select.index];
-
-    // Increment the index
-    this.incrementSynonym();
-
-    // Get the current word element, add/remove appropriate active class
-    const currentWord = this.list.children[app.editor.select.index];
-    previousWord.classList.remove('active');
-    currentWord.classList.add('active');
-
-    currentWord.scrollIntoView({behavior: 'smooth'});
-  };
+  // nextSynonym = () => {
+  //   this.isSynonymsActive = true;
+  //
+  //   // Save the previous word element
+  //   const previousWord = this.list.children[app.editor.select.index];
+  //
+  //   // Increment the index
+  //   this.incrementSynonym();
+  //
+  //   // Get the current word element, add/remove appropriate active class
+  //   const currentWord = this.list.children[app.editor.select.index];
+  //   previousWord.classList.remove('active');
+  //   currentWord.classList.add('active');
+  //
+  //   currentWord.scrollIntoView({behavior: 'smooth'});
+  // };
 
   applySynonym = () => {
     if (!this.isSynonymsActive) return;

@@ -11,10 +11,11 @@ export class Page {
     this.pos = 0;
   }
 
-  name = () => {
-    let suffix = this.has_changes() ? "*" : "";
+  name = async () => {
+    let suffix = await this.has_changes() ? "*" : "";
     if (!this.path) return 'Untitled' + suffix;
 
+    console.log(this.path);
     const parts = this.path.replace(/\\/g, '/').split('/');
     return parts[parts.length - 1] + suffix;
   };

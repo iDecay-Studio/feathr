@@ -1,5 +1,4 @@
 import {app} from "@/utils/core/app.js";
-import {EOL} from "@/utils/core/utils.js";
 import {exec} from "@/utils/core/utils.js";
 
 export function Replace() {

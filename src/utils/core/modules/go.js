@@ -1,4 +1,3 @@
-import {eol} from "@tauri-apps/plugin-os";
 import {app} from "@/utils/core/app.js";
 import {clamp, EOL} from "@/utils/core/utils.js";
 

@@ -12,7 +12,7 @@ export class Project {
     this.index = 0;
 
     this.dialogFilters = [
-      {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
+      // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
       {name: 'All Files', extensions: ['*']},
     ];
 
@@ -20,7 +20,7 @@ export class Project {
     if (localStorage.hasOwnProperty('paths')) {
       if (isJSON(localStorage.getItem('paths'))) {
         const paths = JSON.parse(localStorage.getItem('paths'));
-        for (const id in paths) this.add(paths[id]);
+        for (const id in paths) await this.add(paths[id]);
       }
     }
 
@@ -46,7 +46,7 @@ export class Project {
   update = async () => {
     if (!this.page()) console.warn('Missing page');
     else this.page().commit(app.editor.el.value);
-    app.titleRef.innerText = this.page().name();
+    app.titleRef.innerText = await this.page().name();
   };
 
   load = async function (path) {
@@ -85,40 +85,39 @@ export class Project {
     }, reason => message("Error while opening file:" + reason)));
   };
 
-  openInExplorer = () => {
-    if (this.page().path !== "") openWithDefault(this.page().path);
+  openInExplorer = async () => {
+    if (this.page().path !== "") await openWithDefault(this.page().path);
   };
 
-  save = () => {
+  save = async () => {
     const page = this.page();
     if (page.path) {
       return new Promise((success) => {
-        writeFile({contents: page.text, path: page.path}).then(() => {
-          app.update();
+        writeFile(page.path, page.text).then(async () => {
+          await app.update();
           success();
         }, reason => message('An error occurred saving the file: ' + reason));
       });
-    } else this.save_as();
+    } else await this.save_as();
   };
 
   save_as = () => {
     const page = this.page();
     return saveDialog({filters: this.dialogFilters}).then((filePath) => {
-      writeFile({contents: page.text, path: filePath}).then(
-        () => {
+      writeFile(filePath, page.text).then(async () => {
           if (!page.path) page.path = filePath;
           else if (page.path !== filePath) this.pages.push(new Page(page.text, filePath));
-          app.update();
+          await app.update();
         }, reason => message('An error occurred creating the file:' + reason));
     }, reason => message('An error occurred creating the file:' + reason));
   };
 
-  close = () => {
-    if (this.page().has_changes()) discardPrompt(this._close);
-    else this._close();
+  close = async () => {
+    if (await this.page().has_changes()) discardPrompt(this._close);
+    else await this._close();
   };
-  _close = () => {
-    this.force_close();
+  _close = async () => {
+    await this.force_close();
     localStorage.setItem('paths', JSON.stringify(this.paths()));
   };
 

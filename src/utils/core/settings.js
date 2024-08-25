@@ -6,20 +6,27 @@ export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
   matchWords = new Setting('match-words', false);
   showSidebar = new Setting('show-sidebar', true);
-  focusMode = new Setting('focus-mode', false);
   autoIndent = new Setting('auto-indent', true);
   wordWrap = new Setting('word-wrap', true);
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
+  
+  focusMode = new Setting('focus-mode', false, async (val, init) => {
+    if (!init) await app.setFocusMode(val);
+  });
 
   theme = new Setting('theme', "system", (val) => {
     if (val === "system") {
       let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-      val = prefersDarkTheme ? "dark" : "light";
+      val = prefersDarkTheme ? "cappuccino" : "dimmed";
     }
     
     document.documentElement.className = `theme theme-${val}`;
   });
+  
+  constructor() {
+    this.focusMode.set(false);
+  }
 }
 
 class Setting {

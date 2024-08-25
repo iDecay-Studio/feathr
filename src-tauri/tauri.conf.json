@@ -40,9 +40,9 @@
       }
     }
   },
-  "productName": "Leaf",
+  "productName": "Leaf Editor",
   "version": "1.0.0",
-  "identifier": "com.justDeek.Leaf",
+  "identifier": "com.justDeek.LeafEditor",
   "plugins": {},
   "app": {
     "windows": [
@@ -50,7 +50,7 @@
         "fullscreen": false,
         "height": 560,
         "resizable": true,
-        "title": "Leaf",
+        "title": "Leaf Editor",
         "width": 640,
         "decorations": false,
         "transparent": true

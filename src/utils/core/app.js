@@ -7,9 +7,9 @@ import {Stats} from "@/utils/core/modules/stats.js";
 import {Sidebar} from "@/utils/core/modules/sidebar.js";
 import {Project} from "@/utils/editor/project.js";
 import {discardPrompt} from "@/utils/ui/prompts.js";
-import {getCurrentWebviewWindow} from "@tauri-apps/api/webviewWindow";
 import {initEvents} from "@/utils/events/events.js";
 import {initDragDrop} from "@/utils/events/drag-drop.js";
+import { getCurrentWindow } from '@tauri-apps/api/window';
 
 class App {
   dictionary = new Dictionary();
@@ -56,7 +56,13 @@ class App {
     this.load(this.project.page().text);
   };
 
-  quit = () => discardPrompt(getCurrentWebviewWindow().close);
+  // inFocusMode = async () => await getCurrentWindow().isFullscreen();
+  setFocusMode = async (enable) => {
+    await getCurrentWindow().setFullscreen(enable);
+    //ToDo: hide header
+  }
+
+  quit = () => discardPrompt(getCurrentWindow().close);
 }
 
 export const app = await new App();

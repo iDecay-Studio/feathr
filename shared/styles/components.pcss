@@ -1,0 +1,33 @@
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.bg {
+  @apply border-none;
+}
+
+.btn {
+  @apply flex items-center select-none truncate disabled:pointer-events-none disabled:opacity-50 rounded px-2 py-0.5 text-sm duration-[50ms] select-none size-fit transition-all duration-100;
+  color: var(--btn-text);
+
+  &:hover, &:active, &[data-active] {
+    background-color: var(--highlight);
+  }
+  
+  svg {
+    color: var(--text);
+  }
+}
+.btn-round {
+  @apply p-0.5 rounded-full;
+}
+.btn-green {
+  @apply hover:shadow-none hover:!bg-green-500 active:!bg-green-600;
+}
+.btn-yellow {
+  @apply hover:shadow-none hover:!bg-yellow-500 active:!bg-yellow-600;
+}
+.btn-red {
+  @apply hover:shadow-none hover:!bg-red-500 active:!bg-red-600;
+}

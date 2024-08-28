@@ -40,29 +40,7 @@ html, body {
   scrollbar-color: var(--scrollbar);
 }
 
-.hidden {
-  display: none;
-  visibility: hidden;
-}
-
 .dragover::after {
   z-index: var(--layer-overlay);
   background-color: rgba(211, 211, 211, 0.75);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes blink {
-  0%, 100% {
-    background-color: transparent;
-  }
-  50% {
-    background-color: var(--caret);
-  }
 }

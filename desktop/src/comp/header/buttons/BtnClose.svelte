@@ -1,5 +1,5 @@
 <script>
-  import {app} from "@desktop/utils/core/app.js";
+  import {app} from "@shared/utils/core/app.js";
 </script>
 
 <button class="btn btn-red" onClick={() => app.quit()}>

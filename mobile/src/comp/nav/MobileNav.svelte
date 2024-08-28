@@ -3,6 +3,7 @@
   import MobileNavDropdown from "./MobileNavDropdown.svelte";
   import MobileDrawer from "@mobile/comp/drawer/MobileDrawer.svelte";
   import {showDrawer, showSidebar} from "@mobile/utils/stores.js";
+  import {clickOutside} from "@shared/utils/events/clickOutside.js";
   import {onMount} from "svelte";
   import {DragMenu} from "@mobile/utils/drag-menu.js";
 
@@ -15,12 +16,12 @@
   ]
   
   onMount(() => new DragMenu(navEl));
-  //todo: add on:outside_click handler to close the sidebar
 </script>
 
 <MobileDrawer options={drawerOptions}/>
 
-<div bind:this={navEl} class="nav-drag-area" class:open={$showSidebar}>
+<div bind:this={navEl} class="nav-drag-area" class:open={$showSidebar}
+     use:clickOutside on:click_outside={() => $showSidebar = false}>
   <div class="nav">
     <MobileNavDropdown title="File" icon="file">
       <MobileNavItem title="New" action={() => {}}/>

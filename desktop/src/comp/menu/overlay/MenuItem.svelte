@@ -1,5 +1,5 @@
 <script>
-  import {isMenuOpen} from "@desktop/utils/ui/menu.js";
+  import {isMenuOpen} from "@shared/utils/ui/menu.js";
 
   export let title;
   export let shortcut = "";

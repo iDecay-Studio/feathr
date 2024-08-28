@@ -1,4 +1,4 @@
-import '@mobile/styles/base.css'
+import '@mobile/styles/base.pcss'
 import App from './App.svelte'
 
 const app = new App({

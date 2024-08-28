@@ -1,9 +1,9 @@
 <script>
   //based on: https://devdojo.com/pines/docs/menubar
-  import {app} from "@desktop/utils/core/app.js";
-  import {undo, redo, find, replace, copy, cut, paste, selectAutocomplete, selectSynonym, gotoLine, gotoPrevMarker, gotoNextMarker, gotoPrevFile, gotoNextFile} from "@desktop/utils/ui/menu.js";
+  import {app} from "@shared/utils/core/app.js";
+  import {undo, redo, find, replace, copy, cut, paste, selectAutocomplete, selectSynonym, gotoLine, gotoPrevMarker, gotoNextMarker, gotoPrevFile, gotoNextFile} from "@shared/utils/ui/menu.js";
   import {clickOutside} from "@shared/utils/events/clickOutside.js";
-  import {isMenuOpen} from "@desktop/utils/ui/menu.js";
+  import {isMenuOpen} from "@shared/utils/ui/menu.js";
   import Menu from "./overlay/Menu.svelte";
   import MenuItem from "./overlay/MenuItem.svelte";
   import SubMenu from "./overlay/SubMenu.svelte";

@@ -1,5 +1,5 @@
 <script>
-  import {isMenuOpen, openMenu} from "@desktop/utils/ui/menu.js";
+  import {isMenuOpen, openMenu} from "@shared/utils/ui/menu.js";
   import {flyIn} from "@desktop/utils/ui/transitions.js";
   import {get} from "svelte/store";
 

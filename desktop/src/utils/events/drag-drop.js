@@ -1,4 +1,4 @@
-import {app} from "@desktop/utils/core/app.js";
+import {app} from "@shared/utils/core/app.js";
 
 export function initDragDrop() {
   /* Drag&drop to open a file */

@@ -6,13 +6,16 @@
   "license": "GPL-3.0",
   "type": "module",
   "scripts": {
-    "dev-web": "vite dev",
-    "dev-app": "tauri dev",
-    "dev-android": "tauri android dev",
-    "build-web": "vite build",
-    "build-app": "tauri build",
-    "build-android": "tauri android build"
+    "web-dev": "vite serve desktop",
+    "web-build": "vite serve desktop build",
+    "app-dev": "tauri dev --config src-tauri/tauri.desktop.conf.json",
+    "app-build": "tauri build --config src-tauri/tauri.desktop.conf.json",
+    "mobile-dev": "vite serve mobile",
+    "mobile-build": "vite serve mobile build",
+    "android-dev": "tauri android dev --config src-tauri/tauri.mobile.conf.json",
+    "android-build": "tauri android build --config src-tauri/tauri.mobile.conf.json"
   },
+  "workspaces": ["*"],
   "dependencies": {
     "@tauri-apps/api": "^2.0.0-rc.0",
     "@tauri-apps/plugin-dialog": "^2.0.0-rc.0",
@@ -31,5 +34,6 @@
     "postcss": "^8.4.38",
     "svelte": "^4.2.17",
     "vite": "^5.2.12"
-  }
+  },
+  "packageManager": "bun@1.1.2"
 }

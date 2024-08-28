@@ -54,12 +54,12 @@ After everything is installed, run the following commands:
 ```
 git clone https://github.com/justDeek/leaf-editor.git
 cd leaf-editor
-pnpm install
+bun install
 ```
 
 ## 🖥️ Desktop
 
-run: ```pnpm build-app```
+run: ```bun app-build```
 Once the build has been completed, you will find the executables in ```src-tauri/target/release/bundle```.
 
 
@@ -69,13 +69,13 @@ Once the build has been completed, you will find the executables in ```src-tauri
 Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
 
 Once that's done, you can initialize the project:
-```pnpm tauri android init```
+```bun tauri android init```
 
 Open Android Studio and run the development build:
-```pnpm dev-android```
+```bun android-dev```
 
 This command should open the Android emulator and the app shortly after.
-If everything is working correctly, you can build the mobile app via: ```pnpm build-android```
+If everything is working correctly, you can build the mobile app via: ```bun android-build```
 
 
 ## 🍎 iOS
@@ -83,9 +83,9 @@ If everything is working correctly, you can build the mobile app via: ```pnpm bu
 [Check the prerequisites](https://v2.tauri.app/guides/prerequisites/#ios) for having iOS ready to run (MacOS only).
 
 Once that is done, let’s create the XCode project:
-```pnpm tauri ios init```
+```bun tauri ios init```
 
 If everything runs successfully, you can start the development server:
-```pnpm tauri ios dev --open```
+```bun tauri ios dev --open```
 
 This command will open XCode with your project, select the simulator and get ready to run.

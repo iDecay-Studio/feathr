@@ -1,4 +1,4 @@
-export const SYN_DB = {
+export default {
   abandon: [
     'desert',
     'leave',

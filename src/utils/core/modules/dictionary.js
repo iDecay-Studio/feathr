@@ -1,12 +1,10 @@
 import {app} from "@/utils/core/app.js";
-import {SYN_DB} from "./synonyms.js";
+import {inApp} from "@/utils/core/utils.js";
 
 export class Dictionary {
   init = async () => {
     this.vocabulary = [];
-    this.synonyms = SYN_DB;
-
-    this.build_synonyms();
+    this.#build_synonyms();
     this.update();
   }
 
@@ -16,20 +14,6 @@ export class Dictionary {
 
     if (regex.test(word) || word.length < 4) return;
     this.vocabulary[this.vocabulary.length] = word;
-  };
-
-  build_synonyms = () => {
-    for (const targetWord in SYN_DB) {
-      const synonyms = SYN_DB[targetWord];
-      this.add_word(targetWord);
-
-      for (const wordID in synonyms) {
-        const targetParent = synonyms[wordID];
-        if (this.synonyms[targetParent] && this.synonyms[targetParent].constructor === Array)
-          this.synonyms[targetParent][this.synonyms[targetParent].length] = targetWord;
-        else this.synonyms[targetParent] = [targetWord];
-      }
-    }
   };
 
   find_suggestion = (str) => {
@@ -46,11 +30,11 @@ export class Dictionary {
     if (str.trim().length < 4) return;
 
     const target = str.toLowerCase();
-    if (this.synonyms[target]) return this.uniq(this.synonyms[target]);
+    if (this.synonyms[target]) return this.#uniq(this.synonyms[target]);
 
     if (target[target.length - 1] === 's') {
       const singular = this.synonyms[target.substring(0, target.length - 1)];
-      if (this.synonyms[singular]) return this.uniq(this.synonyms[singular]);
+      if (this.synonyms[singular]) return this.#uniq(this.synonyms[singular]);
     }
 
     return null;
@@ -61,7 +45,26 @@ export class Dictionary {
     for (const wordID in words) this.add_word(words[wordID]);
   };
 
-   uniq = (a1) => {
+  #build_synonyms = () => {
+    //only import the synonym-db if not in a production-built web-app
+    const allSynonyms = !inApp && import.meta.env.PROD ? import("./synonyms.js").default : {};
+    if (Object.keys(allSynonyms).length === 0) return;
+    
+    this.synonyms = allSynonyms;
+    for (const targetWord in allSynonyms) {
+      const synonyms = allSynonyms[targetWord];
+      this.add_word(targetWord);
+
+      for (const wordID in synonyms) {
+        const targetParent = synonyms[wordID];
+        if (this.synonyms[targetParent] && this.synonyms[targetParent].constructor === Array)
+          this.synonyms[targetParent][this.synonyms[targetParent].length] = targetWord;
+        else this.synonyms[targetParent] = [targetWord];
+      }
+    }
+  };
+
+  #uniq = (a1) => {
     const a2 = [];
     for (const id in a1) if (a2.indexOf(a1[id]) === -1) a2[a2.length] = a1[id];
     return a2;

@@ -19,6 +19,16 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "fileAssociations": [
+      {
+        "ext": ["txt"],
+        "mimeType": "text/plain"
+      },
+      {
+        "ext": ["md"],
+        "mimeType": "text/markdown"
+      }
+    ],
     "windows": {
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",

@@ -66,7 +66,7 @@ Once the build has been completed, you will find the executables in ```src-tauri
 ## 🤖 Android
 
 [Android Studio and a few other steps will be required](https://v2.tauri.app/guides/prerequisites/#android) to get things up and running.
-Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path should be ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
+Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
 
 Once that's done, you can initialize the project:
 ```pnpm tauri android init```
@@ -76,3 +76,16 @@ Open Android Studio and run the development build:
 
 This command should open the Android emulator and the app shortly after.
 If everything is working correctly, you can build the mobile app via: ```pnpm build-android```
+
+
+## 🍎 iOS
+
+[Check the prerequisites](https://v2.tauri.app/guides/prerequisites/#ios) for having iOS ready to run (MacOS only).
+
+Once that is done, let’s create the XCode project:
+```pnpm tauri ios init```
+
+If everything runs successfully, you can start the development server:
+```pnpm tauri ios dev --open```
+
+This command will open XCode with your project, select the simulator and get ready to run.

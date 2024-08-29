@@ -1,4 +1,4 @@
-import App from "./comp/App.svelte";
+import App from "./App.svelte";
 import 'uno.css';
 import './styles/app.pcss';
 

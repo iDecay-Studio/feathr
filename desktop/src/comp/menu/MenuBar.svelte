@@ -1,7 +1,7 @@
 <script>
   //based on: https://devdojo.com/pines/docs/menubar
   import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
-  import {isMenuOpen, fileMenu, editMenu, goMenu, viewMenu} from "@leaf/shared/utils/ui/menu.js";
+  import {isMenuOpen, fileMenu, editMenu, goMenu, settingsMenu} from "@leaf/shared/utils/ui/menu.js";
   import Menu from "./overlay/Menu.svelte";
 </script>
 
@@ -11,6 +11,6 @@
     <Menu title="File" items={fileMenu}/>
     <Menu title="Edit" items={editMenu}/>
     <Menu title="Go" items={goMenu}/>
-    <Menu title="View" items={viewMenu}/>
+    <Menu title="Settings" items={settingsMenu}/>
   </div>
 </div>

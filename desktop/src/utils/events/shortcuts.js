@@ -1,5 +1,5 @@
 import {app} from "@leaf/shared/utils/core/app.js";
-import {editMenu, fileMenu, goMenu, viewMenu} from "@leaf/shared/utils/ui/menu.js";
+import {editMenu, fileMenu, goMenu, settingsMenu} from "@leaf/shared/utils/ui/menu.js";
 
 //maybe use the Tauri globalShortcut module instead, but I don't see any advantage over the native JS approach (https://tauri.app/v1/api/js/globalshortcut/)
 const preventDef = (e) => {e.preventDefault(); return true};
@@ -35,13 +35,14 @@ export function initShortcuts() {
       
       if (e.key === key) {
         e.preventDefault();
-        item.action && item.action();
+        if (item.action) item.action();
+        if (item.setting) item.setting.toggle();
       }
     }
 
     fileMenu.forEach(execShortcuts);
     editMenu.forEach(execShortcuts);
     goMenu.forEach(execShortcuts);
-    viewMenu.forEach(execShortcuts);
+    settingsMenu.forEach(execShortcuts);
   }
 }

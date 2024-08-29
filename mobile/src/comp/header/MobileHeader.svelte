@@ -1,5 +1,5 @@
 <script>
-  import {showSidebar} from "../../utils/stores.js";
+  import {isMenuOpen} from "@leaf/shared/utils/ui/menu.js";
 
   export let fileName = "Untitled";
   let showSearch = false;
@@ -11,13 +11,13 @@
       {#if showSearch}
         <input type="search" placeholder="Search" class="header-input">
       {:else}
-        <div class="header-title">{fileName}</div>
+        <div id="title" class="header-title">{fileName}</div>
       {/if}
       <button class='bx bx-search header-icon' on:click={() => showSearch = !showSearch}></button>
     </div>
 
-    <button class="header-toggle" on:click={() => $showSidebar = !$showSidebar}>
-      <i id="header-toggle" class='bx bx-menu' class:bx-x={$showSidebar}></i>
+    <button class="header-toggle" on:click={() => $isMenuOpen = !$isMenuOpen}>
+      <i id="header-toggle" class='bx bx-menu' class:bx-x={$isMenuOpen}></i>
     </button>
   </div>
 </header>

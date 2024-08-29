@@ -48,27 +48,24 @@ export const goMenu = [
   {title:"Next File", shortcut:"Ctrl+Right", action:() => app.sidebar.next_page()},
 ];
 
-export const viewMenu = [
-  {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar},
-  {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
-  {divider:true},
-  {title:"Text", submenu: [
-    {title:"Auto-Indent", setting:app.settings.autoIndent},
-    {title:"Word-Wrap", setting:app.settings.wordWrap},
-  ]},
-  {title:"Search", submenu: [
-    {title:"Case-sensitive", setting:app.settings.caseSensitive},
-    {title:"Match Words", setting:app.settings.matchWords},
+export const settingsMenu = [
+  {title:"Font Size", submenu: [
+    {title:"Increase", shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
+    {title:"Decrease", shortcut:"Ctrl+[-]", action:() => app.settings.fontSize.decrease(), closeMenu:false},
+    {title:"Reset", action:() => app.settings.fontSize.reset(), closeMenu:false},
   ]},
   {title:"Font Type", submenu: [
     {title:"Sans", setting:app.settings.fontType, compareTo:"sans"},
     {title:"Sans-Serif", setting:app.settings.fontType, compareTo:"sans-serif"},
     {title:"Mono", setting:app.settings.fontType, compareTo:"mono"},
   ]},
-  {title:"Font Size", submenu: [
-    {title:"Increase", shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
-    {title:"Decrease", shortcut:"Ctrl+[-]", action:() => app.settings.fontSize.decrease(), closeMenu:false},
-    {title:"Reset", action:() => app.settings.fontSize.reset(), closeMenu:false},
+  {title:"Search", submenu: [
+    {title:"Case-sensitive", setting:app.settings.caseSensitive},
+    {title:"Match Words", setting:app.settings.matchWords},
+  ]},
+  {title:"Text", submenu: [
+    {title:"Auto-Indent", setting:app.settings.autoIndent},
+    {title:"Word-Wrap", setting:app.settings.wordWrap},
   ]},
   {title:"Theme", submenu: [
     {title:"System", setting:app.settings.theme, compareTo:"system", closeMenu:false},
@@ -76,5 +73,9 @@ export const viewMenu = [
     {title:"Dimmed", setting:app.settings.theme, compareTo:"dimmed", closeMenu:false},
     {title:"Cappuccino", setting:app.settings.theme, compareTo:"cappuccino", closeMenu:false},
     {title:"Dark", setting:app.settings.theme, compareTo:"dark", closeMenu:false},
+  ]},
+  {title:"View", submenu: [
+    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar},
+    {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
   ]},
 ];

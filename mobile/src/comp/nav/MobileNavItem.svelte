@@ -1,14 +1,14 @@
 <script>
-  import {activeMenuItem} from "../../utils/stores.js";
+  import {openMenu} from "@leaf/shared/utils/ui/menu.js";
+  import {drawerItems, showDrawer} from "../../utils/stores.js";
 
-  export let title = "";
-  export let icon = "";
-  export let action = null;
-  export let isDropdown = false;
+  export let item;
+  let action = item.action;
+  if (item.submenu) action = () => {drawerItems.set(item.submenu); showDrawer.set(true)};
 </script>
 
-<button class="nav-link {$activeMenuItem === title ? 'active' : ''}" on:click={() => {$activeMenuItem = title; action && action()}}>
-  {#if icon !== ""}<i class='nav-icon bx bx-{icon}'></i>{/if}
-  <span class="nav-name">{title}</span>
-  {#if isDropdown}<i class='bx bx-chevron-down nav-icon nav-dropdown-icon'></i>{/if}
+<button class="nav-link {$openMenu === item.title ? 'active' : ''}" on:click={() => {$openMenu = item.title; action && action()}}>
+  {#if item.icon}<i class='nav-icon bx bx-{item.icon}'></i>{/if}
+  <span class="nav-name">{item.title}</span>
+  {#if item.isDropdown}<i class='bx bx-chevron-down nav-icon nav-dropdown-icon'></i>{/if}
 </button>

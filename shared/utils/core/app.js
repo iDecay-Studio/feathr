@@ -31,12 +31,14 @@ class App {
     //init modules
     await this.settings.init();
     await this.editor.init();
-    await this.sidebar.init();
-    await this.stats.init();
     await this.project.init();
     await this.dictionary.init();
     await this.cmdBar.init();
     await this.go.init();
+    if (!app.isMobile) {
+      await this.sidebar.init();
+      await this.stats.init();
+    }
     
     await this.update();
     initEvents();
@@ -51,8 +53,10 @@ class App {
   update = async () => {
     await this.editor.update();
     await this.project.update();
-    await this.sidebar.update();
-    await this.stats.update();
+    if (!app.isMobile) {
+      await this.sidebar.update();
+      await this.stats.update();
+    }
   };
 
   load = (text) => {

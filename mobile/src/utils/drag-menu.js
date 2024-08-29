@@ -1,5 +1,5 @@
 import {debounce} from "./utils.js";
-import {showSidebar} from "./stores.js";
+import {isMenuOpen} from "@leaf/shared/utils/ui/menu.js";
 
 //based on: https://codepen.io/maves9/pen/qBqERPE
 export class DragMenu {
@@ -64,6 +64,6 @@ export class DragMenu {
   setOpen = isOpen => {
     this.isOpen = isOpen;
     this.menu.classList[isOpen ? 'add' : 'remove']('open')
-    showSidebar.set(isOpen);
+    isMenuOpen.set(isOpen);
   }
 }

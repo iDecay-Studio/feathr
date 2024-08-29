@@ -1,5 +1,5 @@
 <script>
-  import {showSidebar} from "@mobile/utils/stores.js";
+  import {showSidebar} from "../../utils/stores.js";
 
   export let fileName = "Untitled";
   let showSearch = false;

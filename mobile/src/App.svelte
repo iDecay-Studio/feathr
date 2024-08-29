@@ -1,13 +1,13 @@
 <script>
-  import MobileHeader from "@mobile/comp/header/MobileHeader.svelte";
-  import MobileNav from "@mobile/comp/nav/MobileNav.svelte";
-  import Editor from "@shared/comp/editor/Editor.svelte";
-  import CmdBar from "@shared/comp/editor/CmdBar.svelte";
-  import {app} from "@shared/utils/core/app.js";
+  import MobileHeader from "./comp/header/MobileHeader.svelte";
+  import MobileNav from "./comp/nav/MobileNav.svelte";
+  import Editor from "@leaf/shared/comp/editor/Editor.svelte";
+  import CmdBar from "@leaf/shared/comp/editor/CmdBar.svelte";
+  import {app} from "@leaf/shared/utils/core/app.js";
   import {onMount} from "svelte";
 
   onMount(async () => {
-    await app.init();
+    await app.init(true);
   });
 </script>
 

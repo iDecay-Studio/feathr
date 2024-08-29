@@ -1,5 +1,5 @@
 <script>
-  import {activeMenuItem} from "@mobile/utils/stores.js";
+  import {activeMenuItem} from "../../utils/stores.js";
 
   export let title = "";
   export let icon = "";

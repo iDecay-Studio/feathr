@@ -1,6 +1,6 @@
 import {get, writable} from "svelte/store";
-import {clamp} from "@shared/utils/core/utils.js";
-import {app} from "@shared/utils/core/app.js";
+import {clamp} from "@leaf/shared/utils/core/utils.js";
+import {app} from "@leaf/shared/utils/core/app.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);

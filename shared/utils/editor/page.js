@@ -1,5 +1,5 @@
-import {app} from "@shared/utils/core/app.js";
-import {EOL} from "@shared/utils/core/utils.js";
+import {app} from "@leaf/shared/utils/core/app.js";
+import {EOL} from "@leaf/shared/utils/core/utils.js";
 import {ask as askDialog} from "@tauri-apps/plugin-dialog";
 import {stat, readTextFile} from "@tauri-apps/plugin-fs";
 

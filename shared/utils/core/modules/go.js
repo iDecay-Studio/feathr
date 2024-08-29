@@ -1,5 +1,5 @@
-import {app} from "@shared/utils/core/app.js";
-import {clamp, EOL} from "@shared/utils/core/utils.js";
+import {app} from "@leaf/shared/utils/core/app.js";
+import {clamp, EOL} from "@leaf/shared/utils/core/utils.js";
 
 export class Go {
   init = async () => {

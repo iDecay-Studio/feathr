@@ -1,15 +1,15 @@
-import {Editor} from "shared/utils/core/editor.js";
-import {Settings} from "shared/utils/core/settings.js";
-import {Dictionary} from "shared/utils/core/modules/dictionary.js";
-import {CmdBar} from "@shared/utils/core/modules/cmdBar.js";
-import {Go} from "@shared/utils/core/modules/go.js";
-import {Stats} from "@shared/utils/core/modules/stats.js";
-import {Sidebar} from "@shared/utils/core/modules/sidebar.js";
-import {Project} from "@shared/utils/editor/project.js";
-import {discardPrompt} from "@shared/utils/ui/prompts.js";
-import {initEvents} from "@shared/utils/events/events.js";
+import {Editor} from "@leaf/shared/utils/core/editor.js";
+import {Settings} from "@leaf/shared/utils/core/settings.js";
+import {Dictionary} from "@leaf/shared/utils/core/modules/dictionary.js";
+import {CmdBar} from "@leaf/shared/utils/core/modules/cmdBar.js";
+import {Go} from "@leaf/shared/utils/core/modules/go.js";
+import {Stats} from "@leaf/shared/utils/core/modules/stats.js";
+import {Sidebar} from "@leaf/shared/utils/core/modules/sidebar.js";
+import {Project} from "@leaf/shared/utils/editor/project.js";
+import {discardPrompt} from "@leaf/shared/utils/ui/prompts.js";
+import {initEvents} from "@leaf/shared/utils/events/events.js";
 import {getCurrentWindow} from '@tauri-apps/api/window';
-import {inApp} from "@shared/utils/core/utils.js";
+import {inApp} from "@leaf/shared/utils/core/utils.js";
 // import {check} from "@tauri-apps/plugin-updater";
 // import {relaunch} from "@tauri-apps/plugin-process";
 
@@ -22,9 +22,10 @@ class App {
   sidebar = new Sidebar();
   stats = new Stats();
   go = new Go();
+  isMobile;
   
-  init = async () => {
-    //references
+  init = async (isMobile = false) => {
+    this.isMobile = isMobile;
     this.titleRef = document.getElementById('title');
 
     //init modules

@@ -1,6 +1,6 @@
 <script>
   import { getCurrentWindow } from '@tauri-apps/api/window';
-  import {inApp} from "@shared/utils/core/utils.js";
+  import {inApp} from "@leaf/shared/utils/core/utils.js";
 </script>
 
 <button class="btn btn-yellow" onClick={() => inApp && getCurrentWindow().maximize()}>

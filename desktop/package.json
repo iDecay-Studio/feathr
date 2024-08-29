@@ -1,14 +1,14 @@
 {
-  "name": "@desktop",
+  "name": "@leaf/desktop",
   "version": "1.0.0",
   "private": "true",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "vite dev --port 3100",
+    "dev": "vite dev",
     "build": "NODE_ENV=production vite build --outDir ./build --minify --manifest --emptyOutDir"
   },
   "devDependencies": {
-    "@shared": "workspace:*"
+    "@leaf/shared": "workspace:*"
   }
 }

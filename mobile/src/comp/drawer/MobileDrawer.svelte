@@ -1,7 +1,7 @@
 <script>
   import MobileDrawerItem from "./MobileDrawerItem.svelte";
-  import {showDrawer} from "@mobile/utils/stores.js";
-  import {clickOutside} from "@shared/utils/events/clickOutside.js";
+  import {showDrawer} from "../../utils/stores.js";
+  import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
 
   export let options = [];
 </script>

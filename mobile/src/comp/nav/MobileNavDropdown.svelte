@@ -1,6 +1,6 @@
 <script>
   import MobileNavItem from "./MobileNavItem.svelte";
-  import {activeDropdown, setActiveDropdown} from "@mobile/utils/stores.js";
+  import {activeDropdown, setActiveDropdown} from "../../utils/stores.js";
 
   export let title = "";
   export let icon = "";

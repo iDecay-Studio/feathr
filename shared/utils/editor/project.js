@@ -1,7 +1,7 @@
-import {Page} from "@shared/utils/editor/page.js";
-import {app} from "@shared/utils/core/app.js";
-import {discardPrompt, savePrompt} from "@shared/utils/ui/prompts.js";
-import {isJSON} from "@shared/utils/core/utils.js";
+import {Page} from "@leaf/shared/utils/editor/page.js";
+import {app} from "@leaf/shared/utils/core/app.js";
+import {discardPrompt, savePrompt} from "@leaf/shared/utils/ui/prompts.js";
+import {isJSON} from "@leaf/shared/utils/core/utils.js";
 import {readTextFile, writeFile} from "@tauri-apps/plugin-fs";
 import {message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";

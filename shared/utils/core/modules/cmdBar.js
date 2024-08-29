@@ -1,5 +1,5 @@
-import {app} from "@shared/utils/core/app.js";
-import {EOL} from "@shared/utils/core/utils.js";
+import {app} from "@leaf/shared/utils/core/app.js";
+import {EOL} from "@leaf/shared/utils/core/utils.js";
 import {get, writable} from "svelte/store";
 
 export const currCmd = writable("");

@@ -6,13 +6,13 @@
   width: 90%;
   margin: 0 auto;
   text-align: center;
-  background-color: var(--first-color-light);
   border-radius: 1rem;
   transition: .4s;
   padding: 5px 0;
   z-index: 99999;
   display: grid;
   box-shadow: 0 3px 7px #0000002e;
+  background-color: var(--overlay);
   visibility: hidden;
   pointer-events: none;
 
@@ -21,6 +21,11 @@
     pointer-events: auto;
     visibility: visible;
   }
+}
+.drawer .bx-check {
+  position: absolute;
+  right: 8px;
+  font-size: 1.5rem;
 }
 
 .drawer-item {

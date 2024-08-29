@@ -75,7 +75,7 @@ export const settingsMenu = [
     {title:"Dark", setting:app.settings.theme, compareTo:"dark", closeMenu:false},
   ]},
   {title:"View", submenu: [
-    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar},
+    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar, hideOnMobile:true},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
   ]},
 ];

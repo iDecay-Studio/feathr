@@ -1,17 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 :root {
-  --header-height: 3.5rem;
+  --header-height: 3rem;
   --nav-width: 219px;
-
-  /*========== Colors ==========*/
-  --first-color: #6923D0;
-  --first-color-light: #e9e9e9;
-  --title-color: #19181B;
-  --text-color: #58555E;
-  --text-color-light: #A5A1AA;
-  --body-color: #F9F6FD;
-  --container-color: #FFFFFF;
 
   /*========== Font and typography ==========*/
   --body-font: 'Poppins', sans-serif;
@@ -34,13 +25,26 @@
   }
 }
 
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+html, body {
+  overflow: hidden;
+  tab-size: 2;
+
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s;
+}
+
 body {
-  margin: var(--header-height) 0 0 0;
-  padding: 1rem 3rem 0 6rem;
   font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-  background-color: var(--body-color);
-  color: var(--text-color);
+}
+
+#container {
+  margin: var(--header-height) 0 0 0;
 }
 
 button {

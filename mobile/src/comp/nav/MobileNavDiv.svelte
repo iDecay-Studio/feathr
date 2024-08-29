@@ -1,1 +1,1 @@
-<div class="highlight h-px m-1"></div>
+<div class="bg h-px"></div>

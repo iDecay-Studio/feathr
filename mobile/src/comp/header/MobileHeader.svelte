@@ -16,7 +16,7 @@
       <button class='bx bx-search header-icon' on:click={() => showSearch = !showSearch}></button>
     </div>
 
-    <button class="header-toggle" on:click={() => $isMenuOpen = !$isMenuOpen}>
+    <button class="header-toggle" on:click={() => $isMenuOpen = !$isMenuOpen} class:pointer-events-none={$isMenuOpen}>
       <i id="header-toggle" class='bx bx-menu' class:bx-x={$isMenuOpen}></i>
     </button>
   </div>

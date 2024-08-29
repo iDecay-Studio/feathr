@@ -16,7 +16,7 @@
       {#each items as item}
         {#if item.divider}
           <MobileNavDiv/>
-        {:else}
+        {:else if !item.hideOnMobile}
           <MobileNavItem {item}/>
         {/if}
       {/each}

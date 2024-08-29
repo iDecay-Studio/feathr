@@ -31,6 +31,7 @@ export function initShortcuts() {
 
       let key = shortcut;
       if (shortcut.includes('[+]')) key = '+';
+      else if (shortcut.includes('[-]')) key = '-';
       else if (shortcut.includes('+')) key = shortcut.split('+').slice(-1);
       
       if (e.key === key) {

@@ -21,9 +21,9 @@
 }
 
 .nav {
+  background-color: var(--bg);
   height: 100vh;
   padding: 0.75rem 0.75rem 2rem;
-  background-color: var(--container-color);
   box-shadow: 0 0 8px #00000040;
   overflow: auto;
 }
@@ -35,17 +35,17 @@
 .nav-link {
   display: flex;
   align-items: center;
-  color: var(--text-color);
   padding: 6px;
   border-radius: 16px;
   height: 24px;
   margin: 3px 0;
+  transition: .4s;
   
   &:hover {
-    color: var(--first-color);
+    color: var(--link);
   }
   &.active {
-    color: var(--first-color);
+    color: var(--link);
   }
 }
 
@@ -74,7 +74,7 @@
 }
 
 .nav-dropdown-collapse {
-  background-color: var(--first-color-light);
+  background-color: var(--highlight);
   border-radius: 16px;
 }
 
@@ -85,7 +85,6 @@
 .nav-dropdown-collapse .nav-link {
   font-size: var(--smaller-font-size);
   font-weight: var(--font-medium);
-  color: var(--text-color);
   padding-left: 1rem;
   padding-right: 1rem;
   width: 100%;
@@ -93,7 +92,6 @@
 
 .nav-dropdown-icon {
   margin-left: auto;
-  transition: .4s;
 }
 .nav-dropdown.open .nav-dropdown-icon {
   transform: rotate(180deg);

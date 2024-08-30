@@ -5,7 +5,7 @@ import {CmdBar} from "@leaf/shared/utils/core/modules/cmdBar.js";
 import {Go} from "@leaf/shared/utils/core/modules/go.js";
 import {Stats} from "@leaf/shared/utils/core/modules/stats.js";
 import {Sidebar} from "@leaf/shared/utils/core/modules/sidebar.js";
-import {Project} from "@leaf/shared/utils/editor/project.js";
+import {File} from "@leaf/shared/utils/editor/file.js";
 import {discardPrompt} from "@leaf/shared/utils/ui/prompts.js";
 import {initEvents} from "@leaf/shared/utils/events/events.js";
 import {getCurrentWindow} from '@tauri-apps/api/window';
@@ -17,7 +17,7 @@ class App {
   dictionary = new Dictionary();
   editor = new Editor();
   cmdBar = new CmdBar();
-  project = new Project();
+  file = new File();
   settings = new Settings();
   sidebar = new Sidebar();
   stats = new Stats();
@@ -31,10 +31,10 @@ class App {
     //init modules
     await this.settings.init();
     await this.editor.init();
-    await this.project.init();
+    await this.file.init();
     await this.dictionary.init();
     await this.cmdBar.init();
-    await this.go.init();
+    
     if (!app.isMobile) {
       await this.sidebar.init();
       await this.stats.init();
@@ -52,21 +52,12 @@ class App {
   
   update = async () => {
     await this.editor.update();
-    await this.project.update();
+    await this.file.update();
+    
     if (!app.isMobile) {
       await this.sidebar.update();
       await this.stats.update();
     }
-  };
-
-  load = (text) => {
-    this.editor.el.value = text || '';
-    this.update();
-  };
-
-  reload = async (force = false) => {
-    this.project.page().reload(force);
-    this.load(this.project.page().text);
   };
 
   // inFocusMode = async () => await getCurrentWindow().isFullscreen();

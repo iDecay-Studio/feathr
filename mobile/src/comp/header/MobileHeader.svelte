@@ -1,7 +1,7 @@
 <script>
   import {isMenuOpen} from "@leaf/shared/utils/ui/menu.js";
 
-  export let fileName = "Untitled";
+  export let fileName = "New Document";
   let showSearch = false;
 </script>
 

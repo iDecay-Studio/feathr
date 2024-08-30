@@ -25,9 +25,9 @@ export function initEvents() {
       let indent = '';
       let line = '';
       for (let pos = cur_pos - 2; // -2 because of cur and \n
-           pos >= 0 && app.editor.el.value.charAt(pos) !== '\n';
+           pos >= 0 && app.editor.text().charAt(pos) !== '\n';
            pos--
-      ) line += app.editor.el.value.charAt(pos);
+      ) line += app.editor.text().charAt(pos);
 
       let matches;
       if ((matches = /^.*?([\s\t]+)$/gm.exec(line)) !== null) { // found indent
@@ -49,7 +49,6 @@ export function initEvents() {
     if (app.cmdBar.is_active) return;
     
     app.editor.select.index = 0;
-    app.project.page().pos = app.editor.el.selectionStart;
     app.update();
   };
 }

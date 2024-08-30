@@ -1,37 +1,9 @@
 import {app} from "@leaf/shared/utils/core/app.js";
-import {clamp, EOL} from "@leaf/shared/utils/core/utils.js";
+import {EOL} from "@leaf/shared/utils/core/utils.js";
 
 export class Go {
-  init = async () => {
-    this.to_page();
-  }
-  
-  to_page = (id = 0, line = 0) => {
-    app.project.index = clamp(parseInt(id), 0, app.project.pages.length - 1);
-    // console.log(`Go to page:${app.project.index}/${app.project.pages.length}`)
-    const page = app.project.page();
-
-    if (!page) {
-      console.warn('Missing page', this.index);
-      return;
-    }
-
-    app.load(page.text);
-    app.go.to_line(line);
-    app.update();
-  };
-
-  to_line = (id) => {
-    const lineArr = app.editor.el.value.split(EOL, parseInt(id) + 1);
-    const arrJoin = lineArr.join(EOL);
-    const from = arrJoin.length - lineArr[id].length;
-    const to = arrJoin.length;
-
-    this.to(from, to);
-  };
-
   to = (from, to, scroll = true) => {
-    if (scroll) this.scroll_to(from, to);
+    if (scroll) this.#scroll_to(from, to);
 
     if (app.editor.el.setSelectionRange) app.editor.el.setSelectionRange(from, to);
     else if (app.editor.el.createTextRange) {
@@ -44,6 +16,15 @@ export class Go {
 
     return from === -1 ? null : from;
   };
+  
+  to_line = (id) => {
+    const lineArr = app.editor.text().split(EOL, parseInt(id) + 1);
+    const arrJoin = lineArr.join(EOL);
+    const from = arrJoin.length - lineArr[id].length;
+    const to = arrJoin.length;
+
+    this.to(from, to);
+  };
 
   // to_next = (str, scroll = true) => {
   //   const ta = app.editor.el;
@@ -53,15 +34,15 @@ export class Go {
   //   this.to(next, next, scroll);
   // };
 
-  scroll_to = (from, to) => {
-    const textVal = app.editor.el.value
+  #scroll_to = (from, to) => {
+    const textVal = app.editor.text()
     const div = document.createElement('div')
     div.innerHTML = textVal.slice(0, to)
     document.body.appendChild(div)
-    this.animateScrollTo(app.editor.el, div.offsetHeight - 60, 200)
+    this.#animateScrollTo(app.editor.el, div.offsetHeight - 60, 200)
     div.remove()
     
-    //---
+    //---alt. approach:---
     // //cache current text-area state
     // const ta = app.editor.el;
     // const text = ta.value;
@@ -84,7 +65,7 @@ export class Go {
     // this.animateScrollTo(ta, ta.scrollTop - 60, 200);
   };
 
-  animateScrollTo = (element, to, duration) => {
+  #animateScrollTo = (element, to, duration) => {
     const start = element.scrollTop;
     const change = to - start;
     let currentTime = 0;

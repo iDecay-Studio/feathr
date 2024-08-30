@@ -42,7 +42,7 @@ export class Dictionary {
   };
 
   update = () => {
-    const words = app.editor.el.value.toLowerCase().split(/[^\w-]+/);
+    const words = app.editor.text().toLowerCase().split(/[^\w-]+/);
     for (const wordID in words) this.add_word(words[wordID]);
   };
 

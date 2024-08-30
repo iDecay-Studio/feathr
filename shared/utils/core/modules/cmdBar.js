@@ -44,7 +44,7 @@ export class CmdBar {
     this.is_active = false;
     app.stats.el.classList.remove('hidden');
 
-    app.editor.el.focus();
+    app.editor.focus()
 
     this.update();
     app.update();
@@ -79,7 +79,7 @@ export class CmdBar {
 
   goto = (input, run) => {
     const target = parseInt(input, 10);
-    const linesCount = app.editor.el.value.split(EOL).length - 1;
+    const linesCount = app.editor.text().split(EOL).length - 1;
     if (input === '' || target < 1 || target > linesCount || Number.isNaN(target)) return;
 
     if (run) {

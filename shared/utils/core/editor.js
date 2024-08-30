@@ -9,6 +9,9 @@ import {Highlighter} from "@leaf/shared/utils/editor/tools/highlighter.js";
 import {Suggestions} from "@leaf/shared/utils/editor/tools/suggestions.js";
 
 export class Editor {
+  startingState = ""; //the editor content after opening the current file or app
+  textEdited = () => this.el.value !== this.startingState;
+  
   init = async () => {
     this.el = document.getElementById('editor');
     this.el.focus();
@@ -29,17 +32,60 @@ export class Editor {
   }
 
   update = async () => {
-    const nextChar = this.el.value.substring(this.el.selectionEnd, 1);
-
     this.select.word = this.locate.active_word();
+    const nextChar = this.el.value.substring(this.el.selectionEnd, 1);
     this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null;
     this.synonyms = app.dictionary.find_synonym(this.select.word);
     this.select.url = this.locate.active_url();
   };
+  
+  text = () => this.el.value;
+  focus = () => this.el.focus();
+  
+  set = (val = "") => {
+    this.el.value = val;
+    this.el.setSelectionRange(0, 0);
+    app.update();
 
-  selection = () => {
+    setTimeout(() => {
+      app.editor.focus()
+    }, 200);
+  }
+  reset(val = "") {
+    this.startingState = val;
+    this.set(val);
+  }
+
+  onChange(e) {
+    this.caret.update(e);
+    this.highlighter.onInput();
+    if (this.textEdited()) app.settings.unsavedChanges.set(this.el.value);
+  }
+
+  getSelection = () => {
     const from = this.el.selectionStart;
     return this.el.value.substring(from, this.el.selectionEnd - from);
+  };
+
+  getMarkers = () => {
+    const result = [];
+    const lines = this.text.split(EOL);
+
+    const add = (id, line, symbol, type) => result.push({
+      id: result.length,
+      text: line.replace(symbol, '').trim(),
+      line: parseInt(id),
+      type: type,
+    });
+
+    for (const id in lines) {
+      const line = lines[id].trim();
+      if (line.substring(0, 2) === '##') add(id, line, '##', 'subheader');
+      else if (line.substring(0, 1) === '#') add(id, line, '#', 'header');
+      else if (line.substring(0, 2) === '--') add(id, line, '--', 'comment');
+    }
+
+    return result;
   };
 
   // autocomplete = () => {

@@ -22,7 +22,7 @@ export class Stats {
   };
 
   _default = () => {
-    const stats = this.parse(app.editor.selection());
+    const stats = this.parse(app.editor.getSelection());
 
     const sep = ", ";
     let result = "";
@@ -86,8 +86,8 @@ export class Stats {
 
   _url = () => `Open <b>${app.editor.select.url}</b> with &lt;Ctrl+B&gt;`;
 
-  parse = (text = app.editor.el.value) => {
-    text = text.length > 5 ? text.trim() : app.editor.el.value;
+  parse = (text = app.editor.text()) => {
+    text = text.length > 5 ? text.trim() : app.editor.text();
 
     const h = {};
     const words = text.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ')

@@ -23,15 +23,9 @@ export function initDragDrop() {
     const files = e.dataTransfer.files;
     if (files.length === 0) return;
 
-    for (const id in files) {
-      const file = files[id];
-      if (!file.path) continue;
-      if (file.type && !file.type.match(/text.*/)) continue;
+    const file = files[0];
+    if (!file.path || file.type && !file.type.match(/text.*/)) return;
 
-      await app.project.add(file.path);
-    }
-
-    await app.reload();
-    app.sidebar.next_page();
+    await app.file.open(file.path);
   };
 }

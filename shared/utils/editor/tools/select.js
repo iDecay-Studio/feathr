@@ -8,11 +8,11 @@ export function Select() {
   this.reset = () => app.editor.el.setSelectionRange(0, 0);
 
   // this.word = (target) => {
-  //   const from = app.editor.el.value.split(target)[0].length
+  //   const from = app.editor.text().split(target)[0].length
   //   this.set(from, from + target.length)
   // }
   // this.line = (id) => {
-  //   const lineArr = app.editor.el.value.split(EOL, parseInt(id) + 1)
+  //   const lineArr = app.editor.text().split(EOL, parseInt(id) + 1)
   //   const arrJoin = lineArr.join(EOL)
   //
   //   const from = arrJoin.length - lineArr[id].length

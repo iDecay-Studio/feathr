@@ -13,7 +13,7 @@
   height: calc(100vh - 120px);
   padding: 30px 0 40px 30px;
 
-  li {
+  .marker {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -29,6 +29,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    
     &::before {
       position: absolute;
       left: -15px;
@@ -36,27 +37,34 @@
     &:hover {
       text-decoration: none;
     }
+    
     &.note {
       padding-left: 15px;
+      
+      &::before {
+        content: "#";
+        left: 0;
+      }
     }
-    &.note::before {
-      content: "#";
-      left: 0;
-    }
+    
     &.subheader {
       padding-left: 15px;
+      
+      &::before {
+        content: "";
+        left: 0;
+      }
     }
-    &.subheader::before {
-      content: "";
-      left: 0;
-    }
+    
     &.comment {
       padding-left: 30px;
+      
+      &::before {
+        content: "";
+        left: 0;
+      }
     }
-    &.comment::before {
-      content: "";
-      left: 0;
-    }
+    
     &.changes::after {
       content: "*";
       position: absolute;
@@ -67,24 +75,10 @@
     }
   }
   
-  & > ul li.marker {
-    display: none
-  }
-  & > ul.active li.marker {
-    display: block
-  }
-  & > ul li.active {
-    &.header::before {
-      content: "•";
-    }
-    &.subheader::before {
-      content: "•";
-    }
-    &.comment::before {
-      content: "•";
-    }
-    &.page::before {
-      content: "/";
-    }
+  & .marker.active {
+    &.header::before {content: "•"}
+    &.subheader::before {content: "•"}
+    &.comment::before {content: "•"}
+    &.page::before {content: "/"}
   }
 }

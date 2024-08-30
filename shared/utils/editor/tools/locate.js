@@ -3,7 +3,7 @@ import {EOL} from "@leaf/shared/utils/core/utils.js";
 
 export function Locate() {
   this.find = (word) => {
-    const text = app.editor.el.value.toLowerCase();
+    const text = app.editor.text().toLowerCase();
     const parts = text.split(word.toLowerCase());
     const a = [];
     let sum = 0;
@@ -23,7 +23,7 @@ export function Locate() {
 
     // Find beginning of word
     while (from > -1) {
-      const char = app.editor.el.value[from];
+      const char = app.editor.text()[from];
       if (!char || !char.match(/[a-z]/i)) break;
       from -= 1;
     }
@@ -31,7 +31,7 @@ export function Locate() {
     // Find end of word
     let to = from + 1;
     while (to < from + 30) {
-      const char = app.editor.el.value[to];
+      const char = app.editor.text()[to];
       if (!char || !char.match(/[a-z]/i)) break;
       to += 1;
     }
@@ -42,16 +42,16 @@ export function Locate() {
   };
   this.active_word = () => {
     const l = this.active_word_location();
-    return app.editor.el.value.substring(l.from, l.to - l.from);
+    return app.editor.text().substring(l.from, l.to - l.from);
   };
 
   this.active_line_id = () => {
-    const segments = app.editor.el.value.substring(0, app.editor.el.selectionEnd).split(EOL);
+    const segments = app.editor.text().substring(0, app.editor.el.selectionEnd).split(EOL);
     return segments.length - 1;
   };
 
   this.active_line = () => {
-    const text = app.editor.el.value;
+    const text = app.editor.text();
     const lines = text.split(EOL);
     return lines[this.active_line_id()];
   };
@@ -66,6 +66,6 @@ export function Locate() {
 
   // this.prev_character = () => {
   //   const l = this.active_word_location()
-  //   return app.editor.el.value.substring(l.from - 1, 1)
+  //   return app.editor.text().substring(l.from - 1, 1)
   // }
 }

@@ -12,16 +12,15 @@ let recentFilesMenu = [
 ];
 
 export const fileMenu = [
-  {title:"New", shortcut:"Ctrl+N", action:() => app.project.newFile()},
-  {title:"Open...", shortcut:"Ctrl+O", action:() => app.project.openFile()},
+  {title:"New", shortcut:"Ctrl+N", action:() => app.file.new()},
+  {title:"Open...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
   {title:"Open Recent", submenu: recentFilesMenu},
-  {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.project.openInExplorer()},
+  {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.file.openInExplorer()},
   {divider:true},
-  {title:"Save", shortcut:"Ctrl+S", action:() => app.project.save()},
-  {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.project.save_as()},
+  {title:"Save", shortcut:"Ctrl+S", action:() => app.file.save()},
+  {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
-  {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.project.discard()},
-  {title:"Close File", shortcut:"Ctrl+W", action:() => app.project.close()},
+  {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
   {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit()},
 ];
 
@@ -44,8 +43,8 @@ export const goMenu = [
   {title:"Line...", shortcut:"Ctrl+G", action:() => app.cmdBar.open(gotoCmd)},
   {title:"Prev. Marker", shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker()},
   {title:"Next Marker", shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker()},
-  {title:"Prev. File", shortcut:"Ctrl+Left", action:() => app.sidebar.prev_page()},
-  {title:"Next File", shortcut:"Ctrl+Right", action:() => app.sidebar.next_page()},
+  {title:"Prev. File", shortcut:"Ctrl+Left", action:() => app.file.prev()},
+  {title:"Next File", shortcut:"Ctrl+Right", action:() => app.file.next()},
 ];
 
 export const settingsMenu = [

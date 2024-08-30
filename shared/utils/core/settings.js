@@ -1,6 +1,7 @@
 import {get, writable} from "svelte/store";
 import {clamp} from "@leaf/shared/utils/core/utils.js";
 import {app} from "@leaf/shared/utils/core/app.js";
+import {exists} from "@tauri-apps/plugin-fs";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
@@ -10,6 +11,8 @@ export class Settings {
   wordWrap = new Setting('word-wrap', true);
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
+  recentPaths = new RecentPaths();
+  unsavedChanges = new Setting('unsaved-changes', "");
   
   focusMode = new Setting('focus-mode', false, async (val, init) => {
     if (!init) await app.setFocusMode(val);
@@ -65,4 +68,41 @@ class FontSize extends Setting {
   increase = () => this.#set(this.storeVal() + this.#increaseBy);
   decrease = () => this.#set(this.storeVal() - this.#increaseBy);
   #set = (value) => this.set(clamp(value, 12, 32));
+}
+
+class RecentPaths extends Setting {
+  constructor() {
+    super('recent-paths', []);
+  }
+  
+  maxRecentPaths = 5;
+  
+  //Add given path to the list if valid and remove oldest entry
+  add = async (path) => {
+    if (!(await this.#validatePath(path))) return;
+
+    let paths = this.storeVal();
+    if (paths.includes(path)) return;
+    
+    paths.push(path);
+    if (paths.length > this.maxRecentPaths) paths.slice(1, paths.length);
+    
+    this.set(paths);
+  }
+  
+  get = async() => await this.#validateAll();
+
+  //Check if all recent paths are actually valid file system paths
+  #validateAll = async () => {
+    let paths = this.storeVal();
+    let validPaths = [];
+    
+    for (const path of paths)
+      if (!validPaths.includes(path) && await this.#validatePath(path)) validPaths.push(path);
+
+    if (paths.length !== validPaths) this.set(validPaths);
+    return validPaths;
+  }
+  
+  #validatePath = async (path) => await exists(path);
 }

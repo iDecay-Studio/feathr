@@ -3,7 +3,8 @@ import {discardPrompt, savePrompt} from "@leaf/shared/utils/ui/prompts.js";
 import {readTextFile, stat, writeFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
-import {clamp} from "@leaf/shared/utils/core/utils.js";
+import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/utils/core/utils.js";
+import {nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/utils/editor/file-node.js";
 
 const dialogOpenFilters = [
   // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
@@ -57,8 +58,7 @@ export class File {
     let suffix = app.editor.textEdited() ? "*" : "";
     if (!this.path) return 'New Document' + suffix;
 
-    const parts = this.path.replace(/\\/g, '/').split('/');
-    return parts[parts.length - 1] + suffix;
+    return getFileNameFromPath(this.path) + suffix;
   }
 
   new = () => savePrompt(this.#new);
@@ -69,13 +69,15 @@ export class File {
 
   openWithDialog = (defPath = "") => savePrompt(() => this.#openWithDialog(defPath));
   #openWithDialog(defPath = "") {
+    if (!inApp) return nodeOpenWithDialog();
+
     openDialog({
       defaultPath: defPath,
       filters: dialogOpenFilters,
     }).then(filePath => this.#open(filePath), this.#errorOpening);
   }
   
-  open = (defPath = "") => savePrompt(() => this.#open(defPath));
+  open = (path = "") => savePrompt(() => this.#open(path));
   #open(path) {
     this.#close();
     readTextFile(path).then((text) => {
@@ -88,33 +90,33 @@ export class File {
     if (this.path !== "") await openWithDefault(this.path);
   };
   
-  save() {
-    if (this.path === "") return this.saveAs();
+  save = () => this.path === "" ? this.saveAs() : this.#save(this.path);
+  #save(path, onSuccess = null) {
+    if (!inApp) return nodeSave(path, onSuccess);
 
     return new Promise((success, failure) => {
-      writeFile(this.path, app.editor.text()).then(() => {
+      writeFile(path, app.editor.text()).then(() => {
         app.editor.startingState = app.editor.text();
         app.settings.unsavedChanges.set("");
+        onSuccess && onSuccess();
         success();
-        }, (reason) => {
-          failure();
-          this.#errorSaving(reason);
-        });
+      }, (reason) => {
+        failure();
+        this.#errorSaving(reason);
+      });
     });
   }
 
   saveAs() {
+    if (!inApp) return nodeSaveAs();
+    
     return saveDialog({
       defaultPath: this.path,
       filters: dialogSaveFilters,
-    }).then(path => {
-      writeFile(path, app.editor.text()).then(() => {
+    }).then(path => this.#save(path, () => {
         this.path = path;
-        app.editor.startingState = app.editor.text();
-        app.settings.unsavedChanges.set("");
         app.update();
-      }, this.#errorSaving);
-    }, this.#errorSaving);
+      }), this.#errorSaving);
   }
 
   discardChanges = () => discardPrompt(this.#discardChanges);

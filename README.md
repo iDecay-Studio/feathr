@@ -23,25 +23,54 @@
 
 ![Leaf Text Editor](/app-preview.webp)
 
+
 # About
 
-This project is based on other open-source editors like [Parchment](https://github.com/tywil04/parchment) and [Left](https://github.com/hundredrabbits/Left) while adding the following features:
+This project is based on other open-source editors like [Parchment](https://github.com/tywil04/parchment) and [Left](https://github.com/hundredrabbits/Left) while also adding the following features and more:
 - [x] theming - support for multiple baked-in themes;
 - [x] drag-and-drop: open files by dragging them into the app;
 - [x] menu-bar - custom menubar with common text-editor options and shortcuts;
 - [x] command-bar - improved search and replace bar and text-highlighter;
 - [x] custom caret - animated input-caret for a smooth writing experience;
-- [ ] backup text - recover current progress in case the OS/app crashed;
-- [ ] focus-mode - for distraction-free writing;
+- [X] autom. text backup - recover current progress in case the OS/app crashed;
+- [X] focus mode - for distraction-free writing;
 
-Used libraries and assets:
-- [Svelte](https://svelte.dev/) - for a very performant and lightweight javascript framework;
-- [UnoCSS](https://unocss.dev/) - to allow for simple styling of the application;
+### Used libraries and assets:
+
 - [Tauri](https://tauri.app/) - a rust wrapper that allows you to create fast and secure desktop applications using web technologies;
+- [Svelte](https://svelte.dev/) - performant and modern javascript framework for the frontend;
+- [UnoCSS](https://unocss.dev/) - to allow for simple and consistent styling of the application;
 - [Tabler Icons](https://tablericons.com/) & [Phosphor Icons](https://phosphoricons.com/) - for the few icons used within this application;
+
+
+# Project Structure
+
+## Main Folders
+
+- ```desktop``` - the root of the desktop app;
+- ```mobile``` - the root of the mobile app;
+- ```shared``` - contains the main editor logic as well as styles and components shared between the desktop and mobile app;
+- ```src-tauri``` - the source root for the tauri backend;
+
+The ```desktop```, ```mobile```, and ```shared``` folders contain the components, styles, and logic for the frontend as well as the actual editor functionality.
+
+## Main Scripts
+
+Inside ```shared\js``` lies the main script logic for the app with the following structure:
+- ```core``` - foundational scripts like the the app.js script and global settings;
+  - ```modules``` - the global app features as individual classes;
+- ```editor``` - the editor-specific scripts;
+    - ```tools``` - editor-related features;
+- ```events``` - global event-handling;
+- ```ui``` - interface-related scripts for the menus and prompts;
+
+The ```core\app.js``` script is the heart of the application and orchestrates all the modules and editor features.
+It initializes and updates the modules and serves as the main entry point for all other scripts to access any app-related functionality.
+
 
 # Usage
 Head to the [releases](https://github.com/justDeek/leaf-editor/releases) page to download pre-built executables.
+
 
 # Building
 

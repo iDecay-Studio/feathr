@@ -12,6 +12,12 @@ export const exec = (cmd, val = null, focus = true) => {
   document.execCommand(cmd, false, val);
 };
 
+export const getFileNameFromPath = (filePath) => {
+  const parts = this.path.replace(/\\/g, '/').split('/');
+  return parts[parts.length - 1];
+  //alt.: return filePath.replace(/^.*([\\/:])/, "");
+}
+
 //returns x, y coordinates for absolute positioning of a span within a given text input at a given selection point
 export const getCaretXY = (input, selectionPoint) => {
   const {offsetLeft: inputX, offsetTop: inputY} = input;

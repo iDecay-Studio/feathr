@@ -5,7 +5,7 @@
   import Menu from "./overlay/Menu.svelte";
 </script>
 
-<div class="flex flex-row items-center whitespace-nowrap mr-auto w-full">
+<div class="menubar flex flex-row items-center whitespace-nowrap mr-auto w-full">
   <div class="flex size-full px-1 select-none"
        use:clickOutside on:click_outside={() => $isMenuOpen = false}>
     <Menu title="File" items={fileMenu}/>

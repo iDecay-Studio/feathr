@@ -44,3 +44,18 @@ html, body {
   z-index: var(--layer-overlay);
   background-color: rgba(211, 211, 211, 0.75);
 }
+
+html:not(.focus-mode):not(.show-menubar) {
+  --header-height: 40px;
+}
+html.focus-mode {
+  --header-height: 0;
+  
+  &.show-menubar {
+    --header-height: 20px;
+  }
+  
+  & .header, &:not(.show-menubar) {
+    display: none;
+  }
+}

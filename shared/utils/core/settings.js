@@ -2,6 +2,7 @@ import {get, writable} from "svelte/store";
 import {clamp} from "@leaf/shared/utils/core/utils.js";
 import {app} from "@leaf/shared/utils/core/app.js";
 import {exists} from "@tauri-apps/plugin-fs";
+import {setRecentFilesMenu} from "@leaf/shared/utils/ui/menu.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
@@ -14,11 +15,15 @@ export class Settings {
   recentPaths = new RecentPaths();
   unsavedChanges = new Setting('unsaved-changes', "");
   
+  showMenubar = new Setting('show-menubar', true, val => {
+    document.documentElement.classList.toggle('show-menubar', val)
+  });
+  
   focusMode = new Setting('focus-mode', false, async (val, init) => {
     if (!init) await app.setFocusMode(val);
   });
 
-  theme = new Setting('theme', "system", (val) => {
+  theme = new Setting('theme', "system", val => {
     if (val === "system") {
       let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
       val = prefersDarkTheme ? "cappuccino" : "creamy";
@@ -72,7 +77,7 @@ class FontSize extends Setting {
 
 class RecentPaths extends Setting {
   constructor() {
-    super('recent-paths', []);
+    super('recent-paths', [], () => setRecentFilesMenu());
   }
   
   maxRecentPaths = 5;

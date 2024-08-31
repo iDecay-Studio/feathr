@@ -1,21 +1,29 @@
 import {app} from "@leaf/shared/utils/core/app.js";
-import {exec} from "@leaf/shared/utils/core/utils.js";
+import {exec, getFileNameFromPath} from "@leaf/shared/utils/core/utils.js";
 import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/utils/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
+import {tick} from "svelte";
 
 //states
 export let isMenuOpen = writable(false);
 export let openMenu = writable("");
 
-let recentFilesMenu = [
-  {title:"Test", action:() => console.log('test')},
-];
+let recentFilesMenu = writable([]);
+
+export function setRecentFilesMenu() {
+  let result = [];
+  let recentPaths = app.settings.recentPaths.get();
+  recentPaths.forEach(path => result.push({title: getFileNameFromPath(path), action: () => app.file.open(path)}));
+  
+  recentFilesMenu.set([]);
+  tick().then(() => recentFilesMenu.set(result));
+}
 
 export const fileMenu = [
   {title:"New", shortcut:"Ctrl+N", action:() => app.file.new()},
   {title:"Open...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
   {title:"Open Recent", submenu: recentFilesMenu},
-  {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.file.openInExplorer()},
+  {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.file.openInExplorer(), hideOnMobile:true},
   {divider:true},
   {title:"Save", shortcut:"Ctrl+S", action:() => app.file.save()},
   {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
@@ -41,8 +49,8 @@ export const editMenu = [
 
 export const goMenu = [
   {title:"Line...", shortcut:"Ctrl+G", action:() => app.cmdBar.open(gotoCmd)},
-  {title:"Prev. Marker", shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker()},
-  {title:"Next Marker", shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker()},
+  {title:"Prev. Marker", shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker(), hideOnMobile:true},
+  {title:"Next Marker", shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker(), hideOnMobile:true},
   {title:"Prev. File", shortcut:"Ctrl+Left", action:() => app.file.prev()},
   {title:"Next File", shortcut:"Ctrl+Right", action:() => app.file.next()},
 ];
@@ -76,8 +84,8 @@ export const settingsMenu = [
     {title:"Cappuccino", setting:app.settings.theme, compareTo:"cappuccino", closeMenu:false},
     {title:"Noir", setting:app.settings.theme, compareTo:"noir", closeMenu:false},
   ]},
-  {title:"View", wide:true, submenu: [
-    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar, hideOnMobile:true},
+  {title:"View", wide:true, hideOnMobile:true, submenu: [
+    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
   ]},
 ];

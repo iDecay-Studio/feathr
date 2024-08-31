@@ -17,8 +17,8 @@
   <div class="nav">
     <MobileNavDropdown title="File" icon="file" items={fileMenu}/>
     <MobileNavDropdown title="Edit" icon="edit-alt" items={editMenu}/>
-    <MobileNavDropdown title="Go" icon="navigation" items={goMenu}/>
+    <MobileNavDropdown title="Navigate" icon="navigation" items={goMenu}/>
     <MobileNavDropdown title="Settings" icon="cog" items={settingsMenu}/>
-<!--    <MobileNavDropdown title="About" icon="info-circle" items={aboutMenu}/>-->
+<!--    <MobileNavDropdown title="More" icon="info-circle" items={moreMenu}/>-->
   </div>
 </div>

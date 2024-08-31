@@ -1,4 +1,4 @@
-import {Editor} from "@leaf/shared/utils/core/editor.js";
+import {Editor} from "@leaf/shared/utils/editor/editor.js";
 import {Settings} from "@leaf/shared/utils/core/settings.js";
 import {Dictionary} from "@leaf/shared/utils/core/modules/dictionary.js";
 import {CmdBar} from "@leaf/shared/utils/core/modules/cmdBar.js";
@@ -59,10 +59,9 @@ class App {
     }
   };
 
-  // inFocusMode = async () => await getCurrentWindow().isFullscreen();
   setFocusMode = async (enable) => {
     if (inApp) await getCurrentWindow().setFullscreen(enable);
-    //ToDo: hide header
+    document.documentElement.classList.toggle('focus-mode', enable);
   }
 
   quit = () => inApp && discardPrompt(getCurrentWindow().close);

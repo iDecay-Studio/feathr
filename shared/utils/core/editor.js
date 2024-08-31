@@ -37,6 +37,7 @@ export class Editor {
     this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null;
     this.synonyms = app.dictionary.find_synonym(this.select.word);
     this.select.url = this.locate.active_url();
+    this.highlighter.update();
   };
   
   text = () => this.el.value;
@@ -56,9 +57,9 @@ export class Editor {
     this.set(val);
   }
 
-  onChange(e) {
+  onInput(e) {
     this.caret.update(e);
-    this.highlighter.onInput();
+    this.highlighter.update();
     if (this.textEdited()) app.settings.unsavedChanges.set(this.el.value);
   }
 
@@ -69,7 +70,7 @@ export class Editor {
 
   getMarkers = () => {
     const result = [];
-    const lines = this.text.split(EOL);
+    const lines = app.editor.text().split(EOL);
 
     const add = (id, line, symbol, type) => result.push({
       id: result.length,

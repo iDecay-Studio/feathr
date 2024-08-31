@@ -35,12 +35,12 @@ export class Go {
   // };
 
   #scroll_to = (from, to) => {
-    const textVal = app.editor.text()
-    const div = document.createElement('div')
-    div.innerHTML = textVal.slice(0, to)
-    document.body.appendChild(div)
-    this.#animateScrollTo(app.editor.el, div.offsetHeight - 60, 200)
-    div.remove()
+    const textVal = app.editor.text();
+    const div = document.createElement('div');
+    div.innerHTML = textVal.slice(0, to);
+    document.body.appendChild(div);
+    this.#animateScrollTo(app.editor.el, div.offsetHeight - 60, 200);
+    div.remove();
     
     //---alt. approach:---
     // //cache current text-area state

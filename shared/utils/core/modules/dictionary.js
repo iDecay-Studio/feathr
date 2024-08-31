@@ -2,9 +2,10 @@ import {app} from "@leaf/shared/utils/core/app.js";
 import {inApp} from "@leaf/shared/utils/core/utils.js";
 
 export class Dictionary {
+  vocabulary = [];
+  synonyms = {};
+  
   init = async () => {
-    this.vocabulary = [];
-    this.synonyms = {};
     this.#build_synonyms();
     this.update();
   }

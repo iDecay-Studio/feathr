@@ -3,8 +3,6 @@ import {app} from "@leaf/shared/utils/core/app.js";
 export class Highlighter {
   constructor() {
     this.highlights = document.getElementById('highlights');
-    this.textarea = app.editor.el;
-    
     this.searchArg = '';
     this.sensitive = false;
     this.sel = -1;
@@ -13,7 +11,7 @@ export class Highlighter {
     let ua = window.navigator.userAgent.toLowerCase();
     this.isIE = !!ua.match(/msie|trident\/7|edge/);
     
-    this.onInput();
+    this.update();
 
     //bring backdrop to front for clicking on link markers
     document.addEventListener('keydown', e => {
@@ -22,20 +20,18 @@ export class Highlighter {
     
     document.addEventListener('keyup', () => this.#setZPos());
   }
-  
-  #setZPos = (id = 1) => this.highlights.style.zIndex = id; 
 
-  onInput = () => {
+  update = () => {
     this.highlights.innerHTML = this.#markText();
     this.onScroll();
     if (this.sel > -1) this.#setSelection();
   }
 
   onScroll() {
-    this.highlights.scrollTop = this.textarea.scrollTop || 0;
-    this.highlights.scrollLeft = this.textarea.scrollLeft || 0;
+    this.highlights.scrollTop = app.editor.el.scrollTop || 0;
+    this.highlights.scrollLeft = app.editor.el.scrollLeft || 0;
 
-    // let sclLeft = this.textarea.scrollLeft;
+    // let sclLeft = app.editor.el.scrollLeft;
     // this.highlights.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
@@ -43,7 +39,7 @@ export class Highlighter {
     this.searchArg = arg;
     this.sensitive = !!sensitive;
     this.word = !!word;
-    this.onInput();
+    this.update();
     this.sel = -1;
     this.next();
   }
@@ -67,7 +63,7 @@ export class Highlighter {
   }
   
   #markText() {
-    let text = this.textarea.value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let text = app.editor.text().replace(/</g, '&lt;').replace(/>/g, '&gt;');
     text = text.replace(/\n$/g, '\n\n');
 
     if (this.searchArg) {
@@ -103,8 +99,10 @@ export class Highlighter {
     for (let i = 0; i < len; ++i) {
       if (i === this.sel) {
         nodes[i].classList.add('sel');
-        if (scroll) this.textarea.scrollTop = nodes[i].offsetTop > 10 ? nodes[i].offsetTop - 10 : nodes[i].offsetTop;
+        if (scroll) app.editor.el.scrollTop = nodes[i].offsetTop > 10 ? nodes[i].offsetTop - 10 : nodes[i].offsetTop;
       } else nodes[i].classList.remove('sel');
     }
   }
+
+  #setZPos = (id = 1) => this.highlights.style.zIndex = id;
 }

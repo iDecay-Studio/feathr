@@ -31,14 +31,13 @@ class App {
     //init modules
     await this.settings.init();
     await this.editor.init();
-    await this.file.init();
-    await this.dictionary.init();
-    await this.cmdBar.init();
-    
     if (!app.isMobile) {
       await this.sidebar.init();
       await this.stats.init();
     }
+    await this.file.init();
+    await this.dictionary.init();
+    await this.cmdBar.init();
     
     await this.update();
     initEvents();

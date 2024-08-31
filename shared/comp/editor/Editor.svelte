@@ -30,7 +30,7 @@
             style={`font-size:${$fontSize}px`}
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
             wrap={$wordWrap ? "on": "off"}
-            on:input={e => app.editor.onChange(e)}
+            on:input={e => app.editor.onInput(e)}
             on:scroll={onScroll}
             on:dragleave={onDragLeave}
             on:select={() => app.update()}

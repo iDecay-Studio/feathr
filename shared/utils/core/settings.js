@@ -21,7 +21,7 @@ export class Settings {
   theme = new Setting('theme', "system", (val) => {
     if (val === "system") {
       let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-      val = prefersDarkTheme ? "cappuccino" : "dimmed";
+      val = prefersDarkTheme ? "cappuccino" : "creamy";
     }
     
     document.documentElement.className = `theme theme-${val}`;
@@ -60,7 +60,7 @@ class FontSize extends Setting {
   constructor() {
     super('font-size', 18, (val, isInit) => {
       if (isInit) return;
-      app.editor.highlighter.onInput();
+      app.editor.highlighter.update();
     });
   }
 
@@ -85,7 +85,7 @@ class RecentPaths extends Setting {
     if (paths.includes(path)) return;
     
     paths.push(path);
-    if (paths.length > this.maxRecentPaths) paths.slice(1, paths.length);
+    if (paths.length > this.maxRecentPaths) paths = paths.slice(1, paths.length);
     
     this.set(paths);
   }

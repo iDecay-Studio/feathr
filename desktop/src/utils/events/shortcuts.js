@@ -32,9 +32,9 @@ export function initShortcuts() {
       let key = shortcut;
       if (shortcut.includes('[+]')) key = '+';
       else if (shortcut.includes('[-]')) key = '-';
-      else if (shortcut.includes('+')) key = shortcut.split('+').slice(-1);
+      else if (shortcut.includes('+')) key = shortcut.split('+').slice(-1)[0];
       
-      if (e.key === key) {
+      if (e.key.toLowerCase() === key.toLowerCase()) {
         e.preventDefault();
         if (item.action) item.action();
         if (item.setting) item.setting.toggle();

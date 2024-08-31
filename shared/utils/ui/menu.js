@@ -68,12 +68,15 @@ export const settingsMenu = [
   ]},
   {title:"Theme", submenu: [
     {title:"System", setting:app.settings.theme, compareTo:"system", closeMenu:false},
-    {title:"Light", setting:app.settings.theme, compareTo:"light", closeMenu:false},
+    {title:"Bright", setting:app.settings.theme, compareTo:"bright", closeMenu:false},
+    {title:"Creamy", setting:app.settings.theme, compareTo:"creamy", closeMenu:false},
     {title:"Dimmed", setting:app.settings.theme, compareTo:"dimmed", closeMenu:false},
+    {title:"Grizzly", setting:app.settings.theme, compareTo:"grizzly", closeMenu:false},
+    {title:"Ocean", setting:app.settings.theme, compareTo:"ocean", closeMenu:false},
     {title:"Cappuccino", setting:app.settings.theme, compareTo:"cappuccino", closeMenu:false},
-    {title:"Dark", setting:app.settings.theme, compareTo:"dark", closeMenu:false},
+    {title:"Noir", setting:app.settings.theme, compareTo:"noir", closeMenu:false},
   ]},
-  {title:"View", submenu: [
+  {title:"View", wide:true, submenu: [
     {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar, hideOnMobile:true},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
   ]},

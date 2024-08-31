@@ -1,5 +1,5 @@
-import {app} from "@leaf/shared/utils/core/app.js";
-import {inApp} from "@leaf/shared/utils/core/utils.js";
+import {app} from "@leaf/shared/js/core/app.js";
+import {inApp} from "@leaf/shared/js/core/utils.js";
 
 export class Dictionary {
   vocabulary = [];

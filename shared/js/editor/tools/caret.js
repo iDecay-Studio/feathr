@@ -1,6 +1,6 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {createMarker, getCaretXY} from "@leaf/shared/utils/core/utils.js";
-import {app} from "@leaf/shared/utils/core/app.js";
+import {createMarker, getCaretXY} from "@leaf/shared/js/core/utils.js";
+import {app} from "@leaf/shared/js/core/app.js";
 
 export class Caret {
   constructor() {

@@ -1,8 +1,8 @@
 import {get, writable} from "svelte/store";
-import {clamp} from "@leaf/shared/utils/core/utils.js";
-import {app} from "@leaf/shared/utils/core/app.js";
+import {clamp} from "@leaf/shared/js/core/utils.js";
+import {app} from "@leaf/shared/js/core/app.js";
 import {exists} from "@tauri-apps/plugin-fs";
-import {setRecentFilesMenu} from "@leaf/shared/utils/ui/menu.js";
+import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);

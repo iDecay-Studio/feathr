@@ -1,6 +1,6 @@
 <script>
-  import {exec} from "@leaf/shared/utils/core/utils.js";
-  import {app} from "@leaf/shared/utils/core/app.js";
+  import {exec} from "@leaf/shared/js/core/utils.js";
+  import {app} from "@leaf/shared/js/core/app.js";
   
   let wordWrap = app.settings.wordWrap.store; 
   let fontType = app.settings.fontType.store; 

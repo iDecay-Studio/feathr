@@ -1,10 +1,10 @@
-import {app} from "@leaf/shared/utils/core/app.js";
-import {discardPrompt, savePrompt} from "@leaf/shared/utils/ui/prompts.js";
+import {app} from "@leaf/shared/js/core/app.js";
+import {discardPrompt, savePrompt} from "@leaf/shared/js/ui/prompts.js";
 import {readTextFile, stat, writeFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
-import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/utils/core/utils.js";
-import {nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/utils/editor/file-node.js";
+import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/js/core/utils.js";
+import {nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/js/editor/file-node.js";
 
 const dialogOpenFilters = [
   // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},

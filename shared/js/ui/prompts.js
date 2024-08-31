@@ -1,5 +1,5 @@
 import {ask as askDialog} from "@tauri-apps/plugin-dialog";
-import {app} from "@leaf/shared/utils/core/app.js";
+import {app} from "@leaf/shared/js/core/app.js";
 
 export const savePrompt = (action) => {
   if (!app.editor.textEdited()) action();

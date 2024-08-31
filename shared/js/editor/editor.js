@@ -1,12 +1,12 @@
-import {app} from "@leaf/shared/utils/core/app.js";
-import {EOL} from "@leaf/shared/utils/core/utils.js";
-import {Insert} from "@leaf/shared/utils/editor/tools/insert.js";
-import {Locate} from "@leaf/shared/utils/editor/tools/locate.js";
-import {Replace} from "@leaf/shared/utils/editor/tools/replace.js";
-import {Select} from "@leaf/shared/utils/editor/tools/select.js";
-import {Caret} from "@leaf/shared/utils/editor/tools/caret.js";
-import {Highlighter} from "@leaf/shared/utils/editor/tools/highlighter.js";
-import {Suggestions} from "@leaf/shared/utils/editor/tools/suggestions.js";
+import {app} from "@leaf/shared/js/core/app.js";
+import {EOL} from "@leaf/shared/js/core/utils.js";
+import {Insert} from "@leaf/shared/js/editor/tools/insert.js";
+import {Locate} from "@leaf/shared/js/editor/tools/locate.js";
+import {Replace} from "@leaf/shared/js/editor/tools/replace.js";
+import {Select} from "@leaf/shared/js/editor/tools/select.js";
+import {Caret} from "@leaf/shared/js/editor/tools/caret.js";
+import {Highlighter} from "@leaf/shared/js/editor/tools/highlighter.js";
+import {Suggestions} from "@leaf/shared/js/editor/tools/suggestions.js";
 
 export class Editor {
   startingState = ""; //the editor content after opening the current file or app

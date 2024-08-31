@@ -1,6 +1,6 @@
 <script>
   import {isMenuOpen, openMenu} from "@leaf/shared/utils/ui/menu.js";
-  import {flyIn} from "../../../utils/ui/transitions.js";
+  import {flyIn} from "../../../js/ui/transitions.js";
   import {get} from "svelte/store";
   import MenuDiv from "./MenuDiv.svelte";
   import SubMenu from "./SubMenu.svelte";

@@ -1,5 +1,5 @@
 <script>
-  import {showDrawer} from "../../utils/stores.js";
+  import {showDrawer} from "../../js/stores.js";
 
   export let item;
 

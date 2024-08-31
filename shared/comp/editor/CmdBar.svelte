@@ -1,7 +1,7 @@
 <script>
-  import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
-  import {app} from "@leaf/shared/utils/core/app.js";
-  import {currCmd, gotoCmd, findCmd, replaceCmd} from "@leaf/shared/utils/core/modules/cmdBar.js";
+  import {clickOutside} from "@leaf/shared/js/events/clickOutside.js";
+  import {app} from "@leaf/shared/js/core/app.js";
+  import {currCmd, gotoCmd, findCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 
   let searchEl, prevEl, nextEl, clearEl, counterEl;
 

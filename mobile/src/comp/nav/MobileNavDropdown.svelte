@@ -1,6 +1,6 @@
 <script>
   import MobileNavItem from "./MobileNavItem.svelte";
-  import {activeDropdown, setActiveDropdown} from "../../utils/stores.js";
+  import {activeDropdown, setActiveDropdown} from "../../js/stores.js";
   import MobileNavDiv from "./MobileNavDiv.svelte";
 
   export let title = "";

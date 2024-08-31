@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/utils/core/app.js";
+import {app} from "@leaf/shared/js/core/app.js";
 import {eol} from "@tauri-apps/plugin-os";
 
 export const inApp = window.__TAURI__;

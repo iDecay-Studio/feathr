@@ -7,8 +7,8 @@
   import CmdBar from "@leaf/shared/comp/editor/CmdBar.svelte";
   import {app} from "@leaf/shared/utils/core/app.js";
   import {onMount} from "svelte";
-  import {initShortcuts} from "./utils/events/shortcuts.js";
-  import {initDragDrop} from "./utils/events/drag-drop.js";
+  import {initShortcuts} from "./js/events/shortcuts.js";
+  import {initDragDrop} from "./js/events/drag-drop.js";
   
   onMount(async () => {
     await app.init();

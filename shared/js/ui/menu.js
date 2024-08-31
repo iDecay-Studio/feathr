@@ -1,6 +1,6 @@
-import {app} from "@leaf/shared/utils/core/app.js";
-import {exec, getFileNameFromPath} from "@leaf/shared/utils/core/utils.js";
-import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/utils/core/modules/cmdBar.js";
+import {app} from "@leaf/shared/js/core/app.js";
+import {exec, getFileNameFromPath} from "@leaf/shared/js/core/utils.js";
+import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
 import {tick} from "svelte";
 

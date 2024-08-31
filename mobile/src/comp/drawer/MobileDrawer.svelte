@@ -1,6 +1,6 @@
 <script>
   import MobileDrawerItem from "./MobileDrawerItem.svelte";
-  import {drawerItems, showDrawer} from "../../utils/stores.js";
+  import {drawerItems, showDrawer} from "../../js/stores.js";
   import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
 </script>
 

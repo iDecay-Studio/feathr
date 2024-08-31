@@ -3,7 +3,7 @@
   import MobileDrawer from "../drawer/MobileDrawer.svelte";
   import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
   import {onMount} from "svelte";
-  import {DragMenu} from "../../utils/drag-menu.js";
+  import {DragMenu} from "../../js/drag-menu.js";
   import {editMenu, fileMenu, goMenu, isMenuOpen, settingsMenu} from "@leaf/shared/utils/ui/menu.js";
 
   let navEl;

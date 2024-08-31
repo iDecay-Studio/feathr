@@ -1,6 +1,6 @@
 <script>
   import {openMenu} from "@leaf/shared/utils/ui/menu.js";
-  import {setDrawerItems} from "../../utils/stores.js";
+  import {setDrawerItems} from "../../js/stores.js";
 
   export let item;
   let action = item.action;

@@ -1,11 +1,12 @@
 import {app} from "@leaf/shared/js/core/app.js";
 
 export class Highlighter {
-  constructor() {
-    this.highlights = document.getElementById('highlights');
-    this.searchArg = '';
-    this.sensitive = false;
-    this.sel = -1;
+  el = null;
+  searchArg = '';
+  sensitive = false;
+  sel = -1;
+  
+  init() {
     this.clear();
     
     let ua = window.navigator.userAgent.toLowerCase();
@@ -22,17 +23,17 @@ export class Highlighter {
   }
 
   update = () => {
-    this.highlights.innerHTML = this.#markText();
+    this.el.innerHTML = this.#markText();
     this.onScroll();
     if (this.sel > -1) this.#setSelection();
   }
 
   onScroll() {
-    this.highlights.scrollTop = app.editor.el.scrollTop || 0;
-    this.highlights.scrollLeft = app.editor.el.scrollLeft || 0;
+    this.el.scrollTop = app.editor.el.scrollTop || 0;
+    this.el.scrollLeft = app.editor.el.scrollLeft || 0;
 
     // let sclLeft = app.editor.el.scrollLeft;
-    // this.highlights.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
+    // this.el.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
   search(arg, sensitive, word) {
@@ -54,10 +55,10 @@ export class Highlighter {
     this.#setSelection(true);
   }
 
-  count = () => this.highlights.querySelectorAll('mark').length;
+  count = () => this.el.querySelectorAll('mark').length;
 
   clear() {
-    this.highlights.innerHTML = this.highlights.textContent;
+    this.el.innerHTML = this.el.textContent;
     this.searchArg = '';
     this.sel = -1;
   }
@@ -90,7 +91,7 @@ export class Highlighter {
   }
 
   #setSelection(scroll = false) {
-    let nodes = this.highlights.querySelectorAll('mark');
+    let nodes = this.el.querySelectorAll('mark');
     let len = nodes.length;
 
     if (this.sel >= len) this.sel = 0;
@@ -104,5 +105,5 @@ export class Highlighter {
     }
   }
 
-  #setZPos = (id = 1) => this.highlights.style.zIndex = id;
+  #setZPos = (id = 1) => this.el.style.zIndex = id;
 }

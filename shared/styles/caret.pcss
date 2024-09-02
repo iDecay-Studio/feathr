@@ -1,15 +1,12 @@
-.marker {
+.caret {
   display: block;
   font-size: 12px;
   position: absolute;
   transition: top 0.1s ease 0s, left 0.1s ease 0s, transform 80ms ease;
   white-space: nowrap;
   z-index: var(--layer-fg);
-}
-.marker--caret {
   pointer-events: none;
   border-radius: 2px;
-  position: absolute;
   will-change: transform;
   transform: translate(0%, 0%);
   animation: blink 1s infinite;

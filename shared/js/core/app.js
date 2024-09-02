@@ -14,30 +14,24 @@ import {inApp} from "@leaf/shared/js/core/utils.js";
 // import {relaunch} from "@tauri-apps/plugin-process";
 
 class App {
-  dictionary = new Dictionary();
   editor = new Editor();
-  cmdBar = new CmdBar();
   file = new File();
-  settings = new Settings();
+  dictionary = new Dictionary();
+  cmdBar = new CmdBar();
   sidebar = new Sidebar();
   stats = new Stats();
   go = new Go();
-  isMobile;
+  settings = new Settings();
   
   init = async (isMobile = false) => {
     this.isMobile = isMobile;
     this.titleRef = document.getElementById('title');
 
     //init modules
-    await this.settings.init();
-    await this.editor.init();
-    if (!app.isMobile) {
-      await this.sidebar.init();
-      await this.stats.init();
-    }
     await this.file.init();
-    await this.dictionary.init();
-    await this.cmdBar.init();
+    this.dictionary.init();
+    this.editor.init();
+    this.settings.init();
     
     await this.update();
     initEvents();
@@ -52,11 +46,8 @@ class App {
   update = async () => {
     await this.editor.update();
     await this.file.update();
-    
-    if (!app.isMobile) {
-      await this.sidebar.update();
-      await this.stats.update();
-    }
+    await this.sidebar.update();
+    await this.stats.update();
   };
 
   setFocusMode = async (enable) => {
@@ -67,4 +58,4 @@ class App {
   quit = () => inApp && discardPrompt(getCurrentWindow().close);
 }
 
-export const app = await new App();
+export const app = new App();

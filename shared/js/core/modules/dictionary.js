@@ -4,8 +4,8 @@ import {inApp} from "@leaf/shared/js/core/utils.js";
 export class Dictionary {
   vocabulary = [];
   synonyms = {};
-  
-  init = async () => {
+
+  init() {
     this.#build_synonyms();
     this.update();
   }
@@ -15,21 +15,16 @@ export class Dictionary {
     const regex = /[^a-z]/gi;
 
     if (regex.test(word) || word.length < 4) return;
-    this.vocabulary[this.vocabulary.length] = word;
+    if (!this.vocabulary.includes(word)) this.vocabulary.push(word);
   };
 
-  find_suggestion = (str) => {
-    const target = str.toLowerCase();
-
-    for (const id in this.vocabulary) {
-      if (this.vocabulary[id].substring(0, target.length) !== target) continue;
-      return this.vocabulary[id];
-    }
-    return null;
+  find_suggestions = (str) => {
+    const target = str.toLowerCase()
+    return this.#uniq(this.vocabulary.filter(item => item.substring(0, target.length) !== target));
   };
 
-  find_synonym = (str) => {
-    if (str.trim().length < 4) return;
+  find_synonyms = (str) => {
+    if (str.trim().length < 4) return [];
 
     const target = str.toLowerCase();
     if (this.synonyms[target]) return this.#uniq(this.synonyms[target]);
@@ -39,12 +34,12 @@ export class Dictionary {
       if (this.synonyms[singular]) return this.#uniq(this.synonyms[singular]);
     }
 
-    return null;
+    return [];
   };
 
   update = () => {
     const words = app.editor.text().toLowerCase().split(/[^\w-]+/);
-    for (const wordID in words) this.add_word(words[wordID]);
+    words.forEach(word => this.add_word(word));
   };
 
   #build_synonyms = () => {

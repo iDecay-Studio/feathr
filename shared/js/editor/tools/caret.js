@@ -1,15 +1,14 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {createMarker, getCaretXY} from "@leaf/shared/js/core/utils.js";
+import {getCaretXY} from "@leaf/shared/js/core/utils.js";
 import {app} from "@leaf/shared/js/core/app.js";
 
 export class Caret {
-  constructor() {
-    this.input = app.editor.el;
-    this.isActive = false;
-    this.el = null;
-    
+  isActive = false;
+  el = null;
+  
+  init() {
     this.observer = new ResizeObserver(this.update.bind(this));
-    this.observer.observe(this.input);
+    this.observer.observe(app.editor.el);
   }
 
   onScroll = e => {
@@ -29,7 +28,10 @@ export class Caret {
       this.isActive = !this.isActive;
 
       if (this.isActive && !this.el) {
-        this.el = createMarker('', 'caret');
+        this.el = document.createElement('div');
+        this.el.classList.add("caret");
+        this.el.textContent = "";
+        
         document.body.appendChild(this.el);
         this.updateSize();
         document.addEventListener('click', processClick);
@@ -54,9 +56,9 @@ export class Caret {
   }
   
   #updatePos = () => {
-    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = this.input;
-    const {lineHeight, paddingRight} = getComputedStyle(this.input);
-    const {x, y} = getCaretXY(this.input, selectionEnd);
+    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
+    const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
+    const {x, y} = getCaretXY(app.editor.el, selectionEnd);
 
     const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));

@@ -77,7 +77,9 @@ class FontSize extends Setting {
 
 class RecentPaths extends Setting {
   constructor() {
-    super('recent-paths', [], () => setRecentFilesMenu());
+    super('recent-paths', [], (val, isInit) => {
+      if (!isInit) setRecentFilesMenu();
+    });
   }
   
   maxRecentPaths = 5;

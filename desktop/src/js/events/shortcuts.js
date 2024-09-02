@@ -1,5 +1,5 @@
-import {app} from "@leaf/shared/utils/core/app.js";
-import {editMenu, fileMenu, goMenu, settingsMenu} from "@leaf/shared/utils/ui/menu.js";
+import {app} from "@leaf/shared/js/core/app.js";
+import {editMenu, fileMenu, goMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
 
 const checkKey = (e, key, exclusive = true, prevDef = true) => {
   if (exclusive && (e.ctrlKey || e.shiftKey || (e.altKey && key !== "alt"))) return false;
@@ -19,7 +19,7 @@ export function initShortcuts() {
     if (checkKey(e, "alt")) app.settings.showMenubar.toggle();
     
     const execShortcuts = (item) => {
-      if (item.submenu) {
+      if (item.submenu && item.submenu.length) {
         item.submenu.forEach(execShortcuts);
         return;
       }

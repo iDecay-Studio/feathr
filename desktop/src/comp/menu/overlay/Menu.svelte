@@ -1,5 +1,5 @@
 <script>
-  import {isMenuOpen, openMenu} from "@leaf/shared/utils/ui/menu.js";
+  import {isMenuOpen, openMenu} from "@leaf/shared/js/ui/menu.js";
   import {flyIn} from "../../../js/ui/transitions.js";
   import {get} from "svelte/store";
   import MenuDiv from "./MenuDiv.svelte";
@@ -32,9 +32,11 @@
           <MenuDiv/>
         {:else if item.submenu}
           <SubMenu title={item.title} wide={item.wide} {isSettings}>
-            {#each item.submenu as subitem}
-              <MenuItem item={subitem}/>
-            {/each}
+            {#if item.submenu.length}
+              {#each item.submenu as subitem}
+                <MenuItem item={subitem}/>
+              {/each}
+            {/if}
           </SubMenu>
         {:else}
           <MenuItem {item}/>

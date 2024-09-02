@@ -3,17 +3,17 @@
   import {app} from "@leaf/shared/js/core/app.js";
   import {currCmd, gotoCmd, findCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 
-  let searchEl, prevEl, nextEl, clearEl, counterEl;
+  let prevEl, nextEl, clearEl, counterEl;
 
   function onInput() {
-    app.editor.highlighter.search(searchEl.value, app.settings.caseSensitive.storeVal(), app.settings.matchWords.storeVal());
+    app.editor.highlighter.search(app.cmdBar.input.value, app.settings.caseSensitive.storeVal(), app.settings.matchWords.storeVal());
     updateCmdBar();
   }
 
   function clear() {
     app.editor.highlighter.clear();
-    searchEl.value = '';
-    searchEl.focus();
+    app.cmdBar.input.value = '';
+    app.cmdBar.input.focus();
     updateCmdBar();
   }
 
@@ -22,7 +22,7 @@
     
     let countVal = app.editor.highlighter.count();
     counterEl.textContent = countVal + " found";
-    let hasSearchVal = searchEl.value.length > 0;
+    let hasSearchVal = app.cmdBar.input.value.length > 0;
     
     clearEl.classList.toggle('hidden', !hasSearchVal);
     counterEl.classList.toggle('hidden', !hasSearchVal);
@@ -31,7 +31,7 @@
   }
 </script>
 
-<div id="cmdBar" class="fixed left-0 w-full flex items-center gap-1 p-1.5 truncate text-md"
+<div id="cmdBar" bind:this={app.cmdBar.el} class="fixed left-0 w-full flex items-center gap-1 p-1.5 truncate text-md"
      use:clickOutside on:click_outside={() => app.cmdBar.close()}
 >
   <p id="cmdBar-prefix">
@@ -39,7 +39,7 @@
     {#if $currCmd === findCmd}Find:{/if}
     {#if $currCmd === replaceCmd}Replace:{/if}
   </p>
-  <input id="cmdBar-search" bind:this={searchEl}
+  <input id="cmdBar-search" bind:this={app.cmdBar.input}
          on:input={() => onInput()}
          on:keydown={e => app.cmdBar.on_change(e, true)}
          on:keyup={e => app.cmdBar.on_change(e, false)}

@@ -1,36 +1,28 @@
-.marker--suggestions {
-  background-color: var(--overlay);
+#suggestions {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  position: absolute;
   border-radius: 4px;
-  box-shadow: 0 2px 5px #585858;
-  transform: translate(16px, 16px);
   padding: 4px 6px;
   width: auto;
   z-index: var(--layer-fg);
+  background-color: var(--overlay);
+  box-shadow: 0 2px 5px #585858;
   
-  &:after {
-    display: none;
-    background-color: var(--overlay);
-    content: '';
-    height: 10px;
-    position: absolute;
-    width: 15px;
-    z-index: -1;
-  }
+  /*&:after {*/
+  /*  display: none;*/
+  /*  background-color: var(--overlay);*/
+  /*  content: '';*/
+  /*  height: 10px;*/
+  /*  position: absolute;*/
+  /*  width: 15px;*/
+  /*  z-index: -1;*/
+  /*}*/
 }
 
 .suggestion-item {
-  cursor: pointer;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.suggestion-item--active {
-  background-color: var(--highlight);
-}
-.suggestion-item li {
-  text-align: left;
-  
-  &:hover {
+  &.active {
     background-color: var(--highlight);
   }
 }

@@ -50,19 +50,19 @@ export function Locate() {
     return segments.length - 1;
   };
 
-  this.active_line = () => {
-    const text = app.editor.text();
-    const lines = text.split(EOL);
-    return lines[this.active_line_id()];
-  };
+  // this.active_line = () => {
+  //   const text = app.editor.text();
+  //   const lines = text.split(EOL);
+  //   return lines[this.active_line_id()];
+  // };
 
-  this.active_url = () => {
-    const words = this.active_line().split(' ');
-    for (const id in words) {
-      if (words[id].indexOf('://') > -1 || words[id].indexOf('www.') > -1) return words[id];
-    }
-    return null;
-  };
+  // this.active_url = () => {
+  //   const words = this.active_line().split(' ');
+  //   for (const id in words) {
+  //     if (words[id].indexOf('://') > -1 || words[id].indexOf('www.') > -1) return words[id];
+  //   }
+  //   return null;
+  // };
 
   // this.prev_character = () => {
   //   const l = this.active_word_location()

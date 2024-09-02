@@ -4,7 +4,28 @@
   
   let wordWrap = app.settings.wordWrap.store; 
   let fontType = app.settings.fontType.store; 
-  let fontSize = app.settings.fontSize.store; 
+  let fontSize = app.settings.fontSize.store;
+  
+  function onInput(e) {
+    app.editor.caret.update(e);
+    app.editor.highlighter.update();
+    if (app.editor.textEdited()) app.settings.unsavedChanges.set(app.editor.text());
+  }
+  
+  const onKeyEvent = (e) => app.editor.suggestions.onKeyEvent(e);
+  
+  const onSelect = (e) => {
+    app.update();
+    // app.editor.suggestions.onSelectText(e);
+  }
+  const onSelectionChange = (e) => {
+    app.editor.caret.update(e);
+    // app.editor.suggestions.onSelectText(e);
+  }
+  
+  function onClick(e) {
+    app.editor.caret.update(e);
+  }
   
   function onScroll(e) {
     app.editor.highlighter.onScroll();
@@ -25,19 +46,22 @@
 </script>
 
 <div id="container">
-  <div id="highlights" class="font-{$fontType}" style={`font-size:${$fontSize}px`}/>
-  <textarea id="editor" class="font-{$fontType}"
-            style={`font-size:${$fontSize}px`}
+  <div id="highlights" bind:this={app.editor.highlighter.el}
+       class="font-{$fontType}" class:wrap-text={$wordWrap}
+       style="font-size: {$fontSize}px;"
+  />
+  <textarea id="editor" bind:this={app.editor.el}
+            class="font-{$fontType}" class:wrap-text={$wordWrap}
+            style="font-size: {$fontSize}px; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}"
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
-            wrap={$wordWrap ? "on": "off"}
-            on:input={e => app.editor.onInput(e)}
-            on:scroll={onScroll}
+            on:input={onInput}
+            on:keypress={onKeyEvent}
+            on:keydown={onKeyEvent}
+            on:keyup={onKeyEvent}
+            on:click={onClick}
+            on:select={onSelect}
+            on:selectionchange={onSelectionChange}
             on:dragleave={onDragLeave}
-            on:select={() => app.update()}
-            on:click={e => app.editor.caret.update(e)}
-            on:selectionchange={e => app.editor.caret.update(e)}
-            on:keypress={e => app.editor.suggestions.update(e)}
-            on:keydown={e => app.editor.suggestions.update(e)}
-            on:keyup={e => app.editor.suggestions.update(e)}
+            on:scroll={onScroll}
   />
 </div>

@@ -21,20 +21,18 @@ export function Select() {
   //   this.set(from, to)
   // }
 
-  this.autocomplete = () => {
-    if (this.word.trim() !== '' && app.editor.suggestion && app.editor.suggestion.toLowerCase() !== app.editor.locate.active_word().toLowerCase()) {
-      this.autocomplete();
-    } else {
-      app.editor.insert.text('\t');
-    }
-  };
+  // this.suggestion = () => {
+  //   if (this.word.trim() !== '' && app.editor.suggestionList && app.editor.suggestionList.toLowerCase() !== app.editor.locate.active_word().toLowerCase())
+  //     app.editor.insert.text(app.editor.suggestionList.substring(this.word.length, app.editor.suggestionList.length) + ' ')
+  //   // else app.editor.insert.text('\t');
+  // };
 
-  this.synonym = () => {
-    const syn = app.editor.synonyms;
-    if (!syn) return;
-
-    app.editor.replace.active_word(syn[this.index % syn.length]);
-    app.stats.update();
-    this.index = (this.index + 1) % syn.length;
-  };
+  // this.synonym = () => {
+  //   const syn = app.editor.synonymList;
+  //   if (!syn) return;
+  //
+  //   app.editor.replace.active_word(syn[this.index % syn.length]);
+  //   app.stats.update();
+  //   this.index = (this.index + 1) % syn.length;
+  // };
 }

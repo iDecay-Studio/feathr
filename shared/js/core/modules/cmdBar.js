@@ -9,13 +9,11 @@ export const replaceCmd = "replace";
 
 //opens a bar at the bottom for various actions like find&replace, goto line, ...
 export class CmdBar {
-  init = async () => {
-    this.el = document.getElementById('cmdBar');
-    this.input = document.getElementById('cmdBar-search');
-    this.is_active = false;
-    this.prev = []; //list of previous inputs
-    this.index = 0;
-  }
+  el = null;
+  input = null;
+  is_active = false;
+  prev = []; //list of previous inputs
+  index = 0;
 
   open = (cmd) => {
     this.is_active = true;

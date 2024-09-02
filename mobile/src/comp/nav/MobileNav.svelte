@@ -1,10 +1,10 @@
 <script>
   import MobileNavDropdown from "./MobileNavDropdown.svelte";
   import MobileDrawer from "../drawer/MobileDrawer.svelte";
-  import {clickOutside} from "@leaf/shared/utils/events/clickOutside.js";
+  import {clickOutside} from "@leaf/shared/js/events/clickOutside.js";
   import {onMount} from "svelte";
   import {DragMenu} from "../../js/drag-menu.js";
-  import {editMenu, fileMenu, goMenu, isMenuOpen, settingsMenu} from "@leaf/shared/utils/ui/menu.js";
+  import {editMenu, fileMenu, goMenu, isMenuOpen, helpMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
 
   let navEl;
   onMount(() => new DragMenu(navEl));
@@ -19,6 +19,6 @@
     <MobileNavDropdown title="Edit" icon="edit-alt" items={editMenu}/>
     <MobileNavDropdown title="Navigate" icon="navigation" items={goMenu}/>
     <MobileNavDropdown title="Settings" icon="cog" items={settingsMenu}/>
-<!--    <MobileNavDropdown title="More" icon="info-circle" items={moreMenu}/>-->
+    <MobileNavDropdown title="Help" icon="info-circle" items={helpMenu}/>
   </div>
 </div>

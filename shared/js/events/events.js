@@ -37,11 +37,6 @@ export function initEvents() {
       }
     }
 
-    if (e.key === 'Shift') {
-      app.stats.applySynonym();
-      app.update();
-      return;
-    }
     if (e.key !== 'Tab') app.update();
   };
 

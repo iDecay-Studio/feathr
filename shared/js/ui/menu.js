@@ -1,5 +1,5 @@
 import {app} from "@leaf/shared/js/core/app.js";
-import {exec, getFileNameFromPath} from "@leaf/shared/js/core/utils.js";
+import {exec, getFileNameFromPath, openLink} from "@leaf/shared/js/core/utils.js";
 import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
 import {tick} from "svelte";
@@ -8,21 +8,22 @@ import {tick} from "svelte";
 export let isMenuOpen = writable(false);
 export let openMenu = writable("");
 
-let recentFilesMenu = writable([]);
+// let recentFilesMenu = writable([]);
 
 export function setRecentFilesMenu() {
   let result = [];
   let recentPaths = app.settings.recentPaths.get();
   recentPaths.forEach(path => result.push({title: getFileNameFromPath(path), action: () => app.file.open(path)}));
   
-  recentFilesMenu.set([]);
-  tick().then(() => recentFilesMenu.set(result));
+  // recentFilesMenu.set([]);
+  // tick().then(() => recentFilesMenu.set(result));
+  fileMenu[2].submenu = result;
 }
 
 export const fileMenu = [
   {title:"New", shortcut:"Ctrl+N", action:() => app.file.new()},
   {title:"Open...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
-  {title:"Open Recent", submenu: recentFilesMenu},
+  {title:"Open Recent", submenu: []},
   {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.file.openInExplorer(), hideOnMobile:true},
   {divider:true},
   {title:"Save", shortcut:"Ctrl+S", action:() => app.file.save()},
@@ -42,9 +43,9 @@ export const editMenu = [
   {title:"Cut", shortcut:"Ctrl+X", action:() => exec("cut")},
   {title:"Copy", shortcut:"Ctrl+C", action:() => exec("copy")},
   {title:"Paste", shortcut:"Ctrl+V", action:() => exec("paste")},
-  {divider:true},
-  {title:"Autocomplete", shortcut:"Tab", action:() => app.editor.select.autocomplete()},
-  {title:"Select Synonym", shortcut:"Shift+Tab", action:() => app.editor.select.synonym()},
+  // {divider:true},
+  // {title:"Autocomplete", shortcut:"Tab", action:() => app.editor.select.autocomplete()},
+  // {title:"Select Synonym", shortcut:"Shift+Tab", action:() => app.editor.select.synonym()},
 ];
 
 export const goMenu = [
@@ -55,6 +56,11 @@ export const goMenu = [
   {title:"Next File", shortcut:"Ctrl+Right", action:() => app.file.next()},
 ];
 
+export const helpMenu = [
+  {title:"Contact", action:() => openLink("https://www.idecay.de/contact")},
+  {title:"About", action:() => openLink("https://github.com/justDeek/leaf-editor")},
+]
+
 export const settingsMenu = [
   {title:"Font Size", submenu: [
     {title:"Increase", shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
@@ -62,30 +68,30 @@ export const settingsMenu = [
     {title:"Reset", action:() => app.settings.fontSize.reset(), closeMenu:false},
   ]},
   {title:"Font Type", submenu: [
-    {title:"Sans", setting:app.settings.fontType, compareTo:"sans"},
-    {title:"Sans-Serif", setting:app.settings.fontType, compareTo:"sans-serif"},
-    {title:"Mono", setting:app.settings.fontType, compareTo:"mono"},
+    {title:"Sans", setting:() => app.settings.fontType, compareTo:"sans"},
+    {title:"Sans-Serif", setting:() => app.settings.fontType, compareTo:"sans-serif"},
+    {title:"Mono", setting:() => app.settings.fontType, compareTo:"mono"},
   ]},
   {title:"Search", submenu: [
-    {title:"Case-sensitive", setting:app.settings.caseSensitive},
-    {title:"Match Words", setting:app.settings.matchWords},
+    {title:"Case-sensitive", setting:() => app.settings.caseSensitive},
+    {title:"Match Words", setting:() => app.settings.matchWords},
   ]},
   {title:"Text", submenu: [
-    {title:"Auto-Indent", setting:app.settings.autoIndent},
-    {title:"Word-Wrap", setting:app.settings.wordWrap},
+    {title:"Auto-Indent", setting:() => app.settings.autoIndent},
+    {title:"Word-Wrap", setting:() => app.settings.wordWrap},
   ]},
   {title:"Theme", submenu: [
-    {title:"System", setting:app.settings.theme, compareTo:"system", closeMenu:false},
-    {title:"Bright", setting:app.settings.theme, compareTo:"bright", closeMenu:false},
-    {title:"Creamy", setting:app.settings.theme, compareTo:"creamy", closeMenu:false},
-    {title:"Dimmed", setting:app.settings.theme, compareTo:"dimmed", closeMenu:false},
-    {title:"Grizzly", setting:app.settings.theme, compareTo:"grizzly", closeMenu:false},
-    {title:"Ocean", setting:app.settings.theme, compareTo:"ocean", closeMenu:false},
-    {title:"Cappuccino", setting:app.settings.theme, compareTo:"cappuccino", closeMenu:false},
-    {title:"Noir", setting:app.settings.theme, compareTo:"noir", closeMenu:false},
+    {title:"System", setting:() => app.settings.theme, compareTo:"system", closeMenu:false},
+    {title:"Bright", setting:() => app.settings.theme, compareTo:"bright", closeMenu:false},
+    {title:"Creamy", setting:() => app.settings.theme, compareTo:"creamy", closeMenu:false},
+    {title:"Dimmed", setting:() => app.settings.theme, compareTo:"dimmed", closeMenu:false},
+    {title:"Grizzly", setting:() => app.settings.theme, compareTo:"grizzly", closeMenu:false},
+    {title:"Ocean", setting:() => app.settings.theme, compareTo:"ocean", closeMenu:false},
+    {title:"Cappuccino", setting:() => app.settings.theme, compareTo:"cappuccino", closeMenu:false},
+    {title:"Noir", setting:() => app.settings.theme, compareTo:"noir", closeMenu:false},
   ]},
   {title:"View", wide:true, hideOnMobile:true, submenu: [
-    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:app.settings.showSidebar},
-    {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:app.settings.focusMode},
+    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:() => app.settings.showSidebar},
+    {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
   ]},
 ];

@@ -3,12 +3,9 @@ import {clamp} from "@leaf/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
 
 export class Sidebar {
+  el = null;
   markers = writable([]);
   currMarker = writable(null);
-  
-  init = async () => {
-    this.el = document.getElementById('sidebar');
-  }
 
   update = async () => {
     this.markers.set(app.editor.getMarkers());

@@ -1,5 +1,6 @@
 import {app} from "@leaf/shared/js/core/app.js";
 import {eol} from "@tauri-apps/plugin-os";
+import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
 export const inApp = window.__TAURI__;
 export const EOL = inApp ? eol() : /\r*\n/;
@@ -12,8 +13,12 @@ export const exec = (cmd, val = null, focus = true) => {
   document.execCommand(cmd, false, val);
 };
 
+export const openLink = (link) => {
+  if (inApp) openWithDefault(link);
+}
+
 export const getFileNameFromPath = (filePath) => {
-  const parts = this.path.replace(/\\/g, '/').split('/');
+  const parts = filePath.replace(/\\/g, '/').split('/');
   return parts[parts.length - 1];
   //alt.: return filePath.replace(/^.*([\\/:])/, "");
 }
@@ -38,15 +43,6 @@ export const getCaretXY = (input, selectionPoint) => {
   document.body.removeChild(div);
 
   return {x: inputX + spanX, y: inputY + spanY};
-};
-
-const markerClass = 'marker';
-export const createMarker = (content, modifier) => {
-  const marker = document.createElement('div');
-  marker.classList.add(markerClass, `${markerClass}--${modifier}`);
-  marker.textContent = content;
-
-  return marker;
 };
 
 // #copyStyles(src, dest, copyStyles) {

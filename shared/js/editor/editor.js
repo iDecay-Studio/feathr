@@ -9,39 +9,42 @@ import {Highlighter} from "@leaf/shared/js/editor/tools/highlighter.js";
 import {Suggestions} from "@leaf/shared/js/editor/tools/suggestions.js";
 
 export class Editor {
+  el = null;
   startingState = ""; //the editor content after opening the current file or app
-  textEdited = () => this.el.value !== this.startingState;
-  
-  init = async () => {
-    this.el = document.getElementById('editor');
+  suggestionList = null; //the current auto-complete suggestion
+  synonymList = []; //list of synonyms matching the currently selected word
+
+  //editor tools
+  caret = new Caret();
+  highlighter = new Highlighter();
+  suggestions = new Suggestions();
+  insert = new Insert();
+  locate = new Locate();
+  replace = new Replace();
+  select = new Select();
+
+  init() {
     this.el.focus();
-
-    //editor tools
-    this.caret = new Caret();
-    this.highlighter = new Highlighter();
-    this.suggestions = new Suggestions();
-    this.insert = new Insert();
-    this.locate = new Locate();
-    this.replace = new Replace();
-    this.select = new Select();
     this.select.reset();
-
-    //states
-    this.suggestion = null;
-    this.synonyms = null;
+    
+    this.caret.init();
+    this.suggestions.init();
+    this.highlighter.init();
   }
 
   update = async () => {
-    this.select.word = this.locate.active_word();
-    const nextChar = this.el.value.substring(this.el.selectionEnd, 1);
-    this.suggestion = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestion(this.select.word) : null;
-    this.synonyms = app.dictionary.find_synonym(this.select.word);
-    this.select.url = this.locate.active_url();
     this.highlighter.update();
+    this.select.word = this.locate.active_word();
+    const nextChar = this.text().substring(this.el.selectionEnd, 1);
+    
+    this.suggestionList = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestions(this.select.word) : null;
+    this.synonymList = app.dictionary.find_synonyms(this.select.word);
+    
+    //update suggestion dropdown
+    if (this.select.word && this.synonymList) this.suggestions.set(this.synonymList, "synonyms");
+    if (this.suggestionList) this.suggestions.set(this.suggestionList, "suggestions");
+    else this.suggestions.set([]);
   };
-  
-  text = () => this.el.value;
-  focus = () => this.el.focus();
   
   set = (val = "") => {
     this.el.value = val;
@@ -49,7 +52,7 @@ export class Editor {
     app.update();
 
     setTimeout(() => {
-      app.editor.focus()
+      this.focus()
     }, 200);
   }
   reset(val = "") {
@@ -57,20 +60,19 @@ export class Editor {
     this.set(val);
   }
 
-  onInput(e) {
-    this.caret.update(e);
-    this.highlighter.update();
-    if (this.textEdited()) app.settings.unsavedChanges.set(this.el.value);
-  }
+  text = () => this.el.value;
+  focus = () => this.el.focus();
+
+  textEdited = () => this.text() !== this.startingState;
 
   getSelection = () => {
     const from = this.el.selectionStart;
-    return this.el.value.substring(from, this.el.selectionEnd - from);
+    return this.text().substring(from, this.el.selectionEnd - from);
   };
 
   getMarkers = () => {
     const result = [];
-    const lines = app.editor.text().split(EOL);
+    const lines = this.text().split(EOL);
 
     const add = (id, line, symbol, type) => result.push({
       id: result.length,
@@ -88,15 +90,4 @@ export class Editor {
 
     return result;
   };
-
-  // autocomplete = () => {
-  //   this.insert.text(this.suggestion.substring(this.select.word.length, this.suggestion.length) + ' ')
-  // }
-
-  // open_url = (target = this.locate.active_url()) => {
-  //   if (!target) return;
-  //
-  //   this.select.word(target)
-  //   setTimeout(() => open(target), 500)
-  // }
 }  

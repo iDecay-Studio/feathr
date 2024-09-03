@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 
 export function initEvents() {
   document.onkeydown = async function keyDown(e) {

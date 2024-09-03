@@ -1,8 +1,7 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {exec, getFileNameFromPath, openLink} from "@leaf/shared/js/core/utils.js";
 import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
-import {tick} from "svelte";
 
 //states
 export let isMenuOpen = writable(false);
@@ -58,6 +57,7 @@ export const goMenu = [
 
 export const helpMenu = [
   {title:"Contact", action:() => openLink("https://www.idecay.de/contact")},
+  {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek")},
   {title:"About", action:() => openLink("https://github.com/justDeek/leaf-editor")},
 ]
 
@@ -85,9 +85,9 @@ export const settingsMenu = [
     {title:"Bright", setting:() => app.settings.theme, compareTo:"bright", closeMenu:false},
     {title:"Creamy", setting:() => app.settings.theme, compareTo:"creamy", closeMenu:false},
     {title:"Dimmed", setting:() => app.settings.theme, compareTo:"dimmed", closeMenu:false},
-    {title:"Grizzly", setting:() => app.settings.theme, compareTo:"grizzly", closeMenu:false},
+    {title:"Mocha", setting:() => app.settings.theme, compareTo:"mocha", closeMenu:false},
     {title:"Ocean", setting:() => app.settings.theme, compareTo:"ocean", closeMenu:false},
-    {title:"Cappuccino", setting:() => app.settings.theme, compareTo:"cappuccino", closeMenu:false},
+    {title:"Dark", setting:() => app.settings.theme, compareTo:"dark", closeMenu:false},
     {title:"Noir", setting:() => app.settings.theme, compareTo:"noir", closeMenu:false},
   ]},
   {title:"View", wide:true, hideOnMobile:true, submenu: [

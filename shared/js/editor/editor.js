@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {EOL} from "@leaf/shared/js/core/utils.js";
 import {Insert} from "@leaf/shared/js/editor/tools/insert.js";
 import {Locate} from "@leaf/shared/js/editor/tools/locate.js";
@@ -11,7 +11,7 @@ import {Suggestions} from "@leaf/shared/js/editor/tools/suggestions.js";
 export class Editor {
   el = null;
   startingState = ""; //the editor content after opening the current file or app
-  suggestionList = null; //the current auto-complete suggestion
+  suggestionList = []; //the current auto-complete suggestion
   synonymList = []; //list of synonyms matching the currently selected word
 
   //editor tools
@@ -37,18 +37,18 @@ export class Editor {
     this.select.word = this.locate.active_word();
     const nextChar = this.text().substring(this.el.selectionEnd, 1);
     
-    this.suggestionList = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestions(this.select.word) : null;
+    this.suggestionList = (nextChar === '' || nextChar === ' ' || nextChar === EOL) ? app.dictionary.find_suggestions(this.select.word) : [];
     this.synonymList = app.dictionary.find_synonyms(this.select.word);
     
     //update suggestion dropdown
-    if (this.select.word && this.synonymList) this.suggestions.set(this.synonymList, "synonyms");
-    if (this.suggestionList) this.suggestions.set(this.suggestionList, "suggestions");
+    if (this.select.word && this.synonymList.length) this.suggestions.set(this.synonymList, "synonyms");
+    else if (this.suggestionList.length) this.suggestions.set(this.suggestionList, "suggestions");
     else this.suggestions.set([]);
   };
   
   set = (val = "") => {
     this.el.value = val;
-    this.el.setSelectionRange(0, 0);
+    this.select.reset();
     app.update();
 
     setTimeout(() => {

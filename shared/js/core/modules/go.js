@@ -1,9 +1,10 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {EOL} from "@leaf/shared/js/core/utils.js";
 
 export class Go {
-  to = (from, to, scroll = true) => {
+  to = (from, to, select = true, scroll = true) => {
     if (scroll) this.#scroll_to(from, to);
+    if (!select) return;
 
     if (app.editor.el.setSelectionRange) app.editor.el.setSelectionRange(from, to);
     else if (app.editor.el.createTextRange) {
@@ -17,13 +18,13 @@ export class Go {
     return from === -1 ? null : from;
   };
   
-  to_line = (id) => {
+  to_line = (id, select = true) => {
     const lineArr = app.editor.text().split(EOL, parseInt(id) + 1);
     const arrJoin = lineArr.join(EOL);
     const from = arrJoin.length - lineArr[id].length;
     const to = arrJoin.length;
-
-    this.to(from, to);
+    
+    this.to(select ? from : to, to);
   };
 
   // to_next = (str, scroll = true) => {

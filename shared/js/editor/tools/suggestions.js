@@ -1,13 +1,13 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
 import {getCaretXY} from "@leaf/shared/js/core/utils.js";
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
 
 export class Suggestions {
-  el = null;
   listStore = writable([]);
   selItemStore = writable(-1);
+  el = null;
   editStart = -1;
   mode = ""; //the type of suggestions (either 'suggestions' or 'synonyms')
   
@@ -19,9 +19,12 @@ export class Suggestions {
   set = (suggestions, mode = "") => {
     if (mode !== "") this.mode = mode;
     
+    // console.log(suggestions, mode);
     this.listStore.set([]);
-    this.selItemStore.set(-1);
-    if (!suggestions.length) return;
+    if (!suggestions.length) {
+      this.selItemStore.set(-1);
+      return;
+    }
 
     tick().then(() => {
       this.listStore.set(suggestions);
@@ -81,8 +84,8 @@ export class Suggestions {
   //   this.set(filteredSuggestions);
   // };
 
-  selectItem = (click = false) => {
-    let selID = get(this.selItemStore);
+  selectItem = (click = false, id = null) => {
+    let selID = id ?? get(this.selItemStore);
     
     if (selID >= 0) {
       let selectedText = get(this.listStore)[selID];
@@ -91,33 +94,35 @@ export class Suggestions {
       const start = app.editor.el.value.slice(0, this.editStart);
       const end = app.editor.el.value.slice(click ? selectionStart + 1 : selectionStart, app.editor.el.value.length);
       app.editor.el.value = `${start}${selectedText}${end}`;
+      app.editor.select.set(selectionStart + selectedText.length, selectionStart + selectedText.length);
     }
     
     this.close();
   };
 
   #onArrowKey = (e, next) => {
-    e.preventDefault();
-    
     let items = get(this.listStore);
     if (items.length === 0) return;
+    e.preventDefault();
     
     let selID = get(this.selItemStore);
     let lastID = items.length-1;
 
     //set selected item in list via arrow keys
-    if (selID === -1) this.selItemStore.set(next ? 0 : lastID); //none selected
-    else if (next && selID >= items.length-1) this.selItemStore.set(0); //last selected and pressing down
-    else if (!next && selID <= 0) this.selItemStore.set(items.length-1); //first selected and pressing up
-    else this.selItemStore.set(next ? selID+1 : selID-1); //select prev. or next item
+    if (selID === -1) selID = next ? 0 : lastID; //none selected
+    else if (next && selID >= items.length-1) selID = 0; //last selected and pressing down
+    else if (!next && selID <= 0) selID = items.length-1; //first selected and pressing up
+    else selID = next ? selID+1 : selID-1; //select prev. or next item
     
     //scroll to the selected item
     let currItem = this.el.children.item(selID);
     currItem.scrollIntoView({behavior: 'smooth'});
+    
+    this.selItemStore.set(selID);
   };
 
   #updatePos = () => {
-    if (!app.editor.el) return;
+    if (!this.el || !app.editor.el) return;
     const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
     const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
     const {x, y} = getCaretXY(app.editor.el, selectionEnd);

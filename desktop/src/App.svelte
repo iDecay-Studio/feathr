@@ -6,7 +6,7 @@
   import Editor from "@leaf/shared/comp/editor/Editor.svelte";
   import CmdBar from "@leaf/shared/comp/editor/CmdBar.svelte";
   import Suggestions from "@leaf/shared/comp/editor/Suggestions.svelte";
-  import {app} from "@leaf/shared/js/core/app.js";
+  import app from "@leaf/shared/js/core/app.js";
   import {onMount} from "svelte";
   import {initShortcuts} from "./js/events/shortcuts.js";
   import {initDragDrop} from "./js/events/drag-drop.js";

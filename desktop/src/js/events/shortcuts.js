@@ -1,10 +1,11 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {editMenu, fileMenu, goMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
 
 const checkKey = (e, key, exclusive = true, prevDef = true) => {
   if (exclusive && (e.ctrlKey || e.shiftKey || (e.altKey && key !== "alt"))) return false;
-  if (prevDef) e.preventDefault();
-  return e.key.toLowerCase() === key;
+  let result = e.key.toLowerCase() === key;
+  if (result && prevDef) e.preventDefault();
+  return result;
 }
 
 export function initShortcuts() {
@@ -26,8 +27,11 @@ export function initShortcuts() {
       
       let shortcut = item.shortcut;
       if (!shortcut) return;
-      if (shortcut.includes('Ctrl') && !e.ctrlKey) return;
-      if (shortcut.includes('Shift') && !e.shiftKey) return;
+      
+      let reqCtrl = shortcut.includes('Ctrl');
+      let reqShift = shortcut.includes('Shift');
+      if (reqCtrl && !e.ctrlKey || !reqCtrl && e.ctrlKey) return;
+      if (reqShift && !e.shiftKey || !reqShift && e.shiftKey) return;
 
       let key = shortcut;
       if (shortcut.includes('[+]')) key = '+';

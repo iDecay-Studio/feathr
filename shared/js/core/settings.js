@@ -1,6 +1,6 @@
 import {get, writable} from "svelte/store";
 import {clamp} from "@leaf/shared/js/core/utils.js";
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {exists} from "@tauri-apps/plugin-fs";
 import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
 
@@ -26,7 +26,7 @@ export class Settings {
   theme = new Setting('theme', "system", val => {
     if (val === "system") {
       let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-      val = prefersDarkTheme ? "cappuccino" : "creamy";
+      val = prefersDarkTheme ? "dark" : "creamy";
     }
     
     document.documentElement.className = `theme theme-${val}`;

@@ -1,5 +1,5 @@
 <script>
-  import {app} from "@leaf/shared/js/core/app.js";
+  import app from "@leaf/shared/js/core/app.js";
 
   let markers = app.sidebar.markers;
   let currMarker = app.sidebar.currMarker;
@@ -11,9 +11,9 @@
   {#each $markers as marker}
     <button class="marker {marker.type}"
             class:active={$currMarker && $currMarker.line === marker.line}
-            on:click={() => app.go.to_line(marker.line)}
+            on:click={() => app.go.to_line(marker.line, false)}
     >
-      <span>${marker.text}</span>
+      <span>{marker.text}</span>
     </button>
   {/each}
 </div>

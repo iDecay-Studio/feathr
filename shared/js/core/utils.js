@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {eol} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
@@ -6,7 +6,6 @@ export const inApp = window.__TAURI__;
 export const EOL = inApp ? eol() : /\r*\n/;
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
-// export const getFileNameFromPath = (filePath) => filePath.replace(/^.*(\\|\/|\:)/, "");
 
 export const exec = (cmd, val = null, focus = true) => {
   if (focus) app.editor.focus()
@@ -15,9 +14,12 @@ export const exec = (cmd, val = null, focus = true) => {
 
 export const openLink = (link) => {
   if (inApp) openWithDefault(link);
+  else window.open(link);
 }
 
 export const getFileNameFromPath = (filePath) => {
+  if (!filePath) return "";
+  
   const parts = filePath.replace(/\\/g, '/').split('/');
   return parts[parts.length - 1];
   //alt.: return filePath.replace(/^.*([\\/:])/, "");

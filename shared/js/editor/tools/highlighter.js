@@ -1,10 +1,13 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
+import {get} from "svelte/store";
+import {currCmd, gotoCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
 
 export class Highlighter {
   el = null;
   searchArg = '';
   sensitive = false;
-  sel = -1;
+  indexes = []; //the index of each found occurrence
+  selID = -1; //id of the currently active marker
   
   init() {
     this.clear();
@@ -25,7 +28,7 @@ export class Highlighter {
   update = () => {
     this.el.innerHTML = this.#markText();
     this.onScroll();
-    if (this.sel > -1) this.#setSelection();
+    if (this.selID > -1) this.#setSelection();
   }
 
   onScroll() {
@@ -36,22 +39,22 @@ export class Highlighter {
     // this.el.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
-  search(arg, sensitive, word) {
-    this.searchArg = arg;
-    this.sensitive = !!sensitive;
-    this.word = !!word;
+  search() {
+    this.searchArg = app.cmdBar.inputSearch.value;
+    this.sensitive = !!app.settings.caseSensitive.storeVal();
+    this.word = !!app.settings.matchWords.storeVal();
     this.update();
-    this.sel = -1;
+    this.selID = -1;
     this.next();
   }
 
   next() {
-    this.sel += 1;
+    this.selID += 1;
     this.#setSelection(true);
   }
 
   prev() {
-    this.sel -= 1;
+    this.selID -= 1;
     this.#setSelection(true);
   }
 
@@ -60,7 +63,8 @@ export class Highlighter {
   clear() {
     this.el.innerHTML = this.el.textContent;
     this.searchArg = '';
-    this.sel = -1;
+    this.selID = -1;
+    this.indexes = [];
   }
   
   #markText() {
@@ -73,6 +77,8 @@ export class Highlighter {
 
       let regExSearch = new RegExp(`${boundary}(${this.#escapeString(searchArg)})${boundary}`, `g${this.sensitive ? '' : 'i'}`);
       text = text.replace(regExSearch, '<mark>$&</mark>');
+      
+      this.indexes = [...app.editor.text().matchAll(regExSearch)].map(a => a.index);
 
       // IE wraps whitespace differently in a div vs textarea, this fixes it
       if (this.isIE) text = text.replace(/ /g, ' <wbr>');
@@ -91,19 +97,25 @@ export class Highlighter {
   }
 
   #setSelection(scroll = false) {
+    if (get(currCmd) === gotoCmd) return;
+    
     let nodes = this.el.querySelectorAll('mark');
     let len = nodes.length;
 
-    if (this.sel >= len) this.sel = 0;
-    if (this.sel < 0) this.sel = len - 1;
+    if (this.selID >= len) this.selID = 0;
+    if (this.selID < 0) this.selID = len - 1;
+    
+    let currNode = nodes[this.selID];
+    let currIndex = this.indexes[this.selID];
+    
+    if (currNode) app.go.to(currIndex, currIndex + currNode.textContent.length);
+    // if (scroll) app.editor.el.scrollTop = currNode.offsetTop > 10 ? currNode.offsetTop - 10 : currNode.offsetTop;
 
-    for (let i = 0; i < len; ++i) {
-      if (i === this.sel) {
-        nodes[i].classList.add('sel');
-        if (scroll) app.editor.el.scrollTop = nodes[i].offsetTop > 10 ? nodes[i].offsetTop - 10 : nodes[i].offsetTop;
-      } else nodes[i].classList.remove('sel');
-    }
+    for (let i = 0; i < len; i++)
+      nodes[i].classList.toggle('sel', i === this.selID);
   }
 
-  #setZPos = (id = 1) => this.el.style.zIndex = id;
+  #setZPos = (id = 1) => {
+    if (this.el) this.el.style.zIndex = id;
+  }
 }

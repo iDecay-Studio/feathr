@@ -1,43 +1,49 @@
-import {app} from "@leaf/shared/js/core/app.js";
-import {getFileNameFromPath} from "@leaf/shared/js/core/utils.js";
+//these functions serve as as a fallback to the tauri-based methods
+// to test the file-handling inside the web-version of the app.
+import app from "@leaf/shared/js/core/app.js";
 
-export const nodeOpenWithDialog = () => {
+export const nodeOpenWithDialog = (onOpenSuccess, onOpenFail) => {
   let input = document.createElement('input');
   input.type = 'file';
   input.onchange = _ => {
-    // you can use this method to get file and perform respective operations
-    let files =   Array.from(input.files);
-    console.log(files);
+    let blobURL = URL.createObjectURL(input.files[0]);
+    onOpenSuccess(blobURL);
+    app.file.path = "C:/Users/User/Desktop/" + input.files[0].name;
+    app.file.update();
+    window.URL.revokeObjectURL(blobURL);
   };
   input.click();
 }
 
-export const nodeSave = (path, onSuccess = null) => {
+export const nodeOpen = (path, onOpenSuccess, onOpenFail) => {
+  fetch(path)
+  .then((res) => res.text())
+  .then((text) => {
+    onOpenSuccess(text);
+  })
+  .catch(onOpenFail);
+}
+
+export const nodeSave = (path, onSaveSuccess, onSaveFail) => {
   import('fs/promises').then(fs => {
     return new Promise((success, failure) => {
-      fs.writeFile(path, app.editor.text()).then(() => {
-        app.editor.startingState = app.editor.text();
-        app.settings.unsavedChanges.set("");
-        onSuccess && onSuccess();
-        success();
-      }, (reason) => {
-        failure();
-        console.error(reason);
-      });
+      fs.writeFile(path, app.editor.text()).then(
+        () => onSaveSuccess(success),
+        reason => onSaveFail(reason, failure));
     });
   });
 }
 
 export const nodeSaveAs = () => {
-  const blobData = new Blob([JSON.stringify(app.editor.text())], { type: 'text/plain' });
-  const urlToBlob = window.URL.createObjectURL(blobData);
+  const blobData = new Blob([app.editor.text()], { type: 'text/plain' });
+  const blobURL = window.URL.createObjectURL(blobData);
 
   const a = document.createElement('a');
   a.style.setProperty('display', 'none');
   document.body.appendChild(a);
-  a.href = urlToBlob;
-  a.download = getFileNameFromPath(this.path);
+  a.href = blobURL;
+  a.download = app.file.getTitle(false) + ".txt";
   a.click();
-  window.URL.revokeObjectURL(urlToBlob);
+  window.URL.revokeObjectURL(blobURL);
   a.remove();
 }

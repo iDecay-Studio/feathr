@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {clamp} from "@leaf/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
 

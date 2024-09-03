@@ -1,4 +1,4 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {exec} from "@leaf/shared/js/core/utils.js";
 
 export function Replace() {

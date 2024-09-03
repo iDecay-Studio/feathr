@@ -1,6 +1,6 @@
 <script>
   import {exec} from "@leaf/shared/js/core/utils.js";
-  import {app} from "@leaf/shared/js/core/app.js";
+  import app from "@leaf/shared/js/core/app.js";
   
   let wordWrap = app.settings.wordWrap.store; 
   let fontType = app.settings.fontType.store; 
@@ -45,20 +45,20 @@
   }
 </script>
 
-<div id="container">
+<div id="container"
+     style="font-size: {$fontSize}px; line-height: {$fontSize+2}px; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}">
   <div id="highlights" bind:this={app.editor.highlighter.el}
        class="font-{$fontType}" class:wrap-text={$wordWrap}
-       style="font-size: {$fontSize}px;"
   />
   <textarea id="editor" bind:this={app.editor.el}
             class="font-{$fontType}" class:wrap-text={$wordWrap}
-            style="font-size: {$fontSize}px; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}"
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
             on:input={onInput}
             on:keypress={onKeyEvent}
             on:keydown={onKeyEvent}
             on:keyup={onKeyEvent}
             on:click={onClick}
+            on:focus={onClick}
             on:select={onSelect}
             on:selectionchange={onSelectionChange}
             on:dragleave={onDragLeave}

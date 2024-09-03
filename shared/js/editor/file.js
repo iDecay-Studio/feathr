@@ -1,10 +1,10 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {discardPrompt, savePrompt} from "@leaf/shared/js/ui/prompts.js";
 import {readTextFile, stat, writeFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/js/core/utils.js";
-import {nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/js/editor/file-node.js";
+import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/js/editor/file-node.js";
 
 const dialogOpenFilters = [
   // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
@@ -53,15 +53,15 @@ export class File {
       });
   }
   
-  updateTitle = () => app.titleRef.innerText = this.#getTitle();
-  #getTitle = () => {
-    let suffix = app.editor.textEdited() ? "*" : "";
+  updateTitle = () => app.titleRef.innerText = this.getTitle();
+  getTitle = (addSuffix = true) => {
+    let suffix = addSuffix && app.editor.textEdited() ? "*" : "";
     if (!this.path) return 'New Document' + suffix;
 
     return getFileNameFromPath(this.path) + suffix;
   }
 
-  new = () => savePrompt(this.#new);
+  new = () => savePrompt(() => this.#new());
   #new() {
     this.#close();
     app.update();
@@ -69,54 +69,67 @@ export class File {
 
   openWithDialog = (defPath = "") => savePrompt(() => this.#openWithDialog(defPath));
   #openWithDialog(defPath = "") {
-    if (!inApp) return nodeOpenWithDialog();
+    const onOpenSuccess = path => this.#open(path);
+    const onOpenFail = reason => this.#errorOpening(reason);
+    
+    if (!inApp) return nodeOpenWithDialog(onOpenSuccess, onOpenFail);
 
     openDialog({
       defaultPath: defPath,
       filters: dialogOpenFilters,
-    }).then(filePath => this.#open(filePath), this.#errorOpening);
+    }).then(onOpenSuccess, onOpenFail);
   }
   
   open = (path = "") => savePrompt(() => this.#open(path));
   #open(path) {
-    this.#close();
-    readTextFile(path).then((text) => {
-      this.path = path;
+    const onOpenSuccess = text => {
+      if (!path.startsWith('blob')) this.path = path;
       app.editor.reset(text)
-    }, this.#errorOpening);
+    }
+    const onOpenFail = reason => this.#errorOpening(reason);
+    
+    this.#close();
+    if (inApp) readTextFile(path).then(text => onOpenSuccess(text), onOpenFail);
+    else nodeOpen(path, onOpenSuccess, onOpenFail);
   }
 
   openInExplorer = async () => {
-    if (this.path !== "") await openWithDefault(this.path);
+    if (inApp && this.path !== "") await openWithDefault(this.path);
   };
   
   save = () => this.path === "" ? this.saveAs() : this.#save(this.path);
   #save(path, onSuccess = null) {
-    if (!inApp) return nodeSave(path, onSuccess);
-
-    return new Promise((success, failure) => {
-      writeFile(path, app.editor.text()).then(() => {
-        app.editor.startingState = app.editor.text();
-        app.settings.unsavedChanges.set("");
-        onSuccess && onSuccess();
-        success();
-      }, (reason) => {
-        failure();
-        this.#errorSaving(reason);
-      });
-    });
+    const onSaveSuccess = (success) => {
+      app.editor.startingState = app.editor.text();
+      app.settings.unsavedChanges.reset();
+      onSuccess && onSuccess();
+      success();
+    };
+    const onSaveFail = (reason, failure) => {
+      failure();
+      this.#errorSaving(reason);
+    };
+    
+    if (!inApp) return nodeSave(path, onSaveSuccess, onSaveFail);
+    return new Promise((success, failure) =>
+      writeFile(path, app.editor.text()).then(
+        () => onSaveSuccess(success),
+        reason => onSaveFail(reason, failure))
+    );
   }
 
   saveAs() {
-    if (!inApp) return nodeSaveAs();
+    const onSaveSuccess = path => {
+      this.path = path;
+      app.update();
+    };
+    const onSaveFail = reason => this.#errorSaving(reason);
     
+    if (!inApp) return nodeSaveAs();
     return saveDialog({
       defaultPath: this.path,
       filters: dialogSaveFilters,
-    }).then(path => this.#save(path, () => {
-        this.path = path;
-        app.update();
-      }), this.#errorSaving);
+    }).then(path => this.#save(path, () => onSaveSuccess(path)), onSaveFail);
   }
 
   discardChanges = () => discardPrompt(this.#discardChanges);
@@ -124,6 +137,8 @@ export class File {
 
   #close() {
     app.editor.reset();
+    app.settings.unsavedChanges.reset();
+
     //add this.path to recentPaths if not empty before clearing it
     if (this.path !== "") app.settings.recentPaths.add(this.path);
     this.path = "";
@@ -141,13 +156,20 @@ export class File {
     this.#open(recentPaths[recentPaths.length - id]);
   }
   
-  #errorOpening = err => message("Error while opening file: " + err);
-  #errorSaving = err => message("Error while saving file: " + err);
+  #errorOpening = err => this.#error('opening', err);
+  #errorSaving = err => this.#error('saving', err);
   
-  getStats = async () => this.path !== "" ? await stat(this.path) : null;
+  #error = (op, err) => {
+    if (inApp) message(`Error while ${op} file: ${err}`);
+    else console.log(`Error while ${op} file: ${err}`);
+  }
+  
+  getStats = async () => inApp && this.path !== "" ? await stat(this.path) : null;
 
   //read file-data at current path
   #read = async () => {
+    if (!inApp) return null;
+    
     try {
       return await readTextFile(this.path);
     } catch (err) {}

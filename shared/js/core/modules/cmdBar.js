@@ -1,140 +1,137 @@
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 import {EOL} from "@leaf/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
+import {tick} from "svelte";
 
 export const currCmd = writable("");
 export const gotoCmd = "goto";
 export const findCmd = "find";
 export const replaceCmd = "replace";
 
-//opens a bar at the bottom for various actions like find&replace, goto line, ...
+//opens a bar at the bottom for various actions like find & replace, goto line, ...
 export class CmdBar {
   el = null;
-  input = null;
+  inputSearch = null;
+  inputReplace = null;
+  prevEl = null;
+  nextEl = null;
+  clearEl = null;
+  replaceAllEl = null;
+  counterEl = null;
+  
   is_active = false;
   prev = []; //list of previous inputs
-  index = 0;
+  index = -1; //prev. input id
 
   open = (cmd) => {
-    this.is_active = true;
     app.stats.el.classList.add('hidden');
+    this.el.classList.add('active');
+    this.is_active = true;
+    this.index = -1;
     currCmd.set(cmd);
-    
-    this.input.value = "";
-    this.input.focus();
 
-    let input2 = document.getElementById('cmdBar-replace');
-    if (input2) input2.value = "";
-
-    this.update();
+    this.clear();
     app.update();
   };
 
-  update = () => {
-    this.el.classList.toggle('active', this.is_active);
-    if (!this.is_active) return;
-
-    this.runCmd(true);
-  };
+  clear() {
+    app.editor.highlighter.clear();
+    this.inputReplace.value = '';
+    this.inputSearch.value = '';
+    this.inputSearch.focus();
+    this.update();
+  }
 
   close = () => {
     if (!this.is_active) return;
     this.is_active = false;
-    app.stats.el.classList.remove('hidden');
 
+    this.el.classList.remove('active');
+    app.stats.el.classList.remove('hidden');
     app.editor.focus()
 
-    this.update();
     app.update();
     app.editor.highlighter.clear()
   };
 
-  on_change = (e, down = false) => {
+  update = () => {
+    let countVal = app.editor.highlighter.count();
+    this.counterEl.textContent = countVal + " found";
+    let hasSearchVal = app.cmdBar.inputSearch.value.length > 0;
+
+    this.clearEl.classList.toggle('hidden', !hasSearchVal);
+    this.replaceAllEl.classList.toggle('hidden', !hasSearchVal || !(get(currCmd) === replaceCmd));
+    this.counterEl.classList.toggle('hidden', !hasSearchVal);
+    this.prevEl.classList.toggle('hidden', countVal === 0);
+    this.nextEl.classList.toggle('hidden', countVal === 0);
+  };
+  
+  onSearchInput() {
+    app.editor.highlighter.search();
+    this.update();
+  }
+
+  onKeyPress = (e, down = false) => {
     if (!this.is_active) return;
 
-    if (e.key === 'ArrowUp' && down) {
-      this.index--;
-      if (this.index < 0) this.index = this.prev.length-1;
-      this.input.value = this.prev[this.index];
+    if (down && this.prev.length > 0 && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+      this.#onArrowKey(e.key === 'ArrowUp');
       e.preventDefault();
-      return;
     }
-
-    if (!down && (e.key === 'Enter' || e.code === 'Enter')) {
-      this.runCmd(false);
+    else if (!down && (e.key === 'Enter' || e.code === 'Enter')) {
+      this.runCmd(false, e.shiftKey);
       e.preventDefault();
-    } else if (!down) this.runCmd(true);
+    }
   };
-
-  runCmd = (passive) => {
-    let cmd = get(currCmd);
-    let input = this.input.value;
+  
+  #onArrowKey(arrowUp) {
+    this.index = this.index + (arrowUp ? 1 : -1);
+    if (this.index > this.prev.length-1) this.index = 0;
+    else if (this.index < 0) this.index = this.prev.length-1;
     
-    if (cmd === gotoCmd) this.goto(input, !passive);
-    else if (cmd === findCmd) this.find(input, !passive);
-    else if (cmd === replaceCmd) this.replace(input, !passive);
+    this.inputSearch.value = this.prev[this.index];
+    app.editor.highlighter.search();
+  }
+
+  runCmd = (all = false, reverse = false) => {
+    let cmd = get(currCmd);
+    let searchVal = this.inputSearch.value;
+    if (!this.prev.includes(searchVal)) this.prev.push(searchVal);
+    
+    if (cmd === gotoCmd) this.goto(searchVal);
+    else if (cmd === findCmd) this.find(reverse);
+    else if (cmd === replaceCmd) this.replace(searchVal, all);
+    
+    this.update();
   };
 
-  goto = (input, run) => {
+  goto = (input) => {
     const target = parseInt(input, 10);
     const linesCount = app.editor.text().split(EOL).length - 1;
     if (input === '' || target < 1 || target > linesCount || Number.isNaN(target)) return;
 
-    if (run) {
-      this.close();
-      app.go.to_line(target);
-    }
+    this.close();
+    app.go.to_line(target, false);
   };
 
-  find = (input, run, all = false) => {
-    // if (input.length < 3) return;
-
-    const results = app.editor.locate.find(input);
-    if (results.length < 1) return;
-
-    const from = app.editor.el.selectionStart;
-    let result = 0;
+  find = (reverse) => {
+    if (reverse) app.editor.highlighter.prev();
+    else app.editor.highlighter.next();
+  }
+  
+  replace = (input, all = false) => {
+    const replaceVal = this.inputReplace.value;
     
-    for (const id in results) {
-      result = results[id];
-      if (result > from) break;
-    }
-
-    // Found final occurrence, start from the top
-    if (result === app.editor.el.selectionStart) {
-      app.editor.el.setSelectionRange(0, 0);
-      this.find(input, true);
+    if (!all) {
+      app.editor.replace.selection(replaceVal);
       return;
     }
-
-    if (run && result) {
-      if (!this.prev.includes(input)) {
-        this.prev.push(input);
-        this.index = this.prev.length-1;
-      }
-      app.go.to(result, result + input.length);
-      app.cmdBar.close();
-    }
-  };
-
-  replace = (input, run, all = false) => {
-    const a = input;
-    const b = document.getElementById('cmdBar-replace').value;
-
-    const results = app.editor.locate.find(a);
-    if (results.length < 1) return;
-
-    const from = app.editor.el.selectionStart;
-    let result = 0;
     
-    for (const id in results) {
-      result = results[id];
-      if (result > from) break;
-    }
-
-    if (run) {
-      app.go.to(result, result + a.length);
-      app.editor.replace.selection(b);
-    }
+    const results = app.editor.locate.find(input);
+    results.forEach(async result => {
+      app.go.to(result, result + input.length);
+      await tick();
+      app.editor.replace.selection(replaceVal);
+    });
   };
 }

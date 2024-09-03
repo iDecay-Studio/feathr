@@ -55,7 +55,8 @@ class App {
     document.documentElement.classList.toggle('focus-mode', enable);
   }
 
-  quit = () => inApp && discardPrompt(getCurrentWindow().close);
+  quit = () => inApp && discardPrompt(() => getCurrentWindow().close());
 }
 
-export const app = new App();
+const app = new App();
+export default app;

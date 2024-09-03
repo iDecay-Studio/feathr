@@ -1,5 +1,5 @@
 import {exec} from "@leaf/shared/js/core/utils.js";
-import {app} from "@leaf/shared/js/core/app.js";
+import app from "@leaf/shared/js/core/app.js";
 
 export function Insert() {
   this.text = (characters = '__') => {

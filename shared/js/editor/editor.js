@@ -67,7 +67,7 @@ export class Editor {
 
   getSelection = () => {
     const from = this.el.selectionStart;
-    return this.text().substring(from, this.el.selectionEnd - from);
+    return this.text().substring(from, this.el.selectionEnd);
   };
 
   getMarkers = () => {

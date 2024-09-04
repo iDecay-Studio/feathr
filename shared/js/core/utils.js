@@ -3,7 +3,7 @@ import {eol} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
 export const inApp = window.__TAURI__;
-export const EOL = inApp ? eol() : /\r*\n/;
+export const EOL = inApp ? eol() : /\r*\n/g;
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
 

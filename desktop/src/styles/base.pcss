@@ -48,14 +48,20 @@ html, body {
 html:not(.focus-mode):not(.show-menubar) {
   --header-height: 40px;
 }
+html:not(.show-menubar) .menubar {
+  display: none !important;
+}
 html.focus-mode {
-  --header-height: 0;
+  /*needs to contain 'px' for the editor height calc. to function*/
+  --header-height: 0px !important;
   
-  &.show-menubar {
-    --header-height: 20px;
+  & .header {
+    display: none !important;
   }
   
-  & .header, &:not(.show-menubar) {
-    display: none;
+  & #highlights, & #editor {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
   }
 }

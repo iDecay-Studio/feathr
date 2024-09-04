@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {clamp} from "@leaf/shared/js/core/utils.js";
+import {clamp, inApp} from "@leaf/shared/js/core/utils.js";
 import app from "@leaf/shared/js/core/app.js";
 import {exists} from "@tauri-apps/plugin-fs";
 import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
@@ -20,7 +20,9 @@ export class Settings {
   });
   
   focusMode = new Setting('focus-mode', false, async (val, init) => {
-    if (!init) await app.setFocusMode(val);
+    if (init) return;
+    if (val) this.showMenubar.set(false);
+    await app.setFocusMode(val);
   });
 
   theme = new Setting('theme', "system", val => {
@@ -29,11 +31,21 @@ export class Settings {
       val = prefersDarkTheme ? "dark" : "creamy";
     }
     
-    document.documentElement.className = `theme theme-${val}`;
+    let themes = document.documentElement.className.match(/theme-[a-z]+/);
+    if (themes) document.documentElement.classList.remove(...themes);
+    document.documentElement.classList.add('theme', `theme-${val}`);
   });
   
   init() {
     this.focusMode.set(false);
+  }
+  
+  resetAll() {
+    let props = Object.getOwnPropertyNames(this);
+    props.forEach(prop => {
+      if (this[prop] instanceof Setting) this[prop].reset();
+      app.update();
+    });
   }
 }
 
@@ -77,8 +89,8 @@ class FontSize extends Setting {
 
 class RecentPaths extends Setting {
   constructor() {
-    super('recent-paths', [], (val, isInit) => {
-      if (!isInit) setRecentFilesMenu();
+    super('recent-paths', [], async (val, init) => {
+      if (!init) await setRecentFilesMenu()
     });
   }
   
@@ -97,19 +109,16 @@ class RecentPaths extends Setting {
     this.set(paths);
   }
   
-  get = async() => await this.#validateAll();
-
-  //Check if all recent paths are actually valid file system paths
-  #validateAll = async () => {
+  get = async () => {
     let paths = this.storeVal();
     let validPaths = [];
-    
+
+    //Check if all recent paths are actually valid file system paths
     for (const path of paths)
       if (!validPaths.includes(path) && await this.#validatePath(path)) validPaths.push(path);
 
-    if (paths.length !== validPaths) this.set(validPaths);
     return validPaths;
   }
   
-  #validatePath = async (path) => await exists(path);
+  #validatePath = async (path) => inApp ? await exists(path) : true;
 }

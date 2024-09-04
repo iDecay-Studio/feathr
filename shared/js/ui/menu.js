@@ -7,15 +7,11 @@ import {writable} from "svelte/store";
 export let isMenuOpen = writable(false);
 export let openMenu = writable("");
 
-// let recentFilesMenu = writable([]);
-
-export function setRecentFilesMenu() {
+export async function setRecentFilesMenu() {
   let result = [];
-  let recentPaths = app.settings.recentPaths.get();
+  let recentPaths = await app.settings.recentPaths.get();
   recentPaths.forEach(path => result.push({title: getFileNameFromPath(path), action: () => app.file.open(path)}));
   
-  // recentFilesMenu.set([]);
-  // tick().then(() => recentFilesMenu.set(result));
   fileMenu[2].submenu = result;
 }
 
@@ -29,7 +25,7 @@ export const fileMenu = [
   {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
   {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit()},
+  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(), color:'red'},
 ];
 
 export const editMenu = [
@@ -56,9 +52,9 @@ export const goMenu = [
 ];
 
 export const helpMenu = [
-  {title:"Contact", action:() => openLink("https://www.idecay.de/contact")},
-  {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek")},
-  {title:"About", action:() => openLink("https://github.com/justDeek/leaf-editor")},
+  {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
+  {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
+  {title:"About", action:() => openLink("https://github.com/justDeek/leaf-editor"), isLink:true},
 ]
 
 export const settingsMenu = [
@@ -94,4 +90,5 @@ export const settingsMenu = [
     {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:() => app.settings.showSidebar},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
   ]},
+  {title:"Reset All", action:() => {app.settings.resetAll()}, color:'red'},
 ];

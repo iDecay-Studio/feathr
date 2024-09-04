@@ -31,7 +31,7 @@
         {#if item.divider}
           <MenuDiv/>
         {:else if item.submenu}
-          <SubMenu title={item.title} wide={item.wide} {isSettings}>
+          <SubMenu {item} {isSettings}>
             {#if item.submenu.length}
               {#each item.submenu as subitem}
                 <MenuItem item={subitem}/>

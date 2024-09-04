@@ -24,17 +24,17 @@ export class Stats {
     return result;
   };
   
-  #parse = (text = app.editor.text()) => {
-    text = text.length > 5 ? text.trim() : app.editor.text();
+  #parse = (text) => {
+    text = text.trim();
 
     const h = {};
-    const words = text.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ')
+    const words = text.replace(EOL, ' ').split(' ');
     for (const id in words) h[words[id]] = 1;
 
     const stats = {};
     stats.l = text.split(EOL).length;
     stats.w = words.length;
-    stats.c = text.length;
+    stats.c = text.replace(EOL, "").length;
     stats.v = Object.keys(h).length;
     return stats;
   };

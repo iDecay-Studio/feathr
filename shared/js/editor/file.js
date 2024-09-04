@@ -5,6 +5,7 @@ import {ask as askDialog, message, open as openDialog, save as saveDialog} from 
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/js/core/utils.js";
 import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/js/editor/file-node.js";
+import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
 
 const dialogOpenFilters = [
   // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
@@ -22,6 +23,7 @@ export class File {
   
   init = async () => {
     this.startSize = (await this.getStats())?.size ?? 0;
+    await setRecentFilesMenu();
 
     //load any unsaved content
     let unsavedChanges = app.settings.unsavedChanges.storeVal();
@@ -161,7 +163,7 @@ export class File {
   
   #error = (op, err) => {
     if (inApp) message(`Error while ${op} file: ${err}`);
-    else console.log(`Error while ${op} file: ${err}`);
+    else console.error(`Error while ${op} file: ${err}`);
   }
   
   getStats = async () => inApp && this.path !== "" ? await stat(this.path) : null;

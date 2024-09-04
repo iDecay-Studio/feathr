@@ -42,7 +42,6 @@ export class Suggestions {
 
   close = () => {
     this.set([]);
-    app.editor.focus();
   }
   
   onScroll = () => this.#updatePos();

@@ -14,10 +14,15 @@ export function initShortcuts() {
 
     if (checkKey(e, "escape")) {
       app.settings.focusMode.set(false);
+      app.settings.showMenubar.set(true);
       app.cmdBar.close();
+      return;
     }
-
-    if (checkKey(e, "alt")) app.settings.showMenubar.toggle();
+    
+    if (checkKey(e, "alt")) {
+      if (!app.settings.focusMode.storeVal()) app.settings.showMenubar.toggle();
+      return;
+    }
     
     const execShortcuts = (item) => {
       if (item.submenu && item.submenu.length) {
@@ -41,7 +46,7 @@ export function initShortcuts() {
       if (e.key.toLowerCase() === key.toLowerCase()) {
         e.preventDefault();
         if (item.action) item.action();
-        if (item.setting) item.setting.toggle();
+        if (item.setting) item.setting().toggle();
       }
     }
 

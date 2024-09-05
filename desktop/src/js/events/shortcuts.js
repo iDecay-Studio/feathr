@@ -15,6 +15,7 @@ export function initShortcuts() {
     if (checkKey(e, "escape")) {
       app.settings.focusMode.set(false);
       app.settings.showMenubar.set(true);
+      app.editor.suggestions.close();
       app.cmdBar.close();
       return;
     }

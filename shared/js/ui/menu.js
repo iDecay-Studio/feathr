@@ -39,8 +39,8 @@ export const editMenu = [
   {title:"Copy", shortcut:"Ctrl+C", action:() => exec("copy")},
   {title:"Paste", shortcut:"Ctrl+V", action:() => exec("paste")},
   // {divider:true},
-  // {title:"Autocomplete", shortcut:"Tab", action:() => app.editor.select.autocomplete()},
-  // {title:"Select Synonym", shortcut:"Shift+Tab", action:() => app.editor.select.synonym()},
+  // {title:"Autocomplete", shortcut:"Tab", action:() => app.editor.selection.autocomplete()},
+  // {title:"Select Synonym", shortcut:"Shift+Tab", action:() => app.editor.selection.synonym()},
 ];
 
 export const goMenu = [

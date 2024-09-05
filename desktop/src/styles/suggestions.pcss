@@ -5,11 +5,19 @@
   position: absolute;
   border-radius: 10px;
   padding: 4px 3px;
+  overflow: auto;
+  max-height: 130px;
   width: auto;
   z-index: var(--layer-fg);
   background-color: var(--overlay);
   box-shadow: 0 2px 5px #0004;
   gap: 1px;
+  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#suggestions::-webkit-scrollbar {
+  display: none;
 }
 
 .suggestion-item {

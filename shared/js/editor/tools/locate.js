@@ -1,8 +1,8 @@
 import app from "@leaf/shared/js/core/app.js";
 import {EOL} from "@leaf/shared/js/core/utils.js";
 
-export function Locate() {
-  this.find = (word) => {
+export class Locate {
+  find = (word) => {
     const text = app.editor.text().toLowerCase();
     const parts = text.split(word.toLowerCase());
     const a = [];
@@ -18,12 +18,13 @@ export function Locate() {
     return a;
   };
 
-  this.active_word_location = (position = app.editor.el.selectionEnd) => {
+  active_word_location = (position = app.editor.el.selectionEnd) => {
     let from = position - 1;
+    let text = app.editor.text().toLowerCase();
 
     // Find beginning of word
     while (from > -1) {
-      const char = app.editor.text()[from];
+      const char = text[from];
       if (!char || !char.match(/[a-z]/i)) break;
       from -= 1;
     }
@@ -31,7 +32,7 @@ export function Locate() {
     // Find end of word
     let to = from + 1;
     while (to < from + 30) {
-      const char = app.editor.text()[to];
+      const char = text[to];
       if (!char || !char.match(/[a-z]/i)) break;
       to += 1;
     }
@@ -40,23 +41,23 @@ export function Locate() {
 
     return {from: from, to: to};
   };
-  this.active_word = () => {
+  active_word = () => {
     const l = this.active_word_location();
-    return app.editor.text().substring(l.from, l.to - l.from);
+    return app.editor.text().slice(l.from, l.to);
   };
 
-  this.active_line_id = () => {
+  active_line_id = () => {
     const segments = app.editor.text().substring(0, app.editor.el.selectionEnd).split(EOL);
     return segments.length - 1;
   };
 
-  // this.active_line = () => {
+  // active_line = () => {
   //   const text = app.editor.text();
   //   const lines = text.split(EOL);
   //   return lines[this.active_line_id()];
   // };
 
-  // this.active_url = () => {
+  // active_url = () => {
   //   const words = this.active_line().split(' ');
   //   for (const id in words) {
   //     if (words[id].indexOf('://') > -1 || words[id].indexOf('www.') > -1) return words[id];
@@ -64,8 +65,8 @@ export function Locate() {
   //   return null;
   // };
 
-  // this.prev_character = () => {
+  // prev_character = () => {
   //   const l = this.active_word_location()
-  //   return app.editor.text().substring(l.from - 1, 1)
+  //   return app.editor.text().substring(l.from - 1, l.from)
   // }
 }

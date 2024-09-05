@@ -33,7 +33,7 @@ class App {
     this.editor.init();
     this.settings.init();
     
-    await this.update();
+    // await this.update();
     initEvents();
 
     // const update = await check();

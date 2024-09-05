@@ -1,28 +1,27 @@
 import app from "@leaf/shared/js/core/app.js";
 import {exec} from "@leaf/shared/js/core/utils.js";
 
-export function Replace() {
-  this.active_word = (word) => {
+export class Replace {
+  active_word = (word) => {
     const l = app.editor.locate.active_word_location();
-    const w = app.editor.text().substring(l.from, l.to - l.from);
+    const w = app.editor.text().substring(l.from, l.to);
 
     // Preserve capitalization
-    if (w.substring(0, 1) === w.substring(0, 1).toUpperCase()) {
-      word = word.substring(0, 1).toUpperCase() + word.substring(1, word.length);
-    }
+    if (w.substring(0, 1) === w.substring(0, 1).toUpperCase())
+      word = word.substring(0, 1).toUpperCase() + word.substring(1);
 
-    app.editor.el.setSelectionRange(l.from, l.to);
+    app.editor.selection.set(l.from, l.to);
     exec('insertText', word);
     app.editor.focus()
   };
 
-  this.selection = (characters) => {
+  selection = (characters) => {
     exec('insertText', characters);
     app.update();
   };
 
-  // del is an optional arg for deleting the line, used in actions
-  // this.line = (id, newText, del = false) => {
+  // // del is an optional arg for deleting the line, used in actions
+  // line = (id, newText, del = false) => {
   //   const lineArr = app.editor.text().split(EOL, parseInt(id) + 1)
   //   const arrJoin = lineArr.join(EOL)
   //
@@ -46,15 +45,8 @@ export function Replace() {
   //     cursorEnd += lengthDif
   //   }
   //   // setting the cursor position
-  //   if (app.editor.el.setSelectionRange) {
-  //     app.editor.el.setSelectionRange(cursorStart, cursorEnd)
-  //   } else if (app.editor.el.createTextRange) {
-  //     const range = app.editor.el.createTextRange()
-  //     range.collapse(true)
-  //     range.moveEnd('character', cursorEnd)
-  //     range.moveStart('character', cursorStart)
-  //     range.select()
-  //   }
+  //   app.editor.selection.set(cursorStart, cursorEnd);
+  //
   //   // setting the scroll position
   //   app.editor.el.scrollTop = oldScroll
   // }

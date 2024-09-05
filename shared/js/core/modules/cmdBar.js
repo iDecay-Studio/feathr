@@ -19,19 +19,20 @@ export class CmdBar {
   replaceAllEl = null;
   counterEl = null;
   
-  is_active = false;
+  isOpen = false;
   prev = []; //list of previous inputs
   index = -1; //prev. input id
 
   open = (cmd) => {
     app.stats.el.classList.add('hidden');
     this.el.classList.add('active');
-    this.is_active = true;
+    this.isOpen = true;
     this.index = -1;
     currCmd.set(cmd);
 
     this.clear();
-    app.update();
+    // app.update();
+    app.editor.highlighter.update();
   };
 
   clear() {
@@ -43,14 +44,14 @@ export class CmdBar {
   }
 
   close = () => {
-    if (!this.is_active) return;
-    this.is_active = false;
+    if (!this.isOpen) return;
+    this.isOpen = false;
 
     this.el.classList.remove('active');
     app.stats.el.classList.remove('hidden');
     app.editor.focus()
 
-    app.update();
+    // app.update();
     app.editor.highlighter.clear()
   };
 
@@ -72,7 +73,7 @@ export class CmdBar {
   }
 
   onKeyPress = (e, down = false) => {
-    if (!this.is_active) return;
+    if (!this.isOpen) return;
 
     if (down && this.prev.length > 0 && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       this.#onArrowKey(e.key === 'ArrowUp');

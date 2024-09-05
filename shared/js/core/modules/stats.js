@@ -10,10 +10,9 @@ export class Stats {
   };
 
   #selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this.#default()}`;
-  // #suggestion = () => `<t>${app.editor.select.word}<b>${app.editor.suggestion.substring(app.editor.select.word.length, app.editor.suggestion.length)}</b></t>`;
 
   #default = () => {
-    const stats = this.#parse(app.editor.getSelection());
+    const stats = this.#parse(app.editor.selection.get());
 
     const sep = ", ";
     let result = "";

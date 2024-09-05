@@ -6,15 +6,7 @@ export class Go {
     if (scroll) this.#scroll_to(from, to);
     if (!select) return;
 
-    if (app.editor.el.setSelectionRange) app.editor.el.setSelectionRange(from, to);
-    else if (app.editor.el.createTextRange) {
-      const range = app.editor.el.createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', to);
-      range.moveStart('character', from);
-      range.select();
-    }
-
+    app.editor.selection.set(from, to);
     return from === -1 ? null : from;
   };
   
@@ -30,7 +22,7 @@ export class Go {
   // to_next = (str, scroll = true) => {
   //   const ta = app.editor.el;
   //   const text = ta.value;
-  //   const range = text.substring(ta.selectionStart, text.length - ta.selectionStart);
+  //   const range = text.substring(ta.selectionStart, text.length + ta.selectionStart);
   //   const next = ta.selectionStart + range.indexOf(EOL);
   //   this.to(next, next, scroll);
   // };

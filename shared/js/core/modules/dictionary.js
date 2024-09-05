@@ -1,5 +1,5 @@
 import app from "@leaf/shared/js/core/app.js";
-import {inApp} from "@leaf/shared/js/core/utils.js";
+import {default as allSynonyms} from "@leaf/shared/js/core/modules/synonyms.js";
 
 export class Dictionary {
   vocabulary = [];
@@ -10,23 +10,22 @@ export class Dictionary {
     this.update();
   }
 
-  add_word = (s) => {
-    const word = s.toLowerCase().trim();
-    const regex = /[^a-z]/gi;
-
-    if (regex.test(word) || word.length < 4) return;
-    if (!this.vocabulary.includes(word)) this.vocabulary.push(word);
+  update = () => {
+    this.vocabulary = [];
+    const words = app.editor.text().split(/[^\w-]+/g);
+    words.forEach(word => this.#add_word(word));
   };
 
-  find_suggestions = (str) => {
-    const target = str.toLowerCase()
-    return this.#uniq(this.vocabulary.filter(item => item.substring(0, target.length) !== target));
+  #add_word = (word) => {
+    if (word.length < 4 || this.vocabulary.includes(word) || this.vocabulary.includes(word.toLowerCase())) return;
+    this.vocabulary.push(word);
   };
 
-  find_synonyms = (str) => {
-    if (str.trim().length < 4) return [];
+  find_suggestions = (target) => this.#uniq(this.vocabulary.filter(item => item.toLowerCase().substring(0, target.length) === target.toLowerCase())).map(item => target.substring(0, 1) + item.substring(1));
 
-    const target = str.toLowerCase();
+  find_synonyms = (target) => {
+    if (target.length < 4) return [];
+
     if (this.synonyms[target]) return this.#uniq(this.synonyms[target]);
 
     if (target[target.length - 1] === 's') {
@@ -37,20 +36,10 @@ export class Dictionary {
     return [];
   };
 
-  update = () => {
-    const words = app.editor.text().toLowerCase().split(/[^\w-]+/);
-    words.forEach(word => this.add_word(word));
-  };
-
   #build_synonyms = () => {
-    //only import the synonym-db if not in a production-built web-app
-    const allSynonyms = !inApp && import.meta.env.PROD ? import("./synonyms.js").default : {};
-    if (Object.keys(allSynonyms).length === 0) return;
-    
     this.synonyms = allSynonyms;
     for (const targetWord in allSynonyms) {
       const synonyms = allSynonyms[targetWord];
-      this.add_word(targetWord);
 
       for (const wordID in synonyms) {
         const targetParent = synonyms[wordID];

@@ -2,13 +2,15 @@
   width: 100%;
   margin: 4px 0 0;
   height: calc(100vh - var(--header-height));
-  padding: 10px 12px;
+  padding: 10px calc((100vw / 4) - 40px) 10px 12px;
   position: absolute;
   z-index: 1;
   overflow: auto;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  text-wrap: nowrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  /*text-wrap: nowrap;*/
 
   outline: 0;
   caret-color: transparent;
@@ -19,8 +21,6 @@
 }
 
 #highlights {
-  white-space: pre-wrap;
-  word-wrap: break-word;
   background-color: var(--editor);
 }
 

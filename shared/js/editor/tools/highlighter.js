@@ -19,7 +19,7 @@ export class Highlighter {
 
     //bring backdrop to front for clicking on link markers
     document.addEventListener('keydown', e => {
-      if (e.ctrlKey) this.#setZPos(3);
+      if (e.ctrlKey && !e.shiftKey && !e.altKey) this.#setZPos(3);
     });
     
     document.addEventListener('keyup', () => this.#setZPos());

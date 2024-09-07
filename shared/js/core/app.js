@@ -36,6 +36,7 @@ class App {
     // await this.update();
     initEvents();
 
+    // if (this.isMobile) return;
     // const update = await check();
     // if (update?.available) {
     //   await update.downloadAndInstall();

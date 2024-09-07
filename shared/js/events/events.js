@@ -36,4 +36,8 @@ export function initEvents() {
 
     if (e.key !== 'Tab') app.update();
   });
+  
+  document.addEventListener('click', e => {
+    if (!app.cmdBar.isOpen) app.stats.update();
+  });
 }

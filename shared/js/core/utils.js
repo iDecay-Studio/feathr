@@ -6,6 +6,7 @@ export const inApp = window.__TAURI__ ?? false;
 export const EOL = inApp ? eol() : /\r*\n/g;
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
+export const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 export const exec = (cmd, val = null, focus = true) => {
   if (focus) app.editor.focus()

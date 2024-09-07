@@ -1,8 +1,11 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {getCaretXY} from "@leaf/shared/js/core/utils.js";
+import {getCaretXY, shuffle} from "@leaf/shared/js/core/utils.js";
 import app from "@leaf/shared/js/core/app.js";
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
+
+const minWordLength = 4;
+const maxSuggestions = 10;
 
 export class Suggestions {
   isOpen = writable(false);
@@ -25,24 +28,24 @@ export class Suggestions {
     
     if (this.#isAutocomplete()) {
       let currWord = app.editor.selection.word();
-      if (!currWord) return;
+      if (!currWord || currWord.length < minWordLength) return;
       
       let nextChar = app.editor.selection.nextChar();
       if (!!nextChar && nextChar !== ' ' && nextChar !== "\n" && nextChar !== "\r\n") return;
       
       let suggestionList = app.dictionary.find_suggestions(currWord);
-      if (suggestionList.length) this.set(suggestionList);
+      if (suggestionList.length) this.set(suggestionList.slice(0, maxSuggestions));
       else this.close();
     }
     else if (this.#isSynonyms()) {
-      let currWord = app.editor.selection.get().trim().toLowerCase();
-      if (!currWord) {
+      let currWord = app.editor.selection.get().trim();
+      if (!currWord || currWord.length < minWordLength) {
         this.close();
         return;
       }
       
       let synonymList = app.dictionary.find_synonyms(currWord);
-      if (synonymList.length) this.set(synonymList);
+      if (synonymList.length) this.set(shuffle(synonymList).slice(0, maxSuggestions));
       else this.close();
     }
   }

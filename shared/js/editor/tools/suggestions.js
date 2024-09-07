@@ -21,6 +21,8 @@ export class Suggestions {
   }
   
   update() {
+    if (app.cmdBar.isOpen) return;
+    
     if (this.mode === '') {
       this.set([]);
       return;

@@ -12,6 +12,7 @@ export class Caret {
   }
 
   onScroll = e => {
+    if (!this.el) return;
     //disable transitions while scrolling
     let prevTransition = this.el.style.transition;
     this.el.style.transition = "none";

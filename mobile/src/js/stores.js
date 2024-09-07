@@ -1,5 +1,6 @@
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
+import {isMenuOpen} from "@leaf/shared/js/ui/menu.js";
 
 export const activeDropdown = writable("");
 export const showDrawer = writable(false);
@@ -16,5 +17,8 @@ export const setDrawerItems = (items) => {
   
   drawerItems.set([]);
   showDrawer.set(true);
-  tick().then(() => drawerItems.set(items));
+  tick().then(() => {
+    drawerItems.set(items);
+    isMenuOpen.set(false);
+  });
 }

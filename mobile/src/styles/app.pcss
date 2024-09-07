@@ -1,12 +1,54 @@
+/*@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");*/
 @import '@unocss/reset/tailwind.css' layer(base);
-@import "base.pcss" layer(base);
-@import "@leaf/shared/styles/anim.pcss" layer(base);
-@import "@leaf/shared/styles/themes.pcss" layer(base);
-@import "@leaf/shared/styles/components.pcss" layer(components);
-@import "@leaf/shared/styles/editor.pcss";
-@import "@leaf/shared/styles/cmdBar.pcss";
-@import "@leaf/shared/styles/caret.pcss";
-@import "@leaf/shared/styles/highlight.pcss";
+@import "@leaf/shared/styles/base.pcss";
 @import "header.pcss";
 @import "drawer.pcss";
 @import "nav.pcss";
+
+:root {
+  /*general*/
+  --header-height: 3rem;
+  --nav-width: 219px;
+
+  /*typography*/
+  /*--body-font: 'Poppins', sans-serif;*/
+  --normal-font-size: .938rem;
+  --small-font-size: .8rem;
+  --smaller-font-size: .7rem;
+  --font-medium: 500;
+}
+
+@media screen and (min-width: 1024px) {
+  :root {
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
+  }
+}
+
+/*body {*/
+/*  font-family: var(--body-font);*/
+/*}*/
+
+#container {
+  margin: var(--header-height) 0 0 0;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  user-select: none;
+}
+
+h3 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

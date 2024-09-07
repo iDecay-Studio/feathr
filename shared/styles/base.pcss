@@ -1,0 +1,46 @@
+@import "@leaf/shared/styles/anim.pcss" layer(base);
+@import "@leaf/shared/styles/themes.pcss" layer(base);
+@import "@leaf/shared/styles/components.pcss" layer(components);
+@import "@leaf/shared/styles/editor.pcss";
+@import "@leaf/shared/styles/cmdbar.pcss";
+@import "@leaf/shared/styles/caret.pcss";
+@import "@leaf/shared/styles/highlight.pcss";
+@import "@leaf/shared/styles/stats.pcss";
+@import "@leaf/shared/styles/suggestions.pcss";
+
+:root {
+  /*color-scheme: light dark;*/
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /*layers*/
+  --layer-bg: 0;
+  --layer-editor: 2;
+  --layer-fg: 5;
+  --layer-overlay: 100;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  border-style: none;
+  scrollbar-color: var(--scrollbar);
+}
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  overflow: hidden;
+  tab-size: 2;
+
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s;
+}

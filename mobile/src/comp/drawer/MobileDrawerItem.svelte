@@ -3,7 +3,7 @@
 
   export let item;
 
-  let setting = item.setting;
+  let setting = item.setting ? item.setting() : null;
   let store = setting ? setting.store : null;
   let compareTo = item.compareTo ?? true;
 

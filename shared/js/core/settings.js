@@ -2,12 +2,14 @@ import {get, writable} from "svelte/store";
 import {clamp, inApp} from "@leaf/shared/js/core/utils.js";
 import app from "@leaf/shared/js/core/app.js";
 import {exists} from "@tauri-apps/plugin-fs";
-import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
+import {setRecentFilesMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
   matchWords = new Setting('match-words', false);
-  showSidebar = new Setting('show-sidebar', true);
+  showSidebar = new Setting('show-sidebar', true, val => {
+    document.documentElement.classList.toggle('show-sidebar', val)
+  });
   autoIndent = new Setting('auto-indent', true);
   wordWrap = new Setting('word-wrap', true);
   fontType = new Setting('font-type', 'sans');
@@ -25,7 +27,13 @@ export class Settings {
     await app.setFocusMode(val);
   });
 
-  theme = new Setting('theme', "system", val => {
+  theme = new Setting('theme', "system", (val, init) => {
+    if (!init) {
+      //make sure the retrieved theme from localStorage actually exists (in case it got renamed or removed) and revert to 'system' if not
+      let allThemes = settingsMenu.filter(item => item.title === "Theme")[0].submenu.map(subitem => subitem.title.toLowerCase());
+      if (!allThemes.includes(val)) val = "system";
+    }
+    
     if (val === "system") {
       let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
       val = prefersDarkTheme ? "dark" : "creamy";
@@ -38,6 +46,7 @@ export class Settings {
   
   init() {
     this.focusMode.set(false);
+    if (!app.isMobile) this.showSidebar.set(false);
   }
   
   resetAll() {

@@ -24,7 +24,7 @@ export class CmdBar {
   index = -1; //prev. input id
 
   open = (cmd) => {
-    app.stats.el.classList.add('hidden');
+    app.stats.el?.classList.add('hidden');
     this.el.classList.add('active');
     this.isOpen = true;
     this.index = -1;
@@ -48,7 +48,7 @@ export class CmdBar {
     this.isOpen = false;
 
     this.el.classList.remove('active');
-    app.stats.el.classList.remove('hidden');
+    app.stats.el?.classList.remove('hidden');
     app.editor.focus()
 
     // app.update();
@@ -68,7 +68,7 @@ export class CmdBar {
   };
   
   onSearchInput() {
-    app.editor.highlighter.search();
+    app.editor.highlighter.search(this.inputSearch.value);
     this.update();
   }
 
@@ -91,7 +91,7 @@ export class CmdBar {
     else if (this.index < 0) this.index = this.prev.length-1;
     
     this.inputSearch.value = this.prev[this.index];
-    app.editor.highlighter.search();
+    app.editor.highlighter.search(this.inputSearch.value);
   }
 
   runCmd = (all = false, reverse = false) => {

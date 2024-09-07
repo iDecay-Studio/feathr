@@ -5,6 +5,8 @@ export class Stats {
   el = null;
 
   update = async () => {
+    if (!this.el) return;
+    
     let hasSelection = app.editor.el.selectionStart !== app.editor.el.selectionEnd;
     this.el.innerHTML = hasSelection ? this.#selection() : "";
   };

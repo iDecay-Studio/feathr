@@ -1,12 +1,41 @@
 @import '@unocss/reset/tailwind.css' layer(base);
-@import "base.pcss" layer(base);
-@import "@leaf/shared/styles/anim.pcss" layer(base);
-@import "@leaf/shared/styles/themes.pcss" layer(base);
-@import "@leaf/shared/styles/components.pcss" layer(components);
-@import "@leaf/shared/styles/editor.pcss";
-@import "@leaf/shared/styles/cmdbar.pcss";
-@import "@leaf/shared/styles/caret.pcss";
-@import "@leaf/shared/styles/highlight.pcss";
+@import "@leaf/shared/styles/base.pcss";
 @import "sidebar.pcss";
-@import "stats.pcss";
-@import "suggestions.pcss";
+
+:root {
+  --header-height: 60px;
+}
+
+#app {
+  overflow: hidden;
+}
+
+.dragover::after {
+  z-index: var(--layer-overlay);
+  background-color: rgba(211, 211, 211, 0.75);
+}
+
+html:not(.focus-mode):not(.show-menubar) {
+  --header-height: 40px;
+}
+html:not(.show-menubar) .menubar {
+  display: none !important;
+}
+html.focus-mode {
+  /*needs to contain 'px' for the editor height calc. to function*/
+  --header-height: 0px !important;
+
+  & .header {
+    display: none !important;
+  }
+
+  & #highlights, & #editor {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
+  }
+}
+
+html.show-sidebar #highlights, html.show-sidebar #editor {
+  padding-right: calc((100vw / 4) - 40px) !important;
+}

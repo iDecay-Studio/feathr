@@ -39,8 +39,8 @@ export class Highlighter {
     // this.el.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
-  search() {
-    this.searchArg = app.cmdBar.inputSearch.value;
+  search(val) {
+    this.searchArg = val;
     this.sensitive = !!app.settings.caseSensitive.storeVal();
     this.word = !!app.settings.matchWords.storeVal();
     this.update();
@@ -86,7 +86,7 @@ export class Highlighter {
 
     text = text.replace(/(https:|http:|ftp:|www\.)\S*/gm, '<a href="$&" class="link">$&</a>')
     text = text.replace(/[^\s@]+@[^\s@]+\.[^\s@]+/gm, '<a href="mailto:$&" class="email">$&</a>');
-    text = text.replace(/(\/\/[^\n\r]*)/gm, '<p class="comment">$&</p>');
+    text = text.replace(/ (\/\/[^\r*\n]*)/gm, '<p class="comment">$&</p>');
 
     return text;
   }

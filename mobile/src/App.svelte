@@ -2,6 +2,7 @@
   import MobileHeader from "./comp/header/MobileHeader.svelte";
   import MobileNav from "./comp/nav/MobileNav.svelte";
   import Editor from "@leaf/shared/comp/editor/Editor.svelte";
+  import Stats from "@leaf/shared/comp/editor/Stats.svelte";
   import CmdBar from "@leaf/shared/comp/editor/CmdBar.svelte";
   import Suggestions from "@leaf/shared/comp/editor/Suggestions.svelte";
   import app from "@leaf/shared/js/core/app.js";
@@ -15,6 +16,7 @@
 <MobileHeader/>
 <MobileNav/>
 <Editor/>
+<Stats/>
 <CmdBar/>
 <Suggestions/>
 

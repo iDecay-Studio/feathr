@@ -8,7 +8,7 @@ export class Stats {
     if (!this.el) return;
     
     let hasSelection = app.editor.el.selectionStart !== app.editor.el.selectionEnd;
-    this.el.innerHTML = hasSelection ? this.#selection() : "";
+    this.el.innerHTML = !app.isMobile && hasSelection ? this.#selection() : "";
   };
 
   #selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this.#default()}`;

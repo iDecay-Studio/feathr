@@ -56,18 +56,22 @@ export class CmdBar {
   };
 
   update = () => {
+    let goto = get(currCmd) === gotoCmd;
+
     let countVal = app.editor.highlighter.count();
     this.counterEl.textContent = countVal + " found";
     let hasSearchVal = app.cmdBar.inputSearch.value.length > 0;
 
-    this.clearEl.classList.toggle('hidden', !hasSearchVal);
-    this.replaceAllEl.classList.toggle('hidden', !hasSearchVal || !(get(currCmd) === replaceCmd));
-    this.counterEl.classList.toggle('hidden', !hasSearchVal);
-    this.prevEl.classList.toggle('hidden', countVal === 0);
-    this.nextEl.classList.toggle('hidden', countVal === 0);
+    this.clearEl.classList.toggle('hidden', goto || !hasSearchVal);
+    this.replaceAllEl.classList.toggle('hidden', goto || !hasSearchVal || !(get(currCmd) === replaceCmd));
+    this.counterEl.classList.toggle('hidden', goto || !hasSearchVal);
+    this.prevEl.classList.toggle('hidden', goto || countVal === 0);
+    this.nextEl.classList.toggle('hidden', goto || countVal === 0);
   };
   
   onSearchInput() {
+    if (get(currCmd) === gotoCmd) return;
+
     app.editor.highlighter.search(this.inputSearch.value);
     this.update();
   }
@@ -86,6 +90,8 @@ export class CmdBar {
   };
   
   #onArrowKey(arrowUp) {
+    if (get(currCmd) === gotoCmd) return;
+    
     this.index = this.index + (arrowUp ? 1 : -1);
     if (this.index > this.prev.length-1) this.index = 0;
     else if (this.index < 0) this.index = this.prev.length-1;
@@ -107,9 +113,10 @@ export class CmdBar {
   };
 
   goto = (input) => {
-    const target = parseInt(input, 10);
+    const target = parseInt(input, 10)-1;
     const linesCount = app.editor.text().split(EOL).length - 1;
-    if (input === '' || target < 1 || target > linesCount || Number.isNaN(target)) return;
+    
+    if (input === '' || input < 1 || target > linesCount || Number.isNaN(target)) return;
 
     this.close();
     app.go.to_line(target, false);

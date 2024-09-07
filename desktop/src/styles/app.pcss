@@ -10,9 +10,23 @@
   overflow: hidden;
 }
 
-.dragover::after {
+html::after {
   z-index: var(--layer-overlay);
-  background-color: rgba(211, 211, 211, 0.75);
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(211, 211, 211, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease;
+}
+html.dragover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 html:not(.focus-mode):not(.show-menubar) {

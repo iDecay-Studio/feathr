@@ -9,6 +9,8 @@ export class Highlighter {
   indexes = []; //the index of each found occurrence
   selID = -1; //id of the currently active marker
   
+  get = () => this.el ?? (this.el = document.getElementById('highlights'));
+  
   init() {
     this.clear();
     
@@ -26,17 +28,17 @@ export class Highlighter {
   }
 
   update = () => {
-    this.el.innerHTML = this.#markText();
+    this.get().innerHTML = this.#markText();
     this.onScroll();
     if (this.selID > -1) this.#setSelection();
   }
 
   onScroll() {
-    this.el.scrollTop = app.editor.el.scrollTop || 0;
-    this.el.scrollLeft = app.editor.el.scrollLeft || 0;
+    this.get().scrollTop = app.editor.get().scrollTop || 0;
+    this.get().scrollLeft = app.editor.get().scrollLeft || 0;
 
-    // let sclLeft = app.editor.el.scrollLeft;
-    // this.el.style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
+    // let sclLeft = app.editor.get().scrollLeft;
+    // this.get().style.transform = (sclLeft > 0) ? `translateX(${-sclLeft}px)` : '';
   }
 
   search(val) {
@@ -61,7 +63,7 @@ export class Highlighter {
   count = () => this.el.querySelectorAll('mark').length;
 
   clear() {
-    this.el.innerHTML = this.el.textContent;
+    this.get().innerHTML = this.get().textContent;
     this.searchArg = '';
     this.selID = -1;
     this.indexes = [];
@@ -99,7 +101,7 @@ export class Highlighter {
   #setSelection(scroll = false) {
     if (get(currCmd) === gotoCmd) return;
     
-    let nodes = this.el.querySelectorAll('mark');
+    let nodes = this.get().querySelectorAll('mark');
     let len = nodes.length;
 
     if (this.selID >= len) this.selID = 0;
@@ -109,13 +111,13 @@ export class Highlighter {
     let currIndex = this.indexes[this.selID];
     
     if (currNode) app.go.to(currIndex, currIndex + currNode.textContent.length);
-    // if (scroll) app.editor.el.scrollTop = currNode.offsetTop > 10 ? currNode.offsetTop - 10 : currNode.offsetTop;
+    // if (scroll) app.editor.get().scrollTop = currNode.offsetTop > 10 ? currNode.offsetTop - 10 : currNode.offsetTop;
 
     for (let i = 0; i < len; i++)
       nodes[i].classList.toggle('sel', i === this.selID);
   }
 
   #setZPos = (id = 1) => {
-    if (this.el) this.el.style.zIndex = id;
+    if (this.get()) this.el.style.zIndex = id;
   }
 }

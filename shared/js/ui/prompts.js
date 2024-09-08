@@ -2,30 +2,32 @@ import {ask as askDialog} from "@tauri-apps/plugin-dialog";
 import app from "@leaf/shared/js/core/app.js";
 import {inApp} from "@leaf/shared/js/core/utils.js";
 
+const saveMsg = "Would you like to save your changes?";
 export const savePrompt = (action) => {
   if (!app.editor.textEdited()) action();
   else {
     if (inApp) {
-      askDialog("Would you like to save your changes?").then(confirmed => {
+      askDialog(saveMsg).then(confirmed => {
         if (confirmed) app.file.save().then(action);
         else action();
       });
     }
     else {
-      if (confirm("Would you like to save your changes?")) app.file.save().then(action);
+      if (confirm(saveMsg)) app.file.save().then(action);
       else action();
     }
   }
 };
 
+const discardMsg = "Are you sure you want to discard your changes?";
 export const discardPrompt = (action) => {
   if (!app.editor.textEdited()) action();
   else {
     if (inApp) {
-      askDialog("Are you sure you want to discard changes?").then(confirmed => {
+      askDialog(discardMsg).then(confirmed => {
         if (confirmed) action();
       });
     }
-    else if (confirm("Are you sure you want to discard changes?")) action();
+    else if (confirm(discardMsg)) action();
   }
 };

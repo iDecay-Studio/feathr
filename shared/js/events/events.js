@@ -8,10 +8,11 @@ export function initEvents() {
     // }
 
     // Slower Refresh
-    if (e.key === 'Enter') setTimeout(() => {
-      app.dictionary.update();
-      app.update();
-    }, 16);
+    if (e.key === 'Enter' || e.key === 'Space')
+      setTimeout(() => {
+        app.dictionary.update();
+        app.update();
+      }, 16);
   });
 
   document.addEventListener('keyup', e => {

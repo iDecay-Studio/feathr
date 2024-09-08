@@ -7,6 +7,9 @@ export default defineConfig({
     svelte(),
     unocss(),
   ],
+  server: {
+    port: 3000,
+  },
   build: {
     target: 'esnext',
     polyfillDynamicImport: false,

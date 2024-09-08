@@ -22,7 +22,7 @@ export class Editor {
   replace = new Replace();
 
   init() {
-    this.el.focus();
+    this.focus();
     this.selection.reset();
     
     this.caret.init();
@@ -33,9 +33,10 @@ export class Editor {
   update = async () => {
     this.highlighter.update();
   };
-  
+
+  get = () => this.el ?? (this.el = document.getElementById('editor'));
   set = (val = "") => {
-    this.el.value = val;
+    this.get().value = val;
     this.selection.clamp();
     app.update();
 
@@ -48,10 +49,10 @@ export class Editor {
     this.set(val);
   }
 
-  text = () => this.el.value;
-  focus = () => this.el.focus();
+  text = () => this.get().value;
+  focus = () => this.get().focus();
 
-  textEdited = () => this.text() !== this.startingState;
+  textEdited = () => this.text().trim() !== this.startingState.trim();
 
   getMarkers = () => {
     const result = [];

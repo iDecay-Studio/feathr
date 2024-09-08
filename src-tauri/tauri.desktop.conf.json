@@ -1,11 +1,7 @@
 {
-  "productName": "Leaf Editor",
-  "version": "1.0.0",
-  "identifier": "com.justDeek.LeafEditor",
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeDevCommand": "pnpm run web-dev",
-    "beforeBuildCommand": "pnpm run web-build",
+    "beforeDevCommand": "bun run web-dev",
+    "beforeBuildCommand": "bun run web-build",
     "frontendDist": "../desktop/dist",
     "devUrl": "http://localhost:3000"
   },
@@ -59,15 +55,18 @@
     "windows": [
       {
         "fullscreen": false,
-        "width": 640,
-        "height": 560,
-        "resizable": true,
-        "title": "Leaf Editor",
         "decorations": false,
-        "transparent": true
+        "width": 640,
+        "height": 560
       }
     ],
     "security": {
+      "assetProtocol": {
+        "enable": true,
+        "scope": {
+          "allow": ["**"]
+        }
+      },
       "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost"
     },
     "macOSPrivateApi": true

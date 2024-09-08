@@ -107,7 +107,7 @@ class RecentPaths extends Setting {
   
   //Add given path to the list if valid and remove oldest entry
   add = async (path) => {
-    if (!(await this.#validatePath(path))) return;
+    // if (!(await this.#validatePath(path))) return;
 
     let paths = this.storeVal();
     if (paths.includes(path)) return;
@@ -124,10 +124,10 @@ class RecentPaths extends Setting {
 
     //Check if all recent paths are actually valid file system paths
     for (const path of paths)
-      if (!validPaths.includes(path) && await this.#validatePath(path)) validPaths.push(path);
+      if (!validPaths.includes(path)) validPaths.push(path);
 
     return validPaths;
   }
   
-  #validatePath = async (path) => inApp ? await exists(path) : true;
+  // #validatePath = async (path) => inApp ? await exists(path) : true;
 }

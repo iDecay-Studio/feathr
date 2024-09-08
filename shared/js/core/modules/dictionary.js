@@ -65,15 +65,17 @@ export class Dictionary {
     }
   };
 
-  #uniq = (a1) => {
-    const a2 = [];
-    for (const id in a1) if (a2.indexOf(a1[id]) === -1) a2[a2.length] = a1[id];
-    return a2;
+  #uniq = (arr) => {
+    const result = [];
+    for (const id in arr) if (result.indexOf(arr[id]) === -1) result[result.length] = arr[id];
+    
+    return result;
   }
   
   #matchCase(arr, target) {
     let firstChar = target.substring(0, 1);
     let startsUppercase = firstChar === firstChar.toUpperCase();
+    
     return startsUppercase ? arr.map(item => item.substring(0, 1).toUpperCase() + item.substring(1)) : arr;
   }
 }

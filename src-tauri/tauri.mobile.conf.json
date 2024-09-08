@@ -1,11 +1,7 @@
 {
-  "productName": "Leaf Editor",
-  "version": "1.0.0",
-  "identifier": "com.justDeek.LeafEditor",
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeDevCommand": "pnpm run mobile-dev",
-    "beforeBuildCommand": "pnpm run mobile-build",
+    "beforeDevCommand": "bun run mobile-dev",
+    "beforeBuildCommand": "bun run mobile-build",
     "frontendDist": "../mobile/dist",
     "devUrl": "http://localhost:1420"
   },

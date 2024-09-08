@@ -1,6 +1,6 @@
 import app from "@leaf/shared/js/core/app.js";
-import {discardPrompt, savePrompt} from "@leaf/shared/js/ui/prompts.js";
-import {readTextFile, stat, writeFile} from "@tauri-apps/plugin-fs";
+import {discardPrompt} from "@leaf/shared/js/ui/prompts.js";
+import {readTextFile, stat, writeTextFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {clamp, getFileNameFromPath, inApp} from "@leaf/shared/js/core/utils.js";
@@ -8,7 +8,7 @@ import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/j
 import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
 
 const dialogOpenFilters = [
-  // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
+  {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
   {name: 'All Files', extensions: ['*']},
 ];
 const dialogSaveFilters = [
@@ -58,18 +58,18 @@ export class File {
   updateTitle = () => app.titleRef.innerText = this.getTitle();
   getTitle = (addSuffix = true) => {
     let suffix = addSuffix && app.editor.textEdited() ? "*" : "";
-    if (!this.path) return 'New Document' + suffix;
+    if (!this.path || this.path.trim() === "") return 'New Document' + suffix;
 
     return getFileNameFromPath(this.path) + suffix;
   }
 
-  new = () => savePrompt(() => this.#new());
+  new = () => discardPrompt(() => this.#new());
   #new() {
     this.#close();
     app.update();
   }
 
-  openWithDialog = (defPath = "") => savePrompt(() => this.#openWithDialog(defPath));
+  openWithDialog = (defPath = "") => discardPrompt(() => this.#openWithDialog(defPath));
   #openWithDialog(defPath = "") {
     const onOpenSuccess = path => this.#open(path);
     const onOpenFail = reason => this.#errorOpening(reason);
@@ -79,24 +79,40 @@ export class File {
     openDialog({
       defaultPath: defPath,
       filters: dialogOpenFilters,
-    }).then(onOpenSuccess, onOpenFail);
+    }).then(result => {
+      if (result?.path !== "") {
+        this.size = result.size;
+        onOpenSuccess(result.path);
+      }
+      // else onOpenFail("No files selected.", result);
+    }, onOpenFail);
   }
   
-  open = (path = "") => savePrompt(() => this.#open(path));
+  open = (path = "") => discardPrompt(() => this.#open(path));
   #open(path) {
     const onOpenSuccess = text => {
-      if (!path.startsWith('blob')) this.path = path;
-      app.editor.reset(text)
+      if (!path.startsWith('blob')) {
+        this.path = path;
+        if (this.path !== "") app.settings.recentPaths.add(this.path);
+      }
+      this.getStats().then(stats => {
+        if (stats) this.size = stats.size;
+        app.editor.reset(text)
+      });
     }
     const onOpenFail = reason => this.#errorOpening(reason);
     
     this.#close();
+    
     if (inApp) readTextFile(path).then(text => onOpenSuccess(text), onOpenFail);
     else nodeOpen(path, onOpenSuccess, onOpenFail);
   }
 
   openInExplorer = async () => {
-    if (inApp && this.path !== "") await openWithDefault(this.path);
+    if (inApp && this.path !== "") {
+      let dirPath = this.path.match(/(.*)[\/\\]/)[1] || '';
+      await openWithDefault(dirPath);
+    }
   };
   
   save = () => this.path === "" ? this.saveAs() : this.#save(this.path);
@@ -111,10 +127,9 @@ export class File {
       failure();
       this.#errorSaving(reason);
     };
-    
     if (!inApp) return nodeSave(path, onSaveSuccess, onSaveFail);
     return new Promise((success, failure) =>
-      writeFile(path, app.editor.text()).then(
+      writeTextFile(path, app.editor.text()).then(
         () => onSaveSuccess(success),
         reason => onSaveFail(reason, failure))
     );
@@ -138,12 +153,12 @@ export class File {
   #discardChanges = () => app.editor.reset(app.editor.startingState);
 
   #close() {
-    app.editor.reset();
-    app.settings.unsavedChanges.reset();
-
     //add this.path to recentPaths if not empty before clearing it
     if (this.path !== "") app.settings.recentPaths.add(this.path);
     this.path = "";
+
+    app.settings.unsavedChanges.reset();
+    app.editor.reset();
   }
 
   prev = () => this.#openRecent(this.index - 1);

@@ -1,41 +1,60 @@
 import app from "@leaf/shared/js/core/app.js";
 import {inApp} from "@leaf/shared/js/core/utils.js";
+import { getCurrentWebview } from "@tauri-apps/api/webview";
 
+let unlisten;
+
+/* init listeners to open a file via drag & drop */
 export function initDragDrop() {
-  /* Drag&drop to open a file */
-  document.addEventListener('dragover', e => {
-    e.stopPropagation();
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-    if (e.ctrlKey) e.dataTransfer.dropEffect = 'move';
-    document.documentElement.classList.add('dragover');
-  });
-
-  document.addEventListener('drop', async e => {
-    finishDragEvent(e);
-    e.stopPropagation();
-
-    const files = e.dataTransfer.files;
-    if (files.length === 0) return;
-
-    const file = files[0];
-    if (inApp && !file.path || file.type && !file.type.match(/text.*/)) return;
+  if (inApp) {
+    // if (unlisten) unlisten();
     
-    if (inApp) await app.file.open(file.path);
+    unlisten = getCurrentWebview().onDragDropEvent(evt => {
+      let evtType = evt.payload.type;
+      
+      if (evtType === "over") onDragOver(evt);
+      else if (evtType === "drop") onDrop(evt, evt.payload.paths);
+      else if (evtType === "leave") finishDragEvent(evt);
+    });
+  }
+  else {
+    document.addEventListener('dragover', onDragOver);
+    document.addEventListener('drop', e => onDrop(e, e.dataTransfer.files));
+    document.addEventListener('dragleave', finishDragEvent);
+    document.addEventListener('dragend', finishDragEvent);
+  }
+  
+  function onDragOver(e) {
+    if (!inApp) {
+      e.stopPropagation();
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      if (e.ctrlKey) e.dataTransfer.dropEffect = 'move';
+    }
+    document.documentElement.classList.add('dragover');
+  }
+
+  function onDrop(e, files) {
+    finishDragEvent(e);
+    if (!inApp) e.stopPropagation();
+
+    if (files.length === 0) return;
+    const file = files[0];
+    
+    if (inApp) app.file.open(file);
     else {
+      if (file.type && !file.type.match(/text.*/)) return;
+      
       let blobURL = URL.createObjectURL(file);
       app.file.open(blobURL);
       app.file.path = "C:/Users/User/Desktop/" + file.name;
       app.file.update();
       window.URL.revokeObjectURL(blobURL);
     }
-  });
-
-  document.addEventListener('dragleave', finishDragEvent);
-  document.addEventListener('dragend', finishDragEvent);
+  }
 
   function finishDragEvent(e) {
-    e.preventDefault();
+    if (!inApp) e.preventDefault();
     document.documentElement.classList.remove('dragover');
   }
 }

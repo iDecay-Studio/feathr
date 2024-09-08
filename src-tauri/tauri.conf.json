@@ -1,0 +1,6 @@
+{
+  "productName": "Leaf Editor",
+  "version": "1.0.0",
+  "identifier": "com.justDeek.LeafEditor",
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json"
+}

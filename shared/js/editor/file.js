@@ -8,7 +8,7 @@ import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@leaf/shared/j
 import {setRecentFilesMenu} from "@leaf/shared/js/ui/menu.js";
 
 const dialogOpenFilters = [
-  {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
+  // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
   {name: 'All Files', extensions: ['*']},
 ];
 const dialogSaveFilters = [

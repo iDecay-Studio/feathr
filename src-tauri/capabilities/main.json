@@ -1,10 +1,8 @@
 {
-  "identifier": "migrated",
-  "description": "permissions that were migrated from v1",
+  "identifier": "main",
+  "description": "General permissions",
   "local": true,
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
     "fs:default",
@@ -30,9 +28,6 @@
     "os:allow-arch",
     "os:allow-exe-extension",
     "os:allow-locale",
-    "os:allow-hostname",
-    "updater:default",
-    "updater:allow-check",
-    "updater:allow-download-and-install"
+    "os:allow-hostname"
   ]
 }

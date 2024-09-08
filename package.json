@@ -6,12 +6,12 @@
   "license": "GPL-3.0",
   "type": "module",
   "scripts": {
-    "web-dev": "vite serve desktop",
-    "web-build": "vite serve desktop build",
+    "web-dev": "cd desktop && bun run dev",
+    "web-build": "cd desktop && bun run build",
     "app-dev": "tauri dev --config src-tauri/tauri.desktop.conf.json",
     "app-build": "tauri build --config src-tauri/tauri.desktop.conf.json",
-    "mobile-dev": "vite serve mobile",
-    "mobile-build": "vite serve mobile build",
+    "mobile-dev": "cd mobile && bun run dev --host",
+    "mobile-build": "cd mobile && bun run build",
     "android-dev": "tauri android dev --config src-tauri/tauri.mobile.conf.json",
     "android-build": "tauri android build --config src-tauri/tauri.mobile.conf.json"
   },

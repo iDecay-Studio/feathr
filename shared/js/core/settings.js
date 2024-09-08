@@ -1,7 +1,6 @@
 import {get, writable} from "svelte/store";
-import {clamp, inApp} from "@leaf/shared/js/core/utils.js";
+import {clamp} from "@leaf/shared/js/core/utils.js";
 import app from "@leaf/shared/js/core/app.js";
-import {exists} from "@tauri-apps/plugin-fs";
 import {setRecentFilesMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
 
 export class Settings {
@@ -35,7 +34,7 @@ export class Settings {
     }
     
     if (val === "system") {
-      let prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+      let prefersDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true;
       val = prefersDarkTheme ? "dark" : "creamy";
     }
     

@@ -61,12 +61,6 @@
       }
     ],
     "security": {
-      "assetProtocol": {
-        "enable": true,
-        "scope": {
-          "allow": ["**"]
-        }
-      },
       "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost"
     },
     "macOSPrivateApi": true

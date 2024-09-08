@@ -1,0 +1,12 @@
+{
+  "identifier": "updater",
+  "description": "Updater-related permissions",
+  "local": true,
+  "windows": ["main"],
+  "permissions": [
+    "updater:default",
+    "updater:allow-check",
+    "updater:allow-download-and-install"
+  ],
+  "platforms": ["windows", "linux"]
+}

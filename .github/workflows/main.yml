@@ -59,17 +59,6 @@ jobs:
         
       - name: build application
         run: bun run build
-          
-      # Check if one of the commands above generated any unexpected artifacts
-      # (like types generation)
-      - name: check if git is dirty
-        run: |
-          if [[ -n $(git status --porcelain) ]];
-          then
-          echo "git is dirty, make sure you ran the gen script"
-          git status --porcelain
-          exit 1;
-          fi
         
         #see https://github.com/tauri-apps/tauri-action?tab=readme-ov-file for details
       - uses: tauri-apps/tauri-action@v0

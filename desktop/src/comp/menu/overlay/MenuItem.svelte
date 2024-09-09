@@ -17,7 +17,7 @@
 >
   <span>{item.title}</span>
   {#if item.shortcut && item.shortcut !== ""}
-    <span class="shortcut ml-auto text-xs tracking-widest transition-all duration-100">{item.shortcut}</span>
+    <span class="shortcut ml-auto text-sm tracking-widest transition-all duration-100">{item.shortcut}</span>
   {/if}
   {#if $store === compareTo}
     <span class="ml-auto mt-0.5 flex h-full w-3.5 items-center justify-center">
@@ -25,8 +25,8 @@
     </span>
   {/if}
   {#if item.isLink}
-    <span class="ml-auto mt-0.5 flex h-full w-3.5 items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="rgb(29, 155, 240)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <span class="ml-auto mt-0.5 flex h-full items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="size-4.5" viewBox="0 0 24 24" stroke-width="2" stroke="rgb(29, 155, 240)" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
         <path d="M11 13l9 -9" />

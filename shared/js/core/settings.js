@@ -83,7 +83,7 @@ class Setting {
 
 class FontSize extends Setting {
   constructor() {
-    super('font-size', 1.75, (val, isInit) => {
+    super('font-size', 1.5, (val, isInit) => {
       if (isInit) return;
       app.editor.highlighter.update();
     });

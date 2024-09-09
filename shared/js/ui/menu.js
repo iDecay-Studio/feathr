@@ -64,9 +64,9 @@ export const settingsMenu = [
     {title:"Reset", action:() => app.settings.fontSize.reset(), closeMenu:false},
   ]},
   {title:"Font Type", submenu: [
-    {title:"Sans", setting:() => app.settings.fontType, compareTo:"sans"},
-    {title:"Sans-Serif", setting:() => app.settings.fontType, compareTo:"sans-serif"},
-    {title:"Mono", setting:() => app.settings.fontType, compareTo:"mono"},
+    {title:"Sans", setting:() => app.settings.fontType, compareTo:"sans", closeMenu:false},
+    {title:"Sans-Serif", setting:() => app.settings.fontType, compareTo:"sans-serif", closeMenu:false},
+    {title:"Mono", setting:() => app.settings.fontType, compareTo:"mono", closeMenu:false},
   ]},
   {title:"Search", submenu: [
     {title:"Case-sensitive", setting:() => app.settings.caseSensitive},

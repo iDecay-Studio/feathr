@@ -10,7 +10,7 @@
 </script>
 
 <div id="cmdBar" bind:this={app.cmdBar.el}
-     class="fixed left-0 bg w-full flex items-center gap-1 p-1.5 truncate text-md"
+     class="fixed left-0 bg w-full flex items-center gap-1 p-1.5 truncate"
      use:clickOutside on:click_outside={() => app.cmdBar.close()}
 >
   <p>

@@ -44,7 +44,7 @@ export class Caret {
     };
     
     if (!this.isActive) toggleMarker();
-    if (this.isActive) this.#updatePos();
+    this.updatePos();
   };
 
   updateSize = () => {
@@ -56,11 +56,13 @@ export class Caret {
     this.el.style.height = `${height}rem`;
   }
   
-  #updatePos = () => {
+  updatePos = () => {
+    if (!this.el || !this.isActive) return;
     if (app.editor.el === null) return;
+
     const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
     const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
-    const {x, y} = getCaretXY(app.editor.el, selectionEnd);
+    let {x, y} = getCaretXY(app.editor.el, selectionEnd);
 
     const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));

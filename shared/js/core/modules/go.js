@@ -1,5 +1,5 @@
 import app from "@feathr/shared/js/core/app.js";
-import {EOL} from "@feathr/shared/js/core/utils.js";
+import {EOL, rawEOL} from "@feathr/shared/js/core/utils.js";
 
 export class Go {
   to = (from, to, select = true, scroll = true) => {
@@ -12,7 +12,7 @@ export class Go {
   
   to_line = (id, select = true) => {
     const lineArr = app.editor.text().split(EOL, parseInt(id) + 1);
-    const arrJoin = lineArr.join(EOL);
+    const arrJoin = lineArr.join(rawEOL);
     const from = arrJoin.length - lineArr[id].length;
     const to = arrJoin.length;
     

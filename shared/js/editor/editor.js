@@ -53,25 +53,4 @@ export class Editor {
   focus = () => this.get().focus();
 
   textEdited = () => this.text().trim() !== this.startingState.trim();
-
-  getMarkers = () => {
-    const result = [];
-    const lines = this.text().split(EOL);
-
-    const add = (id, line, symbol, type) => result.push({
-      id: result.length,
-      text: line.replace(symbol, '').trim(),
-      line: parseInt(id),
-      type: type,
-    });
-
-    for (const id in lines) {
-      const line = lines[id].trim();
-      if (line.substring(0, 2) === '##') add(id, line, '##', 'subheader');
-      else if (line.substring(0, 1) === '#') add(id, line, '#', 'header');
-      else if (line.substring(0, 2) === '--') add(id, line, '--', 'comment');
-    }
-
-    return result;
-  };
 }  

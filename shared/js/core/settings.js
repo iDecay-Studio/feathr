@@ -6,24 +6,23 @@ import {setRecentFilesMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
   matchWords = new Setting('match-words', false);
-  showSidebar = new Setting('show-sidebar', true, val => {
-    document.documentElement.classList.toggle('show-sidebar', val)
-  });
   autoIndent = new Setting('auto-indent', true);
   wordWrap = new Setting('word-wrap', true);
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
   recentPaths = new RecentPaths();
   unsavedChanges = new Setting('unsaved-changes', "");
+  closeToTray = new Setting('close-to-tray', true);
+  showSidebar = new Setting('show-sidebar', true, val => {
+    document.documentElement.classList.toggle('show-sidebar', val)
+  });
   
   showMenubar = new Setting('show-menubar', true, val => {
     document.documentElement.classList.toggle('show-menubar', val)
   });
   
   focusMode = new Setting('focus-mode', false, async (val, init) => {
-    if (init) return;
-    if (val) this.showMenubar.set(false);
-    await app.setFocusMode(val);
+    if (!init) await app.setFocusMode(val);
   });
 
   theme = new Setting('theme', "system", (val, init) => {
@@ -45,7 +44,7 @@ export class Settings {
   
   init() {
     this.focusMode.set(false);
-    if (!app.isMobile) this.showSidebar.set(false);
+    if (app.isMobile) this.showSidebar.set(false);
   }
   
   resetAll() {
@@ -86,6 +85,8 @@ class FontSize extends Setting {
     super('font-size', 1.35, (val, isInit) => {
       if (isInit) return;
       app.editor.highlighter.update();
+      app.editor.caret.updateSize();
+      app.editor.caret.updatePos();
     });
   }
 

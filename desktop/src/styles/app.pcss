@@ -34,12 +34,6 @@ html.dragover::after {
   visibility: visible;
 }
 
-html:not(.focus-mode):not(.show-menubar) {
-  --header-height: 40px;
-}
-html:not(.show-menubar) .menubar {
-  display: none !important;
-}
 html.focus-mode {
   /*needs to contain 'px' for the editor height calc. to function*/
   --header-height: 0px !important;
@@ -47,12 +41,25 @@ html.focus-mode {
   & .header {
     display: none !important;
   }
+  
+  & #container {
+    width: 100vw;
+    height: 100vh;
+  }
 
   & #highlights, & #editor {
     margin: 0 !important;
     border-radius: 0 !important;
-    padding: 1.5rem !important;
+    padding: 15vh 25vw !important;
   }
+}
+html:not(.show-menubar) .menubar,
+html.focus-mode .menubar,
+html.focus-mode #stats {
+  display: none !important;
+}
+html:not(.focus-mode):not(.show-menubar) {
+  --header-height: 40px;
 }
 
 html.show-sidebar #highlights, html.show-sidebar #editor {

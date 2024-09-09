@@ -1,3 +1,5 @@
+#[cfg(desktop)]
+mod tray;
 #[cfg(any(target_os = "windows", target_os = "macos"))]
 use tauri::Manager;
 
@@ -11,11 +13,14 @@ pub fn run() {
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_window_state::Builder::default().build())
     .setup(|app| {
-      let handle = app.app_handle();
+      let handle = app.handle();
       handle.get_webview_window("main").unwrap();
       
+      #[cfg(all(desktop))]
+      tray::create_tray(handle)?;
+      
       #[cfg(desktop)]
-      //handle.plugin(tauri_plugin_updater::Builder::new().build())?;
+      handle.plugin(tauri_plugin_updater::Builder::new().build())?;
       
       Ok(())
     })

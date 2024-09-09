@@ -2,6 +2,7 @@ import app from "@feathr/shared/js/core/app.js";
 import {exec, getFileNameFromPath, openLink} from "@feathr/shared/js/core/utils.js";
 import {findCmd, gotoCmd, replaceCmd} from "@feathr/shared/js/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
+import {checkForUpdates} from "@feathr/shared/js/core/modules/updater.js";
 
 //states
 export let isMenuOpen = writable(false);
@@ -25,7 +26,7 @@ export const fileMenu = [
   {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
   {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(), color:'red'},
+  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(false), color:'red'},
 ];
 
 export const editMenu = [
@@ -55,13 +56,14 @@ export const helpMenu = [
   {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
   {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
   {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr."), isLink:true},
+  {title:"Check for Updates", action:() => checkForUpdates()},
 ]
 
 export const settingsMenu = [
   {title:"Font Size", submenu: [
     {title:"Increase", shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
     {title:"Decrease", shortcut:"Ctrl+[-]", action:() => app.settings.fontSize.decrease(), closeMenu:false},
-    {title:"Reset", action:() => app.settings.fontSize.reset(), closeMenu:false},
+    {title:"Reset", shortcut:"Ctrl+0", action:() => app.settings.fontSize.reset(), closeMenu:false},
   ]},
   {title:"Font Type", submenu: [
     {title:"Sans", setting:() => app.settings.fontType, compareTo:"sans", closeMenu:false},
@@ -89,6 +91,7 @@ export const settingsMenu = [
   {title:"View", wide:true, hideOnMobile:true, submenu: [
     {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:() => app.settings.showSidebar},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
+    {title:"Close to Tray", setting:() => app.settings.closeToTray},
   ]},
   {title:"Reset All", action:() => {app.settings.resetAll()}, color:'red'},
 ];

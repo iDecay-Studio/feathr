@@ -4,5 +4,5 @@
 )]
 
 fn main() {
-  leaf_lib::run();
+  feathr_lib::run();
 }

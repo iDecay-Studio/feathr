@@ -3,7 +3,8 @@ import {eol} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
 export const inApp = window.__TAURI__ ?? false;
-export const EOL = inApp ? eol() : /\r*\n/g;
+export const EOL = /\r*\n/g;
+export const rawEOL = inApp ? eol() : "\r\n";
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
 export const shuffle = (array) => array.sort(() => Math.random() - 0.5);
@@ -40,10 +41,10 @@ export const getCaretXY = (input, selectionPoint) => {
   span.textContent = input.value.substring(selectionPoint) || '.';
 
   div.appendChild(span);
-  document.body.appendChild(div);
+  document.getElementById('container').appendChild(div);
 
   const {offsetLeft: spanX, offsetTop: spanY} = span;
-  document.body.removeChild(div);
+  document.getElementById('container').removeChild(div);
 
   return {x: inputX + spanX, y: inputY + spanY};
 };

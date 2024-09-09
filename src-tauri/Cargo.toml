@@ -1,15 +1,15 @@
 [package]
-name = "leaf"
+name = "feathr"
 version = "1.0.0"
 description = "A modern and minimal text editor for desktop and mobile"
 authors = ["Deek (https://github.com/justDeek)"]
 repository = "github.com/iDecay-Studio/feathr."
 license = "GPL-3.0"
-default-run = "leaf"
+default-run = "feathr"
 edition = "2021"
 
 [lib]
-name = "leaf_lib"
+name = "feathr_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -20,7 +20,7 @@ tauri-build = { version = "2.0.0-rc", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "2.0.0-rc", features = [] }
+tauri = { version = "2.0.0-rc", features = [ "macos-private-api", "tray-icon"] }
 tauri-plugin-fs = "2.0.0-rc.0"
 tauri-plugin-os = "2.0.0-rc.0"
 tauri-plugin-dialog = "2.0.0-rc.1"

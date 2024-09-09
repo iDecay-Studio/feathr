@@ -2,7 +2,7 @@
   "build": {
     "beforeDevCommand": "bun run web-dev",
     "beforeBuildCommand": "bun run web-build",
-    "frontendDist": "../desktop/dist",
+    "frontendDist": "../desktop/build",
     "devUrl": "http://localhost:3000"
   },
   "bundle": {
@@ -49,9 +49,13 @@
       }
     }
   },
-  "plugins": {},
+  "plugins": {
+    "updater": {
+      "endpoints": ["https://github.com/iDecay-Studio/feathr./.github/releases/latest.json"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdEQjU3RUJGNkFGQjgwQjQKUldTMGdQdHF2MzYxZmVjV3U0UGtYc3NQOEt5U1gybU5GcDg2MTByT1dnMmtVNEpGVnhGelZtUFgK"
+    }
+  },
   "app": {
-    "withGlobalTauri": true,
     "windows": [
       {
         "fullscreen": false,
@@ -60,9 +64,6 @@
         "height": 560
       }
     ],
-    "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost"
-    },
     "macOSPrivateApi": true
   }
 }

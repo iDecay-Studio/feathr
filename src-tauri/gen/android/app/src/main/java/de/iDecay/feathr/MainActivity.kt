@@ -1,3 +1,3 @@
-package com.justDeek.LeafEditor
+package de.iDecay.feathr
 
 class MainActivity : TauriActivity()

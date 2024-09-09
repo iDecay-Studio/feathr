@@ -1,7 +1,7 @@
 #sidebar {
   display: block;
-  width: calc((100vw / 4) - 40px);
-  top: 70px;
+  width: calc((100vw / 4) - 20px);
+  top: 55px;
   right: 0;
   z-index: var(--layer-fg);
   position: absolute;
@@ -13,20 +13,25 @@
   height: calc(100vh - 120px);
   padding: 30px 0 40px 30px;
   pointer-events: none;
+  font-size: 1.15rem;
+  line-height: 1.5rem;
 
   .marker {
-    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     line-height: 20px;
     cursor: pointer;
     position: relative;
-    -webkit-app-region: no-drag;
     transition: 0.25s ease;
     opacity: 0.6;
     pointer-events: auto;
-    /*height: 20px;*/
+    text-align: left;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    width: calc((100vw / 4) - 55px);
+    -webkit-app-region: no-drag;
 
     span {
       overflow: hidden;
@@ -42,17 +47,8 @@
       text-decoration: none;
     }
     
-    &.note {
-      padding-left: 15px;
-      
-      &::before {
-        content: "#";
-        left: 0;
-      }
-    }
-    
-    &.subheader {
-      padding-left: 15px;
+    &.marker-header {
+      padding-left: 0;
       
       &::before {
         content: "";
@@ -60,7 +56,16 @@
       }
     }
     
-    &.comment {
+    &.marker-subheader {
+      padding-left: 15px;
+      
+      &::before {
+        content: "•";
+        left: 0;
+      }
+    }
+    
+    &.marker-comment {
       padding-left: 30px;
       
       &::before {
@@ -69,11 +74,12 @@
       }
     }
     
-    &.changes::after {
+    &.marker-changes::after {
       content: "*";
       position: absolute;
       right: 15px;
     }
+    
     i {
       padding-right: 15px;
     }

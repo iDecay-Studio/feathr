@@ -39,6 +39,8 @@ export function initEvents() {
   });
   
   document.addEventListener('click', e => {
-    if (!app.cmdBar.isOpen) app.stats.update();
+    if (app.cmdBar.isOpen) return;
+    app.stats.update();
+    app.sidebar.update();
   });
 }

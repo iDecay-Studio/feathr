@@ -26,6 +26,7 @@ export class Suggestions {
   update() {
     if (app.cmdBar.isOpen) return;
     if (app.isMobile && !enableOnMobile) return;
+    if (app.settings.focusMode.storeVal()) return;
     
     if (this.mode === '') {
       this.set([]);
@@ -116,6 +117,7 @@ export class Suggestions {
 
   onKeyEvent = e => {
     if (app.isMobile && !enableOnMobile) return;
+    if (app.settings.focusMode.storeVal()) return;
     
     const {which, type} = e;
     const {selectionStart} = app.editor.el;

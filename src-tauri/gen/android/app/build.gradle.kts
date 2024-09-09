@@ -15,12 +15,11 @@ val tauriProperties = Properties().apply {
 
 android {
     compileSdk = 34
-    namespace = "com.justDeek.LeafEditor"
+    namespace = "de.iDecay.feathr"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
-        applicationId = "com.justDeek.LeafEditor"
+        applicationId = "de.iDecay.feathr"
         minSdk = 24
-        targetSdk = 34
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
         versionName = tauriProperties.getProperty("tauri.android.versionName", "1.0")
     }

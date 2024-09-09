@@ -1,6 +1,12 @@
 {
-  "productName": "feathr.",
+  "productName": "feathr",
   "version": "1.0.0",
   "identifier": "de.iDecay.feathr",
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json"
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "app": {
+    "withGlobalTauri": true,
+    "security": {
+      "csp": "default-src 'self' style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
+    }
+  }
 }

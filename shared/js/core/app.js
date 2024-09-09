@@ -6,12 +6,11 @@ import {Go} from "@feathr/shared/js/core/modules/go.js";
 import {Stats} from "@feathr/shared/js/core/modules/stats.js";
 import {Sidebar} from "@feathr/shared/js/core/modules/sidebar.js";
 import {File} from "@feathr/shared/js/editor/file.js";
+import {checkForUpdates} from "@feathr/shared/js/core/modules/updater.js";
 import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
 import {initEvents} from "@feathr/shared/js/events/events.js";
 import {getCurrentWindow} from '@tauri-apps/api/window';
 import {inApp} from "@feathr/shared/js/core/utils.js";
-// import {check} from "@tauri-apps/plugin-updater";
-// import {relaunch} from "@tauri-apps/plugin-process";
 
 class App {
   editor = new Editor();
@@ -36,12 +35,7 @@ class App {
     await this.update();
     initEvents();
 
-    // if (this.isMobile) return;
-    // const update = await check();
-    // if (update?.available) {
-    //   await update.downloadAndInstall();
-    //   await relaunch();
-    // }
+    if (!this.isMobile) await checkForUpdates();
   }
   
   update = async () => {
@@ -56,7 +50,9 @@ class App {
     document.documentElement.classList.toggle('focus-mode', enable);
   }
 
-  quit = () => inApp && discardPrompt(() => getCurrentWindow().close());
+  quit = (hide = true) => inApp && discardPrompt(() => {
+    hide && app.settings.closeToTray.storeVal() ? getCurrentWindow().hide() : getCurrentWindow().quit();
+  });
 }
 
 const app = new App();

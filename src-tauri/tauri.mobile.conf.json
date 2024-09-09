@@ -9,9 +9,7 @@
     "active": true,
     "icon": ["icons/icon.png"]
   },
-  "plugins": {},
   "app": {
-    "withGlobalTauri": true,
     "windows": [
       {
         "title": "feathr."

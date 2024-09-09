@@ -25,7 +25,8 @@ export class CmdBar {
 
   open = (cmd) => {
     app.stats.el?.classList.add('hidden');
-    this.el.classList.add('active');
+    this.el.classList.remove(gotoCmd, findCmd, replaceCmd);
+    this.el.classList.add(cmd, "active");
     this.isOpen = true;
     this.index = -1;
     currCmd.set(cmd);

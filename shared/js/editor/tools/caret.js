@@ -51,9 +51,9 @@ export class Caret {
     if (!this.el) return;
     
     let height = app.settings.fontSize.storeVal();
-    let width = height < 16 ? 2 : height < 24 ? 3 : 4;
+    let width = height < 2 ? 2 : height < 3 ? 3 : 4;
     this.el.style.width = `${width}px`;
-    this.el.style.height = `${height}px`;
+    this.el.style.height = `${height}rem`;
   }
   
   #updatePos = () => {

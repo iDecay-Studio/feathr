@@ -6,6 +6,7 @@ import {tick} from "svelte";
 
 const minWordLength = 4;
 const maxSuggestions = 10;
+const enableOnMobile = false;
 
 export class Suggestions {
   isOpen = writable(false);
@@ -16,12 +17,15 @@ export class Suggestions {
   mode = ""; //the type of suggestions (either 'autocomplete' or 'synonyms')
   
   init() {
+    if (app.isMobile && !enableOnMobile) return;
+    
     this.observer = new ResizeObserver(this.#updatePos.bind(this));
     this.observer.observe(app.editor.el);
   }
   
   update() {
     if (app.cmdBar.isOpen) return;
+    if (app.isMobile && !enableOnMobile) return;
     
     if (this.mode === '') {
       this.set([]);
@@ -111,6 +115,8 @@ export class Suggestions {
   };
 
   onKeyEvent = e => {
+    if (app.isMobile && !enableOnMobile) return;
+    
     const {which, type} = e;
     const {selectionStart} = app.editor.el;
     
@@ -181,6 +187,8 @@ export class Suggestions {
 
   #updatePos = () => {
     if (!this.el || !app.editor.el) return;
+    if (app.isMobile && !enableOnMobile) return;
+    
     const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
     const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
     const {x, y} = getCaretXY(app.editor.el, selectionEnd);

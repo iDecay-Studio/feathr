@@ -14,10 +14,12 @@
   <div class="nav-dropdown-collapse">
     <div class="nav-dropdown-content">
       {#each items as item}
-        {#if item.divider}
-          <MobileNavDiv/>
-        {:else if !item.hideOnMobile}
-          <MobileNavItem {item}/>
+        {#if !item.hideOnMobile}
+          {#if item.divider}
+            <MobileNavDiv/>
+          {:else}
+            <MobileNavItem {item}/>
+          {/if}
         {/if}
       {/each}
     </div>

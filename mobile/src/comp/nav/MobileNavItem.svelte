@@ -13,7 +13,7 @@
   };
 </script>
 
-<button class="nav-link {item.isDropdown && $openMenu === item.title ? 'active' : ''}" on:click={action}>
+<button class="nav-link data-[disabled]:opacity-50 data-[disabled]:pointer-events-none {item.isDropdown && $openMenu === item.title ? 'active' : ''}" on:click={action} data-disabled={item.submenu && !item.submenu.length ? "" : undefined}>
   {#if item.icon}<i class='nav-icon bx bx-{item.icon}'></i>{/if}
   <span class="nav-name">{item.title + (item.submenu ? '...' : '')}</span>
   {#if item.isDropdown}<i class='bx bx-chevron-down nav-icon nav-dropdown-icon'></i>{/if}

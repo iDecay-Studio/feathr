@@ -11,7 +11,7 @@
 </script>
 
 <div id="suggestions" bind:this={app.editor.suggestions.el} class:hidden={!$isOpen}
-     style="font-size: {$fontSize-2}px; line-height: {$fontSize-2}px; margin-top: {$fontSize+2}px;"
+     style="font-size: {$fontSize-0.5}rem; line-height: {$fontSize-0.25}rem; margin-top: {$fontSize+0.5}rem; max-height: {5 * ($fontSize+0.4)}rem"
      use:clickOutside on:click_outside={() => app.editor.suggestions.close()}>
   {#if $suggestions}
     {#each $suggestions as suggestion, id}

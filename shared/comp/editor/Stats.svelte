@@ -1,5 +1,5 @@
 <script>
-  import app from "@/shared/js/core/app.js";
+  import app from "@feathr/shared/js/core/app.js";
 </script>
 
 <span id="stats" bind:this={app.stats.el}

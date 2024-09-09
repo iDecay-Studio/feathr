@@ -1,6 +1,6 @@
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
-import {isMenuOpen} from "@/shared/js/ui/menu.js";
+import {isMenuOpen} from "@feathr/shared/js/ui/menu.js";
 
 export const activeDropdown = writable("");
 export const showDrawer = writable(false);

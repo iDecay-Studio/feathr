@@ -1,5 +1,5 @@
-import app from "@/shared/js/core/app.js";
-import {default as allSynonyms} from "@/shared/js/core/modules/synonyms.js";
+import app from "@feathr/shared/js/core/app.js";
+import {default as allSynonyms} from "@feathr/shared/js/core/modules/synonyms.js";
 
 export class Dictionary {
   vocabulary = new Map();

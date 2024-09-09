@@ -1,5 +1,5 @@
 {
-  "name": "@/desktop",
+  "name": "@feathr/desktop",
   "version": "1.0.0",
   "private": "true",
   "type": "module",
@@ -9,6 +9,6 @@
     "build": "NODE_ENV=production vite build --outDir ./build --minify --manifest --emptyOutDir"
   },
   "devDependencies": {
-    "@/shared": "workspace:*"
+    "@feathr/shared": "workspace:*"
   }
 }

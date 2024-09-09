@@ -1,5 +1,5 @@
-import app from "@/shared/js/core/app.js";
-import {EOL} from "@/shared/js/core/utils.js";
+import app from "@feathr/shared/js/core/app.js";
+import {EOL} from "@feathr/shared/js/core/utils.js";
 
 export class Go {
   to = (from, to, select = true, scroll = true) => {

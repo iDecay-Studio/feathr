@@ -1,4 +1,4 @@
-import app from "@/shared/js/core/app.js";
+import app from "@feathr/shared/js/core/app.js";
 
 export class Selection {
   start = () => app.editor.el.selectionStart;

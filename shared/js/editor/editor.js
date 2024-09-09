@@ -1,12 +1,12 @@
-import app from "@/shared/js/core/app.js";
-import {EOL} from "@/shared/js/core/utils.js";
-import {Insert} from "@/shared/js/editor/tools/insert.js";
-import {Locate} from "@/shared/js/editor/tools/locate.js";
-import {Replace} from "@/shared/js/editor/tools/replace.js";
-import {Selection} from "@/shared/js/editor/tools/selection.js";
-import {Caret} from "@/shared/js/editor/tools/caret.js";
-import {Highlighter} from "@/shared/js/editor/tools/highlighter.js";
-import {Suggestions} from "@/shared/js/editor/tools/suggestions.js";
+import app from "@feathr/shared/js/core/app.js";
+import {EOL} from "@feathr/shared/js/core/utils.js";
+import {Insert} from "@feathr/shared/js/editor/tools/insert.js";
+import {Locate} from "@feathr/shared/js/editor/tools/locate.js";
+import {Replace} from "@feathr/shared/js/editor/tools/replace.js";
+import {Selection} from "@feathr/shared/js/editor/tools/selection.js";
+import {Caret} from "@feathr/shared/js/editor/tools/caret.js";
+import {Highlighter} from "@feathr/shared/js/editor/tools/highlighter.js";
+import {Suggestions} from "@feathr/shared/js/editor/tools/suggestions.js";
 
 export class Editor {
   el = null;

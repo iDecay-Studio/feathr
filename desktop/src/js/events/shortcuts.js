@@ -1,5 +1,5 @@
-import app from "@/shared/js/core/app.js";
-import {editMenu, fileMenu, goMenu, settingsMenu} from "@/shared/js/ui/menu.js";
+import app from "@feathr/shared/js/core/app.js";
+import {editMenu, fileMenu, goMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
 
 const checkKey = (e, key, exclusive = true, prevDef = true) => {
   if (exclusive && (e.ctrlKey || e.shiftKey || (e.altKey && key !== "alt"))) return false;

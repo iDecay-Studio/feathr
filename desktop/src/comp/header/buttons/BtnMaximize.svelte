@@ -1,6 +1,6 @@
 <script>
   import { getCurrentWindow } from '@tauri-apps/api/window';
-  import {inApp} from "@/shared/js/core/utils.js";
+  import {inApp} from "@feathr/shared/js/core/utils.js";
 </script>
 
 <button class="btn btn-yellow px-1" on:click={() => inApp && getCurrentWindow().toggleMaximize()}>

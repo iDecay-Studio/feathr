@@ -1,5 +1,5 @@
-import app from "@/shared/js/core/app.js";
-import {inApp} from "@/shared/js/core/utils.js";
+import app from "@feathr/shared/js/core/app.js";
+import {inApp} from "@feathr/shared/js/core/utils.js";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 
 let unlisten;

@@ -1,6 +1,6 @@
 import {ask as askDialog} from "@tauri-apps/plugin-dialog";
-import app from "@/shared/js/core/app.js";
-import {inApp} from "@/shared/js/core/utils.js";
+import app from "@feathr/shared/js/core/app.js";
+import {inApp} from "@feathr/shared/js/core/utils.js";
 
 const saveMsg = "Would you like to save your changes?";
 export const savePrompt = (action) => {

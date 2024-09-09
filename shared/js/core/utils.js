@@ -1,4 +1,4 @@
-import app from "@/shared/js/core/app.js";
+import app from "@feathr/shared/js/core/app.js";
 import {eol} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 

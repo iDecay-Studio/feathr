@@ -1,5 +1,5 @@
 <script>
-  import app from "@/shared/js/core/app.js";
+  import app from "@feathr/shared/js/core/app.js";
 
   let markers = app.sidebar.markers;
   let currMarker = app.sidebar.currMarker;

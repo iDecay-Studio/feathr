@@ -1,7 +1,7 @@
 <script>
   //based on: https://devdojo.com/pines/docs/menubar
-  import {clickOutside} from "@/shared/js/events/clickOutside.js";
-  import {isMenuOpen, fileMenu, editMenu, goMenu, helpMenu, settingsMenu} from "@/shared/js/ui/menu.js";
+  import {clickOutside} from "@feathr/shared/js/events/clickOutside.js";
+  import {isMenuOpen, fileMenu, editMenu, goMenu, helpMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
   import Menu from "./overlay/Menu.svelte";
 </script>
 

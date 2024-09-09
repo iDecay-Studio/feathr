@@ -9,7 +9,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/shared/*": [
+      "@feathr/shared/*": [
         "*"
       ]
     }

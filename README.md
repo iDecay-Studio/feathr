@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/iDecay-Studio/feathr.">
+  <a href="https://github.com/iDecay-Studio/feathr">
     <img src="/app-icon.png" alt="Logo" width="60" height="60">
   </a>
 
@@ -13,11 +13,11 @@
 
   <p align="center">
     Download for:&nbsp;
-    <a href="https://github.com/iDecay-Studio/feathr./releases">Windows</a>
+    <a href="https://github.com/iDecay-Studio/feathr/releases">Windows</a>
     ·
-    <a href="https://github.com/iDecay-Studio/feathr./releases">MacOS</a>
+    <a href="https://github.com/iDecay-Studio/feathr/releases">MacOS</a>
     ·
-    <a href="https://github.com/iDecay-Studio/feathr./releases">Linux</a>
+    <a href="https://github.com/iDecay-Studio/feathr/releases">Linux</a>
   </p>
 </div>
 
@@ -69,7 +69,7 @@ It initializes and updates the modules and serves as the main entry point for al
 
 
 # Usage
-Head to the [releases](https://github.com/iDecay-Studio/feathr./releases) page to download pre-built executables.
+Head to the [releases](https://github.com/iDecay-Studio/feathr/releases) page to download pre-built executables.
 
 
 # Building
@@ -81,7 +81,7 @@ Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#in
 
 After everything is installed, run the following commands:
 ```
-git clone https://github.com/iDecay-Studio/feathr..git
+git clone https://github.com/iDecay-Studio/feathr.git
 cd feathr
 bun install
 ```

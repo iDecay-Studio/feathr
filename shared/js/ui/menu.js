@@ -55,7 +55,7 @@ export const goMenu = [
 export const helpMenu = [
   {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
   {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
-  {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr."), isLink:true},
+  {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
   {title:"Check for Updates", action:() => checkForUpdates()},
 ]
 

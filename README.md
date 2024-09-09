@@ -9,7 +9,7 @@
 
   <h1 align="center">feathr.</h1>
 
-<h3 align="center">A modern and minimal text editor for desktop and mobile.</h2>
+  <h3 align="center">A modern and minimal text editor for desktop and mobile.</h2>
 
   <p align="center">
     Download for:&nbsp;
@@ -82,7 +82,7 @@ Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#in
 After everything is installed, run the following commands:
 ```
 git clone https://github.com/iDecay-Studio/feathr..git
-cd feathr.
+cd feathr
 bun install
 ```
 

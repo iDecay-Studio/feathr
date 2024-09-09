@@ -1,6 +1,6 @@
-import app from "@leaf/shared/js/core/app.js";
+import app from "@/shared/js/core/app.js";
 import {get} from "svelte/store";
-import {currCmd, gotoCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
+import {currCmd, gotoCmd} from "@/shared/js/core/modules/cmdBar.js";
 
 export class Highlighter {
   el = null;

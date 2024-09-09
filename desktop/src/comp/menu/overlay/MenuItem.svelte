@@ -1,5 +1,5 @@
 <script>
-  import {isMenuOpen} from "@leaf/shared/js/ui/menu.js";
+  import {isMenuOpen} from "@/shared/js/ui/menu.js";
 
   export let item;
   

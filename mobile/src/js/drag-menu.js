@@ -1,5 +1,5 @@
 import {debounce} from "./utils.js";
-import {isMenuOpen} from "@leaf/shared/js/ui/menu.js";
+import {isMenuOpen} from "@/shared/js/ui/menu.js";
 
 //based on: https://codepen.io/maves9/pen/qBqERPE
 export class DragMenu {

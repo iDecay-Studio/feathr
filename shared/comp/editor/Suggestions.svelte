@@ -1,6 +1,6 @@
 <script>
-  import {clickOutside} from "@leaf/shared/js/events/clickOutside.js";
-  import app from "@leaf/shared/js/core/app.js";
+  import {clickOutside} from "@/shared/js/events/clickOutside.js";
+  import app from "@/shared/js/core/app.js";
   
   let isOpen = app.editor.suggestions.isOpen;
   let suggestions = app.editor.suggestions.listStore;

@@ -1,5 +1,5 @@
 <script>
-  import app from "@leaf/shared/js/core/app.js";
+  import app from "@/shared/js/core/app.js";
 </script>
 
 <button class="btn btn-red px-1" on:click={() => app.quit()}>

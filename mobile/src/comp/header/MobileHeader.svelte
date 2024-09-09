@@ -1,6 +1,6 @@
 <script>
-  import {isMenuOpen} from "@leaf/shared/js/ui/menu.js";
-  import app from "@leaf/shared/js/core/app.js";
+  import {isMenuOpen} from "@/shared/js/ui/menu.js";
+  import app from "@/shared/js/core/app.js";
   import {tick} from "svelte";
 
   export let fileName = "New Document";

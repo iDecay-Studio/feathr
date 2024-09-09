@@ -1,7 +1,7 @@
 import {get, writable} from "svelte/store";
-import {clamp} from "@leaf/shared/js/core/utils.js";
-import app from "@leaf/shared/js/core/app.js";
-import {setRecentFilesMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
+import {clamp} from "@/shared/js/core/utils.js";
+import app from "@/shared/js/core/app.js";
+import {setRecentFilesMenu, settingsMenu} from "@/shared/js/ui/menu.js";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);

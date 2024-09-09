@@ -1,10 +1,10 @@
 <script>
   import MobileNavDropdown from "./MobileNavDropdown.svelte";
   import MobileDrawer from "../drawer/MobileDrawer.svelte";
-  import {clickOutside} from "@leaf/shared/js/events/clickOutside.js";
+  import {clickOutside} from "@/shared/js/events/clickOutside.js";
   import {onMount} from "svelte";
   import {DragMenu} from "../../js/drag-menu.js";
-  import {editMenu, fileMenu, goMenu, isMenuOpen, helpMenu, settingsMenu} from "@leaf/shared/js/ui/menu.js";
+  import {editMenu, fileMenu, goMenu, isMenuOpen, helpMenu, settingsMenu} from "@/shared/js/ui/menu.js";
 
   let navEl;
   onMount(() => new DragMenu(navEl));

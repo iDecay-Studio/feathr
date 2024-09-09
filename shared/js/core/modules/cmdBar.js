@@ -1,5 +1,5 @@
-import app from "@leaf/shared/js/core/app.js";
-import {EOL} from "@leaf/shared/js/core/utils.js";
+import app from "@/shared/js/core/app.js";
+import {EOL} from "@/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
 

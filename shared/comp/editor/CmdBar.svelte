@@ -1,7 +1,7 @@
 <script>
-  import {clickOutside} from "@leaf/shared/js/events/clickOutside.js";
-  import app from "@leaf/shared/js/core/app.js";
-  import {currCmd, gotoCmd, findCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
+  import {clickOutside} from "@/shared/js/events/clickOutside.js";
+  import app from "@/shared/js/core/app.js";
+  import {currCmd, gotoCmd, findCmd, replaceCmd} from "@/shared/js/core/modules/cmdBar.js";
   import {derived} from "svelte/store";
   
   let goto = derived(currCmd, cmd => cmd === gotoCmd);

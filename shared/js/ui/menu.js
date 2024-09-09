@@ -1,6 +1,6 @@
-import app from "@leaf/shared/js/core/app.js";
-import {exec, getFileNameFromPath, openLink} from "@leaf/shared/js/core/utils.js";
-import {findCmd, gotoCmd, replaceCmd} from "@leaf/shared/js/core/modules/cmdBar.js";
+import app from "@/shared/js/core/app.js";
+import {exec, getFileNameFromPath, openLink} from "@/shared/js/core/utils.js";
+import {findCmd, gotoCmd, replaceCmd} from "@/shared/js/core/modules/cmdBar.js";
 import {writable} from "svelte/store";
 
 //states

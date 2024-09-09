@@ -1,15 +1,15 @@
-import {Editor} from "@leaf/shared/js/editor/editor.js";
-import {Settings} from "@leaf/shared/js/core/settings.js";
-import {Dictionary} from "@leaf/shared/js/core/modules/dictionary.js";
-import {CmdBar} from "@leaf/shared/js/core/modules/cmdBar.js";
-import {Go} from "@leaf/shared/js/core/modules/go.js";
-import {Stats} from "@leaf/shared/js/core/modules/stats.js";
-import {Sidebar} from "@leaf/shared/js/core/modules/sidebar.js";
-import {File} from "@leaf/shared/js/editor/file.js";
-import {discardPrompt} from "@leaf/shared/js/ui/prompts.js";
-import {initEvents} from "@leaf/shared/js/events/events.js";
+import {Editor} from "@/shared/js/editor/editor.js";
+import {Settings} from "@/shared/js/core/settings.js";
+import {Dictionary} from "@/shared/js/core/modules/dictionary.js";
+import {CmdBar} from "@/shared/js/core/modules/cmdBar.js";
+import {Go} from "@/shared/js/core/modules/go.js";
+import {Stats} from "@/shared/js/core/modules/stats.js";
+import {Sidebar} from "@/shared/js/core/modules/sidebar.js";
+import {File} from "@/shared/js/editor/file.js";
+import {discardPrompt} from "@/shared/js/ui/prompts.js";
+import {initEvents} from "@/shared/js/events/events.js";
 import {getCurrentWindow} from '@tauri-apps/api/window';
-import {inApp} from "@leaf/shared/js/core/utils.js";
+import {inApp} from "@/shared/js/core/utils.js";
 // import {check} from "@tauri-apps/plugin-updater";
 // import {relaunch} from "@tauri-apps/plugin-process";
 

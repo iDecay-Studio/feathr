@@ -1,6 +1,6 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {getCaretXY} from "@leaf/shared/js/core/utils.js";
-import app from "@leaf/shared/js/core/app.js";
+import {getCaretXY} from "@/shared/js/core/utils.js";
+import app from "@/shared/js/core/app.js";
 
 export class Caret {
   isActive = false;

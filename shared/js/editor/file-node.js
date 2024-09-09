@@ -1,6 +1,6 @@
 //these functions serve as as a fallback to the tauri-based methods
 // to test the file-handling inside the web-version of the app.
-import app from "@leaf/shared/js/core/app.js";
+import app from "@/shared/js/core/app.js";
 
 export const nodeOpenWithDialog = (onOpenSuccess, onOpenFail) => {
   let input = document.createElement('input');

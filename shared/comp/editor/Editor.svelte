@@ -50,7 +50,7 @@
 </script>
 
 <div id="container"
-     style="font-size: {$fontSize}rem; line-height: {$fontSize+0.5}rem; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}">
+     style="font-size: {$fontSize}rem; line-height: {$fontSize+0.25}rem; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}">
   <div id="highlights" bind:this={app.editor.highlighter.el}
        class="font-{$fontType}" class:wrap-text={$wordWrap}
   />

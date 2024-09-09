@@ -83,7 +83,7 @@ class Setting {
 
 class FontSize extends Setting {
   constructor() {
-    super('font-size', 1.5, (val, isInit) => {
+    super('font-size', 1.35, (val, isInit) => {
       if (isInit) return;
       app.editor.highlighter.update();
     });
@@ -92,7 +92,7 @@ class FontSize extends Setting {
   #increaseBy = 0.25;
   increase = () => this.#set(this.storeVal() + this.#increaseBy);
   decrease = () => this.#set(this.storeVal() - this.#increaseBy);
-  #set = (value) => this.set(clamp(value, 1, 4));
+  #set = (value) => this.set(clamp(value, 0.5, 4));
 }
 
 class RecentPaths extends Setting {

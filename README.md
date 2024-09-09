@@ -3,25 +3,25 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/justDeek/leaf-editor">
+  <a href="https://github.com/iDecay-Studio/feathr.">
     <img src="/app-icon.png" alt="Logo" width="60" height="60">
   </a>
 
-  <h1 align="center">Leaf Editor</h1>
+  <h1 align="center">feathr.</h1>
 
 <h3 align="center">A modern and minimal text editor for desktop and mobile.</h2>
 
   <p align="center">
     Download for:&nbsp;
-    <a href="https://github.com/justDeek/leaf-editor/releases">Windows</a>
+    <a href="https://github.com/iDecay-Studio/feathr./releases">Windows</a>
     ·
-    <a href="https://github.com/justDeek/leaf-editor/releases">MacOS</a>
+    <a href="https://github.com/iDecay-Studio/feathr./releases">MacOS</a>
     ·
-    <a href="https://github.com/justDeek/leaf-editor/releases">Linux</a>
+    <a href="https://github.com/iDecay-Studio/feathr./releases">Linux</a>
   </p>
 </div>
 
-![Leaf Text Editor](/app-preview.webp)
+![feathr. Text Editor](/app-preview.webp)
 
 
 # About
@@ -69,7 +69,7 @@ It initializes and updates the modules and serves as the main entry point for al
 
 
 # Usage
-Head to the [releases](https://github.com/justDeek/leaf-editor/releases) page to download pre-built executables.
+Head to the [releases](https://github.com/iDecay-Studio/feathr./releases) page to download pre-built executables.
 
 
 # Building
@@ -81,8 +81,8 @@ Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#in
 
 After everything is installed, run the following commands:
 ```
-git clone https://github.com/justDeek/leaf-editor.git
-cd leaf-editor
+git clone https://github.com/iDecay-Studio/feathr..git
+cd feathr.
 bun install
 ```
 
@@ -95,7 +95,7 @@ Once the build has been completed, you will find the executables in ```src-tauri
 ## 🤖 Android
 
 [Android Studio and a few other steps will be required](https://v2.tauri.app/guides/prerequisites/#android) to get things up and running.
-Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
+> Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
 
 Once that's done, you can initialize the project:
 ```bun tauri android init```

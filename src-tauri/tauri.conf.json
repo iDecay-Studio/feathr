@@ -1,6 +1,6 @@
 {
-  "productName": "Leaf Editor",
+  "productName": "feathr.",
   "version": "1.0.0",
-  "identifier": "com.justDeek.LeafEditor",
+  "identifier": "de.iDecay.feathr",
   "$schema": "../node_modules/@tauri-apps/cli/schema.json"
 }

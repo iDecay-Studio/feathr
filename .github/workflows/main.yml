@@ -14,15 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform: 'macos-latest' # for Arm based macs (M1 and above).
-            args: '--target aarch64-apple-darwin'
-          - platform: 'macos-latest' # for Intel based macs.
-            args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: ''
-          - platform: 'windows-latest'
-            args: ''
+        platform: [windows-latest, macos-latest, ubuntu-22.04]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -42,30 +34,49 @@ jobs:
         with:
           # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          toolchain: stable
+          cache: true
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
       
-      - name: install dependencies (ubuntu only)
+      - name: install Ubuntu dependencies
         if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y webkit2gtk-4.1
       
-      - name: install frontend dependencies
-        run: bun install --frozen-lockfile
-        
-      - name: build application
-        run: bun run build
-        
-        #see https://github.com/tauri-apps/tauri-action?tab=readme-ov-file for details
+      - name: build for Windows & Linux
+        if: matrix.platform != 'macos-latest'
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+        env:
+          TAURI_PRIVATE_SIGNING_KEY: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY }}
+          TAURI_PRIVATE_SIGNING_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY_PASSWORD }}
+      
+      - name: Install x86_64-apple-darwin for mac and build Tauri binaries
+        if: matrix.platform == 'macos-latest'
+        run: |
+          rustup target add x86_64-apple-darwin
+          bun install --frozen-lockfile
+          bun tauri build --config src-tauri/tauri.desktop.conf.json --target x86_64-apple-darwin
+          bun tauri build --config src-tauri/tauri.desktop.conf.json --target aarch64-apple-darwin
+        env:
+          TAURI_PRIVATE_SIGNING_KEY: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY }}
+          TAURI_PRIVATE_SIGNING_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY_PASSWORD }}
+      
+        #https://github.com/tauri-apps/tauri-action
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
           releaseName: 'feathr. v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
-          args: ${{ matrix.args }}
+          includeUpdaterJson: true
+          prerelease: false

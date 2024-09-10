@@ -50,6 +50,6 @@ export const getCaretXY = (input, selectionPoint) => {
 };
 
 // #copyStyles(src, dest, copyStyles) {
-//   let styles = window.getComputedStyle(src);
+//   let styles = getComputedStyle(src);
 //   copyStyles.forEach((stl) => dest.style[stl] = styles[stl]);
 // }

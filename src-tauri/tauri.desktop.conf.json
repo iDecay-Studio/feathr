@@ -10,6 +10,7 @@
     "category": "Utility",
     "copyright": "",
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "externalBin": [],
     "icon": [
       "icons/32x32.png",
@@ -51,7 +52,7 @@
   },
   "plugins": {
     "updater": {
-      "endpoints": ["https://github.com/iDecay-Studio/feathr/.github/releases/latest.json"],
+      "endpoints": ["https://github.com/iDecay-Studio/feathr/latest.json"],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdEQjU3RUJGNkFGQjgwQjQKUldTMGdQdHF2MzYxZmVjV3U0UGtYc3NQOEt5U1gybU5GcDg2MTByT1dnMmtVNEpGVnhGelZtUFgK"
     }
   },

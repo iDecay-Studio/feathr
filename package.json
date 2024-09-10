@@ -1,6 +1,6 @@
 {
   "name": "feathr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A modern and minimal text editor for desktop and mobile",
   "author": "Deek (https://github.com/justDeek)",
   "license": "GPL-3.0",
@@ -17,7 +17,7 @@
   },
   "workspaces": ["*"],
   "dependencies": {
-    "@tauri-apps/api": "^2.0.0-rc.0",
+    "@tauri-apps/api": "^2.0.0-rc.4",
     "@tauri-apps/plugin-dialog": "^2.0.0-rc.0",
     "@tauri-apps/plugin-fs": "^2.0.0-rc.1",
     "@tauri-apps/plugin-os": "^2.0.0-rc.0",

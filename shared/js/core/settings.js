@@ -32,7 +32,7 @@ export class Settings {
       if (!allThemes.includes(val)) val = "system";
     }
     
-    if (val === "system") {
+    if (val === "system" && !app.isMobile) {
       let prefersDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true;
       val = prefersDarkTheme ? "dark" : "creamy";
     }

@@ -10,7 +10,7 @@ export class DragMenu {
   constructor(menuEl) {
     this.menu = menuEl;
 
-    let min = parseInt(window.getComputedStyle(this.menu).left);
+    let min = parseInt(getComputedStyle(this.menu).left);
     this.position = {current: min, min: min, max: 0};
     this.position.snapBorder = (this.position.min + this.position.max) * 0.35;
 
@@ -25,13 +25,13 @@ export class DragMenu {
     });
 
     //start swiping the sidebar in if not currently open
-    window.addEventListener(this.eventStart, e => {
+    document.addEventListener(this.eventStart, e => {
       if (this.isOpen) return;
       this.updateCurrentPos(e);
       this.dragOpen = this.getEvent(e, 'touchstart').clientX < 50;
     });
 
-    window.addEventListener(this.eventMove, debounce(e => {
+    document.addEventListener(this.eventMove, debounce(e => {
       if (!this.dragOpen && this.menu.style.pointerEvents !== 'none') return;
 
       let move = this.getEvent(e, 'touchmove').clientX - this.position.current;
@@ -43,7 +43,7 @@ export class DragMenu {
       }
     }));
 
-    window.addEventListener(this.eventEnd, e => {
+    document.addEventListener(this.eventEnd, e => {
       if (this.isMoving) {
         let l = parseInt(this.menu.style.left);
         this.setOpen(l > this.position.snapBorder);

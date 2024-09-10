@@ -1,23 +1,23 @@
 {
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "notes": "Initial release",
   "pub_date": "2024-09-10T19:25:57Z",
   "platforms": {
     "darwin-x86_64": {
       "signature": "Content of app.tar.gz.sig",
-      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.1/app-x86_64.app.tar.gz"
+      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.2/app-x86_64.app.tar.gz"
     },
     "darwin-aarch64": {
       "signature": "Content of app.tar.gz.sig",
-      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.1/app-aarch64.app.tar.gz"
+      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.2/app-aarch64.app.tar.gz"
     },
     "linux-x86_64": {
       "signature": "Content of app.AppImage.tar.gz.sig",
-      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.1/app-amd64.AppImage.tar.gz"
+      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.2/app-amd64.AppImage.tar.gz"
     },
     "windows-x86_64": {
       "signature": "Content of app-setup.nsis.sig or app.msi.sig, depending on the chosen format",
-      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.1/app-x64-setup.nsis.zip"
+      "url": "https://github.com/iDecay-Studio/feathr/releases/download/v1.0.2/app-x64-setup.nsis.zip"
     }
   }
 }

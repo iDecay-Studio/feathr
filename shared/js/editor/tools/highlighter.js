@@ -14,8 +14,10 @@ export class Highlighter {
   init() {
     this.clear();
     
-    let ua = window.navigator.userAgent.toLowerCase();
-    this.isIE = !!ua.match(/msie|trident\/7|edge/);
+    if (!app.isMobile) {
+      let ua = window.navigator.userAgent.toLowerCase();
+      this.isIE = !!ua.match(/msie|trident\/7|edge/);
+    } else this.isIE = false;
     
     this.update();
 

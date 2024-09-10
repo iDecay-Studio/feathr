@@ -22,7 +22,7 @@ export class File {
   startSize = 0 //the initial file size
   
   init = async () => {
-    this.startSize = (await this.getStats())?.size ?? 0;
+    this.startSize = await this.#getSize();
     await setRecentFilesMenu();
 
     //load any unsaved content
@@ -42,9 +42,9 @@ export class File {
   update = async () => {
     this.updateTitle();
 
-    if (this.path === "") return;
+    if (this.path === "" || app.isMobile) return;
     
-    let currSize = (await this.getStats())?.size ?? 0;
+    let currSize = await this.#getSize();
     let fileContent = await this.#read();
     if (!fileContent) return;
     
@@ -65,7 +65,7 @@ export class File {
 
   new = () => discardPrompt(() => this.#new());
   #new() {
-    this.#close();
+    this.close();
     app.update();
   }
 
@@ -95,14 +95,14 @@ export class File {
         this.path = path;
         if (this.path !== "") app.settings.recentPaths.add(this.path);
       }
-      this.getStats().then(stats => {
+      this.#getStats().then(stats => {
         if (stats) this.size = stats.size;
         app.editor.reset(text)
       });
     }
     const onOpenFail = reason => this.#errorOpening(reason);
     
-    this.#close();
+    this.close();
     
     if (inApp) readTextFile(path).then(text => onOpenSuccess(text), onOpenFail);
     else nodeOpen(path, onOpenSuccess, onOpenFail);
@@ -152,7 +152,7 @@ export class File {
   discardChanges = () => discardPrompt(this.#discardChanges);
   #discardChanges = () => app.editor.reset(app.editor.startingState);
 
-  #close() {
+  close() {
     //add this.path to recentPaths if not empty before clearing it
     if (this.path !== "") app.settings.recentPaths.add(this.path);
     this.path = "";
@@ -181,7 +181,8 @@ export class File {
     else console.error(`Error while ${op} file: ${err}`);
   }
   
-  getStats = async () => inApp && this.path !== "" ? await stat(this.path) : null;
+  #getStats = async () => inApp && !app.isMobile && this.path !== "" ? await stat(this.path) : null;
+  #getSize = async () => (await this.#getStats())?.size ?? 0;
 
   //read file-data at current path
   #read = async () => {

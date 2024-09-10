@@ -26,7 +26,7 @@ export const fileMenu = [
   {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
   {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(false), color:'red'},
+  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(), color:'red'},
 ];
 
 export const editMenu = [
@@ -91,7 +91,7 @@ export const settingsMenu = [
   {title:"View", wide:true, hideOnMobile:true, submenu: [
     {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:() => app.settings.showSidebar},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
-    {title:"Close to Tray", setting:() => app.settings.closeToTray},
+    {title:"Close to Tray", setting:() => app.settings.closeToTray, hideOnMobile:true},
   ]},
   {title:"Reset All", action:() => {app.settings.resetAll()}, color:'red'},
 ];

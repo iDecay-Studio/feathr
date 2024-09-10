@@ -1,6 +1,4 @@
 {
-  "productName": "feathr",
-  "version": "1.0.1",
   "identifier": "de.iDecay.feathr",
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "app": {

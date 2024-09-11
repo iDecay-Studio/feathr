@@ -1,5 +1,8 @@
 {
   "identifier": "de.iDecay.feathr",
+  "bundle": {
+    "publisher": "iDecay"
+  },
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "app": {
     "withGlobalTauri": true,

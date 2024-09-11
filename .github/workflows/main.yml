@@ -56,6 +56,11 @@ jobs:
         env:
           TAURI_PRIVATE_SIGNING_KEY: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY }}
           TAURI_PRIVATE_SIGNING_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY_PASSWORD }}
+          
+      - name: bundle for Microsoft Store
+        if: matrix.platform == 'windows-latest'
+        run: |
+          bun run bundle-msstore
       
       - name: Install x86_64-apple-darwin for mac and build Tauri binaries
         if: matrix.platform == 'macos-latest'

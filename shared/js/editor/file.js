@@ -80,7 +80,8 @@ export class File {
       defaultPath: defPath,
       filters: dialogOpenFilters,
     }).then(result => {
-      if (result?.path !== "") {
+      if (typeof result === "string") onOpenSuccess(result);
+      else if (result.path !== "") {
         this.size = result.size;
         onOpenSuccess(result.path);
       }

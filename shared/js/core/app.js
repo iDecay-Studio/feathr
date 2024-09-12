@@ -11,6 +11,7 @@ import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
 import {initEvents} from "@feathr/shared/js/events/events.js";
 import {getCurrentWindow} from '@tauri-apps/api/window';
 import {inApp} from "@feathr/shared/js/core/utils.js";
+import {sep} from "@tauri-apps/api/path";
 
 class App {
   editor = new Editor();
@@ -34,6 +35,12 @@ class App {
     
     await this.update();
     initEvents();
+    
+    //started app by opening a file with it
+    // log(window.openedFiles);
+    if (window.openedFiles && window.openedFiles.length) {
+      this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep));
+    }
 
     if (!this.isMobile) await checkForUpdates();
   }

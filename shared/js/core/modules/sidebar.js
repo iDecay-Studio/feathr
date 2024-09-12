@@ -9,7 +9,6 @@ export class Sidebar {
 
   update = async () => {
     this.markers.set(this.getMarkers());
-    log(this.#getCurrMarker());
     this.currMarker.set(this.#getCurrMarker());
   };
 

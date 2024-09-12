@@ -21,7 +21,7 @@
   </p>
 </div>
 
-![feathr. Text Editor](/app-preview.webp)
+![feathr. Text Editor](/assets/app-preview.webp)
 
 
 # About
@@ -68,8 +68,19 @@ The ```core\app.js``` script is the heart of the application and orchestrates al
 It initializes and updates the modules and serves as the main entry point for all other scripts to access any app-related functionality.
 
 
-# Usage
-Head to the [releases](https://github.com/iDecay-Studio/feathr/releases) page to download pre-built executables.
+# Installation
+Head to the [releases](https://github.com/iDecay-Studio/feathr/releases) page to download the preferred pre-built executable.
+
+- **Linux**: Download the `.AppImage` or `.deb` file and install it.
+- **macOS**: Download the `.dmg` file, then drag **Tau** to your Applications folder.
+- **Windows**: Download the`.exe` or `.msi` executable and run it.
+> If you encounter a SmartScreen warning, it’s because I haven't purchased a Microsoft code-signing certificate yet.\
+> The app is safe to use, the source code is available for review, and you can also scan the executable with [VirusTotal](https://www.virustotal.com/gui/home/upload).\
+> \
+> To install:\
+> Click "More info."\
+> Click "Run anyway."\
+> <img src="https://raw.githubusercontent.com/iDecay-Studio/feathr/main/assets/windowsSmartscreen.png"/>
 
 
 # Building

@@ -17,6 +17,7 @@ jobs:
         platform: [windows-latest, macos-latest, ubuntu-22.04]
 
     runs-on: ${{ matrix.platform }}
+    environment: Signing
     steps:
       - uses: actions/checkout@v4
 

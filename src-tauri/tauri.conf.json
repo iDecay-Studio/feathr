@@ -1,13 +1,77 @@
 {
   "identifier": "de.iDecay.feathr",
-  "bundle": {
-    "publisher": "iDecay"
-  },
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeDevCommand": "bun run desktop-dev",
+    "beforeBuildCommand": "bun run desktop-build",
+    "frontendDist": "../desktop/build",
+    "devUrl": "http://localhost:3000"
+  },
+  "bundle": {
+    "active": true,
+    "createUpdaterArtifacts": true,
+    "publisher": "iDecay",
+    "category": "Utility",
+    "shortDescription": "",
+    "longDescription": "",
+    "copyright": "",
+    "targets": "all",
+    "externalBin": [],
+    "resources": [],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["txt"],
+        "mimeType": "text/plain"
+      },
+      {
+        "ext": ["md"],
+        "mimeType": "text/markdown"
+      }
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": ["https://github.com/iDecay-Studio/feathr/releases/latest/download/latest.json"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdEQjU3RUJGNkFGQjgwQjQKUldTMGdQdHF2MzYxZmVjV3U0UGtYc3NQOEt5U1gybU5GcDg2MTByT1dnMmtVNEpGVnhGelZtUFgK"
+    }
+  },
   "app": {
     "withGlobalTauri": true,
     "security": {
       "csp": "default-src 'self' style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
-    }
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "decorations": false,
+        "width": 640,
+        "height": 560
+      }
+    ],
+    "macOSPrivateApi": true
   }
 }

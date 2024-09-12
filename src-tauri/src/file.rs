@@ -1,5 +1,5 @@
 use std::path::PathBuf;
-use tauri::{AppHandle, Emitter, Manager};
+use tauri::{AppHandle, Manager};
 
 //https://github.com/tauri-apps/tauri/tree/dev/examples/file-associations
 pub fn handle_file_associations(app: AppHandle, files: Vec<PathBuf>) {

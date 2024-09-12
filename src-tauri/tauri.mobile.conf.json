@@ -6,7 +6,6 @@
     "devUrl": "http://192.168.8.16:1420"
   },
   "bundle": {
-    "active": true,
     "icon": ["icons/icon.png"]
   },
   "app": {

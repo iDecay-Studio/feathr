@@ -3,8 +3,7 @@ mod tray;
 mod file;
 
 #[cfg(any(target_os = "windows", target_os = "macos"))]
-use tauri::{AppHandle, Emitter, Manager};
-use tauri::Url;
+use tauri::Manager;
 use std::path::PathBuf;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -18,7 +17,7 @@ pub fn run() {
     .plugin(tauri_plugin_window_state::Builder::default().build())
     .setup(|#[allow(unused_variables)] app| {
       let handle = app.handle();
-      let webview = handle.get_webview_window("main").unwrap();
+      handle.get_webview_window("main").unwrap();
       
       // -- file association start --
       #[cfg(any(windows, target_os = "linux"))]
@@ -78,7 +77,7 @@ pub fn run() {
             .filter_map(|url| url.to_file_path().ok())
             .collect::<Vec<_>>();
 
-          file::handle_file_associations(app.handle().clone(), files);
+          file::handle_file_associations(app.app_handle().clone(), files);
         }
       },
     );

@@ -31,6 +31,7 @@ pub fn handle_file_associations(app: AppHandle, files: Vec<PathBuf>) {
   //  .collect::<Vec<_>>()
   //  .join(",");
   
-  let webview = app.get_webview_window("main").unwrap();
-  let _ = webview.eval(&format!("window.openedFiles = {:?}", files));
+  if let Some(window) = app.get_webview_window("main") {
+    let _ = window.eval(&format!("window.openedFiles = {:?}", files));
+  }
 }

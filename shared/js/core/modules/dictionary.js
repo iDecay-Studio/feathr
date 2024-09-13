@@ -54,7 +54,7 @@ export class Dictionary {
   #build_synonyms = () => {
     //only import the large synonym-db if not in app or in a production-built web-app
     const allSynonyms = inApp || import.meta.env.PROD ? import("./synonyms.js").default : {};
-    if (Object.keys(allSynonyms).length === 0) return;
+    if (!allSynonyms || Object.keys(allSynonyms).length === 0) return;
     
     this.synonyms = allSynonyms;
     for (const targetWord in allSynonyms) {

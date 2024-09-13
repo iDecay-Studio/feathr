@@ -35,7 +35,7 @@ class App {
     
     //open the file the app was started with (keyword: file-association)
     if (window.openedFiles && window.openedFiles.length)
-      this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep));
+      this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep()));
 
     if (!isMobile) await checkForUpdates();
   }
@@ -46,6 +46,12 @@ class App {
     await this.sidebar.update();
     await this.stats.update();
   };
+  
+  setTitle = async (title) => {
+    if (!this.titleRef) this.titleRef = document.getElementById('title');
+    this.titleRef.innerText = title;
+    if (inApp) await getCurrentWindow().setTitle(title.replace('*', ''));
+  }
 
   setFocusMode = async (enable) => {
     if (inApp) await getCurrentWindow().setFullscreen(enable);

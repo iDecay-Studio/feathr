@@ -11,7 +11,7 @@ export function initEvents() {
     if (e.key === 'Tab' && app.editor.isFocused()) {
       //trap focus in the editor to not switch to the cmdBar inputs
       e.preventDefault();
-      app.editor.insert.text("\t");
+      if (!e.shiftKey) app.editor.insert.text("\t");
     }
 
     //slower refresh

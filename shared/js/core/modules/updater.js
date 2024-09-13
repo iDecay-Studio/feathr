@@ -43,7 +43,7 @@ export async function checkForUpdates(onUserClick = false) {
 
 async function errMsg(onUserClick, suffix) {
   if (onUserClick) {
-    await message(`Failed to check for updates.${suffix}`, {
+    await message(`Failed to check for updates. ${suffix}`, {
       title: 'Error',
       kind: 'error',
       okLabel: 'OK'

@@ -8,21 +8,19 @@ use tauri::Manager;
 use std::path::PathBuf;
 
 fn create_window(app: tauri::AppHandle) {
-  //tauri::WebviewWindowBuilder::new(&app, "Third", tauri::WebviewUrl::default())
-  tauri::WindowBuilder::new(&app, "main", tauri::WindowUrl::App("index.html".into()))
+  tauri::WebviewWindowBuilder::new(&app, "main", tauri::WebviewUrl::default())
+    .title("feathr.")
     .inner_size(640 as f64, 560 as f64)
     .min_inner_size(300 as f64, 300 as f64)
     .decorations(false)
     .build()
     .unwrap();
-    
-  Ok(());
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(target_os = "windows")]
-  tauri::Builder::default()
+  let app = tauri::Builder::default()
     .plugin(tauri_plugin_os::init())
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_shell::init())
@@ -32,7 +30,7 @@ pub fn run() {
       let handle = app.handle();
       //handle.get_webview_window("main").unwrap();
       
-      if let Some(window) = app.get_window("main") {
+      if let Some(window) = handle.get_webview_window("main") {
         if window.is_visible().unwrap() {
           window.set_focus().unwrap();
         } else {
@@ -40,7 +38,7 @@ pub fn run() {
           window.set_focus().unwrap();
         }
       } else {
-        create_window(handle);
+        create_window(handle.clone());
       }
       
       // -- file association start --
@@ -80,32 +78,23 @@ pub fn run() {
 
       Ok(())
     })
-    .run(|app, event| {
-      tauri::generate_context!()
-      
-      #[cfg(any(target_os = "macos", target_os = "ios"))]
-      if let tauri::RunEvent::Opened { urls } = event {
-        let files = urls
-          .into_iter()
-          .filter_map(|url| url.to_file_path().ok())
-          .collect::<Vec<_>>();
-
-        file::handle_file_associations(app.clone(), files);
-      }
-    })
-    .on_system_tray_event(|app, event|
-      match event {
-        SystemTrayEvent::LeftClick { .. } => {
-          let window = app.get_window("main").unwrap();
-          if window.is_visible().unwrap() {
-            window.hide().unwrap();
-          } else {
-            window.show().unwrap();
-            window.set_focus().unwrap();
-          }
-        }
-        _ => {}
-      }
-    })
+    .build(tauri::generate_context!())
     .expect("error while running tauri application");
+  
+  #[cfg(not(any(target_os = "macos", target_os = "ios")))]
+  app.run(|_app_handle, _event| {});
+  
+  //handle file associations on apple products
+  #[cfg(any(target_os = "macos", target_os = "ios"))]
+  app.run(|_app_handle, event| match event {
+    tauri::RunEvent::Opened { urls } => {
+      let files = urls
+        .into_iter()
+        .filter_map(|url| url.to_file_path().ok())
+        .collect::<Vec<_>>();
+
+      file::handle_file_associations(_app_handle.clone(), files);
+    }
+    _ => {}
+  });
 }

@@ -91,7 +91,7 @@ export const settingsMenu = [
     {title:"Noir", setting:() => app.settings.theme, compareTo:"noir", closeMenu:false},
   ]},
   {title:"View", wide:true, hideOnMobile:true, submenu: [
-    {title:"Show Sidebar", shortcut:"Ctrl+Tab", setting:() => app.settings.showSidebar},
+    {title:"Show Sidebar", shortcut:"Shift+Tab", setting:() => app.settings.showSidebar},
     {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
     {title:"Close to Tray", setting:() => app.settings.closeToTray, hideOnMobile:true},
   ]},

@@ -1,6 +1,7 @@
 import app from "@feathr/shared/js/core/app.js";
-import {get} from "svelte/store";
 import {currCmd, gotoCmd} from "@feathr/shared/js/core/modules/cmdBar.js";
+import {isMobile} from "@feathr/shared/js/core/utils.js";
+import {get} from "svelte/store";
 
 export class Highlighter {
   el = null;
@@ -14,7 +15,7 @@ export class Highlighter {
   init() {
     this.clear();
     
-    if (!app.isMobile) {
+    if (!isMobile) {
       let ua = window.navigator.userAgent.toLowerCase();
       this.isIE = !!ua.match(/msie|trident\/7|edge/);
     } else this.isIE = false;

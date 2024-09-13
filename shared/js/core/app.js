@@ -9,9 +9,9 @@ import {File} from "@feathr/shared/js/editor/file.js";
 import {checkForUpdates} from "@feathr/shared/js/core/modules/updater.js";
 import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
 import {initEvents} from "@feathr/shared/js/events/events.js";
-import {getCurrentWindow} from '@tauri-apps/api/window';
-import {inApp} from "@feathr/shared/js/core/utils.js";
 import {sep} from "@tauri-apps/api/path";
+import {getCurrentWindow} from '@tauri-apps/api/window';
+import {inApp, isMobile} from "@feathr/shared/js/core/utils.js";
 
 class App {
   editor = new Editor();
@@ -23,10 +23,7 @@ class App {
   go = new Go();
   settings = new Settings();
   
-  init = async (isMobile = false) => {
-    this.isMobile = isMobile;
-    this.titleRef = document.getElementById('title');
-
+  init = async () => {
     //init modules
     await this.file.init();
     this.dictionary.init();
@@ -36,13 +33,11 @@ class App {
     await this.update();
     initEvents();
     
-    //started app by opening a file with it
-    // log(window.openedFiles);
-    if (window.openedFiles && window.openedFiles.length) {
+    //open the file the app was started with (keyword: file-association)
+    if (window.openedFiles && window.openedFiles.length)
       this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep));
-    }
 
-    if (!this.isMobile) await checkForUpdates();
+    if (!isMobile) await checkForUpdates();
   }
   
   update = async () => {
@@ -58,7 +53,7 @@ class App {
   }
 
   quit = (force = false) => inApp && discardPrompt(() => {
-    if (force || !this.isMobile && this.settings.closeToTray.storeVal())
+    if (force || !isMobile && this.settings.closeToTray.storeVal())
     {
       this.file.close();
       getCurrentWindow().hide();

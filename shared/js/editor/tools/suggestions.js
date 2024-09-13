@@ -1,5 +1,5 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {getCaretXY, shuffle} from "@feathr/shared/js/core/utils.js";
+import {isMobile, getCaretXY, shuffle} from "@feathr/shared/js/core/utils.js";
 import app from "@feathr/shared/js/core/app.js";
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
@@ -17,7 +17,7 @@ export class Suggestions {
   mode = ""; //the type of suggestions (either 'autocomplete' or 'synonyms')
   
   init() {
-    if (app.isMobile && !enableOnMobile) return;
+    if (isMobile && !enableOnMobile) return;
     
     this.observer = new ResizeObserver(this.#updatePos.bind(this));
     this.observer.observe(app.editor.el);
@@ -25,7 +25,7 @@ export class Suggestions {
   
   update() {
     if (app.cmdBar.isOpen) return;
-    if (app.isMobile && !enableOnMobile) return;
+    if (isMobile && !enableOnMobile) return;
     if (app.settings.focusMode.storeVal()) return;
     
     if (this.mode === '') {
@@ -116,7 +116,7 @@ export class Suggestions {
   };
 
   onKeyEvent = e => {
-    if (app.isMobile && !enableOnMobile) return;
+    if (isMobile && !enableOnMobile) return;
     if (app.settings.focusMode.storeVal()) return;
     
     const {which, type} = e;
@@ -189,7 +189,7 @@ export class Suggestions {
 
   #updatePos = () => {
     if (!this.el || !app.editor.el) return;
-    if (app.isMobile && !enableOnMobile) return;
+    if (isMobile && !enableOnMobile) return;
     
     const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
     const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);

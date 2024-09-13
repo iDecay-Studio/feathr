@@ -3,9 +3,10 @@ import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
 import {readTextFile, stat, writeTextFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
-import {clamp, getFileNameFromPath, inApp} from "@feathr/shared/js/core/utils.js";
+import {clamp, getFileNameFromPath, inApp, isMobile} from "@feathr/shared/js/core/utils.js";
 import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@feathr/shared/js/editor/file-node.js";
 import {setRecentFilesMenu} from "@feathr/shared/js/ui/menu.js";
+import {get, writable} from "svelte/store";
 
 const dialogOpenFilters = [
   // {name: 'Text Documents', extensions: ['txt', 'md', 'json', 'yml', 'log']},
@@ -17,7 +18,7 @@ const dialogSaveFilters = [
 ];
 
 export class File {
-  path = ""; //the current file path
+  pathStore = writable(""); //path to the currently open file
   index = 0; //the file index when switching between the recent files. Shouldn't become greater than 0.
   startSize = 0 //the initial file size
   
@@ -42,7 +43,7 @@ export class File {
   update = async () => {
     this.updateTitle();
 
-    if (this.path === "" || app.isMobile) return;
+    if (isMobile || !this.hasPath()) return;
     
     let currSize = await this.#getSize();
     let fileContent = await this.#read();
@@ -54,13 +55,24 @@ export class File {
         this.size = currSize;
       });
   }
+
+  setPath = (path) => {
+    app.settings.recentPaths.add(path !== "" ? path : this.getPath());
+    this.pathStore.set(path);
+    this.update();
+  }
+  getPath = () => get(this.pathStore);
+  hasPath = () => this.getPath().trim() !== "";
   
-  updateTitle = () => app.titleRef.innerText = this.getTitle();
+  updateTitle = () => {
+    if (!this.titleRef) this.titleRef = document.getElementById('title');
+    this.titleRef.innerText = this.getTitle();
+  }
   getTitle = (addSuffix = true) => {
     let suffix = addSuffix && app.editor.textEdited() ? "*" : "";
-    if (!this.path || this.path.trim() === "") return 'New Document' + suffix;
+    if (!this.hasPath()) return 'New Document' + suffix;
 
-    return getFileNameFromPath(this.path) + suffix;
+    return getFileNameFromPath(this.getPath()) + suffix;
   }
 
   new = () => discardPrompt(() => this.#new());
@@ -92,10 +104,7 @@ export class File {
   open = (path = "") => discardPrompt(() => this.#open(path));
   #open(path) {
     const onOpenSuccess = text => {
-      if (!path.startsWith('blob')) {
-        this.path = path;
-        if (this.path !== "") app.settings.recentPaths.add(this.path);
-      }
+      if (!path.startsWith('blob')) this.setPath(path);
       this.#getStats().then(stats => {
         if (stats) this.size = stats.size;
         app.editor.reset(text)
@@ -110,13 +119,13 @@ export class File {
   }
 
   openInExplorer = async () => {
-    if (inApp && this.path !== "") {
-      let dirPath = this.path.match(/(.*)[\/\\]/)[1] || '';
+    if (inApp && this.hasPath()) {
+      let dirPath = this.getPath().match(/(.*)[\/\\]/)[1] || '';
       await openWithDefault(dirPath);
     }
   };
   
-  save = () => this.path === "" ? this.saveAs() : this.#save(this.path);
+  save = () => !this.hasPath() ? this.saveAs() : this.#save(this.getPath());
   #save(path, onSuccess = null) {
     const onSaveSuccess = (success) => {
       app.editor.startingState = app.editor.text();
@@ -137,15 +146,12 @@ export class File {
   }
 
   saveAs() {
-    const onSaveSuccess = path => {
-      this.path = path;
-      app.update();
-    };
+    const onSaveSuccess = path => this.setPath(path);
     const onSaveFail = reason => this.#errorSaving(reason);
     
     if (!inApp) return nodeSaveAs();
     return saveDialog({
-      defaultPath: this.path,
+      defaultPath: this.getPath(),
       filters: dialogSaveFilters,
     }).then(path => this.#save(path, () => onSaveSuccess(path)), onSaveFail);
   }
@@ -154,10 +160,7 @@ export class File {
   #discardChanges = () => app.editor.reset(app.editor.startingState);
 
   close() {
-    //add this.path to recentPaths if not empty before clearing it
-    if (this.path !== "") app.settings.recentPaths.add(this.path);
-    this.path = "";
-
+    this.setPath("");
     app.settings.unsavedChanges.reset();
     app.editor.reset();
   }
@@ -182,7 +185,7 @@ export class File {
     else console.error(`Error while ${op} file: ${err}`);
   }
   
-  #getStats = async () => inApp && !app.isMobile && this.path !== "" ? await stat(this.path) : null;
+  #getStats = async () => inApp && !isMobile && this.hasPath() ? await stat(this.getPath()) : null;
   #getSize = async () => (await this.#getStats())?.size ?? 0;
 
   //read file-data at current path
@@ -190,7 +193,7 @@ export class File {
     if (!inApp) return null;
     
     try {
-      return await readTextFile(this.path);
+      return await readTextFile(this.getPath());
     } catch (err) {}
 
     return null;

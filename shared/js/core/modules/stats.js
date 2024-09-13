@@ -1,5 +1,5 @@
 import app from "@feathr/shared/js/core/app.js";
-import {EOL} from "@feathr/shared/js/core/utils.js";
+import {EOL, isMobile} from "@feathr/shared/js/core/utils.js";
 
 export class Stats {
   el = null;
@@ -8,7 +8,7 @@ export class Stats {
     if (!this.el) return;
     
     let hasSelection = app.editor.el.selectionStart !== app.editor.el.selectionEnd;
-    this.el.innerHTML = !app.isMobile && hasSelection ? this.#selection() : "";
+    this.el.innerHTML = !isMobile && hasSelection ? this.#selection() : "";
   };
 
   #selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this.#default()}`;

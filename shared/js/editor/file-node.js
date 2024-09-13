@@ -8,8 +8,7 @@ export const nodeOpenWithDialog = (onOpenSuccess, onOpenFail) => {
   input.onchange = _ => {
     let blobURL = URL.createObjectURL(input.files[0]);
     onOpenSuccess(blobURL);
-    app.file.path = "C:/Users/User/Desktop/" + input.files[0].name;
-    app.file.update();
+    app.file.setPath("C:/Users/User/Desktop/" + input.files[0].name);
     window.URL.revokeObjectURL(blobURL);
   };
   input.click();

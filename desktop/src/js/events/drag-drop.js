@@ -47,8 +47,7 @@ export function initDragDrop() {
       
       let blobURL = URL.createObjectURL(file);
       app.file.open(blobURL);
-      app.file.path = "C:/Users/User/Desktop/" + file.name;
-      app.file.update();
+      app.file.setPath("C:/Users/User/Desktop/" + file.name);
       window.URL.revokeObjectURL(blobURL);
     }
   }

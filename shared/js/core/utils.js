@@ -1,8 +1,10 @@
 import app from "@feathr/shared/js/core/app.js";
-import {eol} from "@tauri-apps/plugin-os";
+import {eol, platform} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 
 export const inApp = window.__TAURI__ ?? false;
+export const isMobile = inApp && ['android','ios'].indexOf(platform()) !== -1;
+
 export const EOL = /\r*\n/g;
 export const rawEOL = inApp ? eol() : "\r\n";
 

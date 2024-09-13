@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {clamp} from "@feathr/shared/js/core/utils.js";
+import {clamp, isMobile} from "@feathr/shared/js/core/utils.js";
 import app from "@feathr/shared/js/core/app.js";
 import {setRecentFilesMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
 
@@ -34,7 +34,7 @@ export class Settings {
       if (!allThemes.includes(val)) val = "system";
     }
     
-    if (val === "system") {
+    if (val === "system" && !isMobile) {
       let prefersDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true;
       val = prefersDarkTheme ? "dark" : "creamy";
     }
@@ -46,7 +46,7 @@ export class Settings {
   
   init() {
     this.focusMode.set(false);
-    if (app.isMobile) this.showSidebar.set(false);
+    if (isMobile) this.showSidebar.set(false);
   }
   
   resetAll() {
@@ -109,6 +109,7 @@ class RecentPaths extends Setting {
   
   //Add given path to the list if valid and remove oldest entry
   add = async (path) => {
+    if (path.trim() === "") return;
     // if (!(await this.#validatePath(path))) return;
 
     let paths = this.storeVal();

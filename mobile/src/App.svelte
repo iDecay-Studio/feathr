@@ -8,9 +8,7 @@
   import app from "@feathr/shared/js/core/app.js";
   import {onMount} from "svelte";
 
-  onMount(async () => {
-    await app.init(true);
-  });
+  onMount(async () => await app.init());
 </script>
 
 <MobileHeader/>

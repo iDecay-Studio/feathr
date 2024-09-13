@@ -13,7 +13,8 @@ export const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 export const exec = (cmd, val = null, focus = true) => {
   if (focus) app.editor.focus()
-  document.execCommand(cmd, false, val);
+  if (cmd !== "paste") document.execCommand(cmd, false, val);
+  else navigator.clipboard.readText().then(text => document.execCommand('insertText', false, text));
 };
 
 export const openLink = (link) => {

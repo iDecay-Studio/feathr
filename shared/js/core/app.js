@@ -7,7 +7,7 @@ import {Stats} from "@feathr/shared/js/core/modules/stats.js";
 import {Sidebar} from "@feathr/shared/js/core/modules/sidebar.js";
 import {File} from "@feathr/shared/js/editor/file.js";
 import {checkForUpdates} from "@feathr/shared/js/core/modules/updater.js";
-import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
+import {savePrompt} from "@feathr/shared/js/ui/prompts.js";
 import {initEvents} from "@feathr/shared/js/events/events.js";
 import {sep} from "@tauri-apps/api/path";
 import {getCurrentWindow} from '@tauri-apps/api/window';
@@ -52,7 +52,7 @@ class App {
     document.documentElement.classList.toggle('focus-mode', enable);
   }
 
-  quit = (force = false) => inApp && discardPrompt(() => {
+  quit = (force = false) => inApp && savePrompt(() => {
     if (force || !isMobile && this.settings.closeToTray.storeVal())
     {
       this.file.close();

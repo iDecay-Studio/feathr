@@ -1,5 +1,5 @@
 <script>
-  import {clickOutside} from "@feathr/shared/js/events/clickOutside.js";
+  import {clickOutside} from "@feathr/shared/js/events/actions/clickOutside.js";
   import app from "@feathr/shared/js/core/app.js";
   
   let isOpen = app.editor.suggestions.isOpen;

@@ -1,5 +1,5 @@
 <script>
-  import { getCurrentWindow } from '@tauri-apps/api/window';
+  import {getCurrentWindow} from '@tauri-apps/api/window';
 </script>
 
 <button class="btn btn-green px-1" on:click={() => getCurrentWindow().minimize()}>

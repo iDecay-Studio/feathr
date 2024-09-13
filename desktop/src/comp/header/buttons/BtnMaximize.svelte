@@ -1,5 +1,5 @@
 <script>
-  import { getCurrentWindow } from '@tauri-apps/api/window';
+  import {getCurrentWindow} from '@tauri-apps/api/window';
   import {inApp} from "@feathr/shared/js/core/utils.js";
 </script>
 

@@ -1,7 +1,7 @@
 <script>
   import MobileDrawerItem from "./MobileDrawerItem.svelte";
   import {drawerItems, showDrawer} from "../../js/stores.js";
-  import {clickOutside} from "@feathr/shared/js/events/clickOutside.js";
+  import {clickOutside} from "@feathr/shared/js/events/actions/clickOutside.js";
 </script>
 
 <div class="backdrop" class:active={$showDrawer}>

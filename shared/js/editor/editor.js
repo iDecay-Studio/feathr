@@ -51,6 +51,7 @@ export class Editor {
 
   text = () => this.get().value;
   focus = () => this.get().focus();
+  isFocused = () => this.get() === document.activeElement;
 
   textEdited = () => this.text().trim() !== this.startingState.trim();
 }  

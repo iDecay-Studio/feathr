@@ -4,7 +4,7 @@
   let currPath = app.file.pathStore;
 </script>
 
-<div class="tooltip-wrapper relative flex flex-row items-center px-3 gap-0 w-fit">
+<div class="tooltip-wrapper relative grid items-center px-3 gap-0 w-fit">
   <span id="title" class="select-none truncate whitespace-nowrap"/>
   {#if $currPath !== ""}
     <span class="tooltip">{$currPath}</span>

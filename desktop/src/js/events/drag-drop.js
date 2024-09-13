@@ -1,6 +1,6 @@
 import app from "@feathr/shared/js/core/app.js";
 import {inApp} from "@feathr/shared/js/core/utils.js";
-import { getCurrentWebview } from "@tauri-apps/api/webview";
+import {getCurrentWebview} from "@tauri-apps/api/webview";
 
 let unlisten;
 
@@ -28,10 +28,13 @@ export function initDragDrop() {
     if (!inApp) {
       e.stopPropagation();
       e.preventDefault();
-      e.dataTransfer.dropEffect = 'copy';
-      if (e.ctrlKey) e.dataTransfer.dropEffect = 'move';
+      e.dataTransfer.dropEffect = 'move';
+      if (e.ctrlKey) e.dataTransfer.dropEffect = 'copy';
     }
-    document.documentElement.classList.add('dragover');
+    
+    //only show dragover effect when not dragging text inside the editor around
+    let types = e.dataTransfer.types;
+    if (types.length && types[0] !== "text/plain") document.documentElement.classList.add('dragover');
   }
 
   function onDrop(e, files) {
@@ -53,7 +56,7 @@ export function initDragDrop() {
   }
 
   function finishDragEvent(e) {
-    if (!inApp) e.preventDefault();
+    // if (!inApp) e.preventDefault();
     document.documentElement.classList.remove('dragover');
   }
 }

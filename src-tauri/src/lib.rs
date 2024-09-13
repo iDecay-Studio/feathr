@@ -7,6 +7,18 @@ use tauri::Manager;
 #[cfg(any(target_os = "windows", target_os = "linux"))]
 use std::path::PathBuf;
 
+fn create_window(app: tauri::AppHandle) {
+  //tauri::WebviewWindowBuilder::new(&app, "Third", tauri::WebviewUrl::default())
+  tauri::WindowBuilder::new(&app, "main", tauri::WindowUrl::App("index.html".into()))
+    .inner_size(640 as f64, 560 as f64)
+    .min_inner_size(300 as f64, 300 as f64)
+    .decorations(false)
+    .build()
+    .unwrap();
+    
+  Ok(());
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(target_os = "windows")]
@@ -18,7 +30,18 @@ pub fn run() {
     .plugin(tauri_plugin_window_state::Builder::default().build())
     .setup(|#[allow(unused_variables)] app| {
       let handle = app.handle();
-      handle.get_webview_window("main").unwrap();
+      //handle.get_webview_window("main").unwrap();
+      
+      if let Some(window) = app.get_window("main") {
+        if window.is_visible().unwrap() {
+          window.set_focus().unwrap();
+        } else {
+          window.show().unwrap();
+          window.set_focus().unwrap();
+        }
+      } else {
+        create_window(handle);
+      }
       
       // -- file association start --
       #[cfg(any(target_os = "windows", target_os = "linux"))]
@@ -57,29 +80,32 @@ pub fn run() {
 
       Ok(())
     })
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
-    
-  #[cfg(not(target_os = "windows"))]
-  tauri::Builder::default()
-    .plugin(tauri_plugin_os::init())
-    .plugin(tauri_plugin_fs::init())
-    .plugin(tauri_plugin_shell::init())
-    .plugin(tauri_plugin_dialog::init())
-    .build(tauri::generate_context!())
-    .expect("error while running tauri application")
-    .run(
-      #[allow(unused_variables)]
-      |app, event| {
-        #[cfg(any(target_os = "macos", target_os = "ios"))]
-        if let tauri::RunEvent::Opened { urls } = event {
-          let files = urls
-            .into_iter()
-            .filter_map(|url| url.to_file_path().ok())
-            .collect::<Vec<_>>();
+    .run(|app, event| {
+      tauri::generate_context!()
+      
+      #[cfg(any(target_os = "macos", target_os = "ios"))]
+      if let tauri::RunEvent::Opened { urls } = event {
+        let files = urls
+          .into_iter()
+          .filter_map(|url| url.to_file_path().ok())
+          .collect::<Vec<_>>();
 
-          file::handle_file_associations(app.app_handle().clone(), files);
+        file::handle_file_associations(app.clone(), files);
+      }
+    })
+    .on_system_tray_event(|app, event|
+      match event {
+        SystemTrayEvent::LeftClick { .. } => {
+          let window = app.get_window("main").unwrap();
+          if window.is_visible().unwrap() {
+            window.hide().unwrap();
+          } else {
+            window.show().unwrap();
+            window.set_focus().unwrap();
+          }
         }
-      },
-    );
+        _ => {}
+      }
+    })
+    .expect("error while running tauri application");
 }

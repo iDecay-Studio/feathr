@@ -64,16 +64,7 @@
     "security": {
       "csp": "default-src 'self' style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "decorations": false,
-        "width": 640,
-        "height": 560,
-        "minWidth": 300,
-        "minHeight": 300
-      }
-    ],
+    "windows": [],
     "macOSPrivateApi": true
   }
 }

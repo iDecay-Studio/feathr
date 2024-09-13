@@ -1,5 +1,5 @@
 import app from "@feathr/shared/js/core/app.js";
-import {default as allSynonyms} from "@feathr/shared/js/core/modules/synonyms.js";
+import {inApp} from "@feathr/shared/js/core/utils.js";
 
 export class Dictionary {
   vocabulary = new Map();
@@ -52,6 +52,10 @@ export class Dictionary {
   };
 
   #build_synonyms = () => {
+    //only import the large synonym-db if not in app or in a production-built web-app
+    const allSynonyms = inApp || import.meta.env.PROD ? import("./synonyms.js").default : {};
+    if (Object.keys(allSynonyms).length === 0) return;
+    
     this.synonyms = allSynonyms;
     for (const targetWord in allSynonyms) {
       const synonyms = allSynonyms[targetWord];

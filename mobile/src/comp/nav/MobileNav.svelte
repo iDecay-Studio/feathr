@@ -1,7 +1,7 @@
 <script>
   import MobileNavDropdown from "./MobileNavDropdown.svelte";
   import MobileDrawer from "../drawer/MobileDrawer.svelte";
-  import {clickOutside} from "@feathr/shared/js/events/clickOutside.js";
+  import {clickOutside} from "@feathr/shared/js/events/actions/clickOutside.js";
   import {onMount} from "svelte";
   import {DragMenu} from "../../js/drag-menu.js";
   import {editMenu, fileMenu, goMenu, isMenuOpen, helpMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";

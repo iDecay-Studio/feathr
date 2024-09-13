@@ -6,8 +6,15 @@ export function initEvents() {
     //   setTimeout(() => app.update(), 0); // force the refresh event to happen after the selection updates
     //   return;
     // }
+    
+    //insert tab
+    if (e.key === 'Tab' && app.editor.isFocused()) {
+      //trap focus in the editor to not switch to the cmdBar inputs
+      e.preventDefault();
+      app.editor.insert.text("\t");
+    }
 
-    // Slower Refresh
+    //slower refresh
     if (e.key === 'Enter' || e.key === 'Space')
       setTimeout(() => {
         app.dictionary.update();
@@ -35,7 +42,7 @@ export function initEvents() {
       }
     }
 
-    if (e.key !== 'Tab') app.update();
+    app.update();
   });
   
   document.addEventListener('click', e => {

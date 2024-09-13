@@ -14,7 +14,7 @@
             class:active={$currMarker && $currMarker.line === marker.line}
             on:click={() => app.go.to_line(marker.line, false)}
     >
-      <span>{marker.text}</span>
+      <span class="truncate">{marker.text}</span>
     </button>
   {/each}
 </div>

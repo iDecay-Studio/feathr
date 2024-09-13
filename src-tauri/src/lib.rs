@@ -4,6 +4,7 @@ mod file;
 
 #[cfg(any(target_os = "windows", target_os = "macos"))]
 use tauri::Manager;
+#[cfg(any(target_os = "windows", target_os = "linux"))]
 use std::path::PathBuf;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -20,7 +21,7 @@ pub fn run() {
       handle.get_webview_window("main").unwrap();
       
       // -- file association start --
-      #[cfg(any(windows, target_os = "linux"))]
+      #[cfg(any(target_os = "windows", target_os = "linux"))]
       {
         let mut files = Vec::new();
 

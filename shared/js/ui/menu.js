@@ -26,7 +26,7 @@ export const fileMenu = [
   {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
   {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(), color:'red'},
+  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(true), color:'red'},
 ];
 
 export const editMenu = [
@@ -53,10 +53,12 @@ export const goMenu = [
 ];
 
 export const helpMenu = [
-  {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
-  {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
-  {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
-  {title:"Check for Updates", action:() => checkForUpdates()},
+  {title:"External Links", submenu: [
+    {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
+    {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
+    {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
+  ]},
+  {title:"Check for Updates", action:() => checkForUpdates(true)},
 ]
 
 export const settingsMenu = [

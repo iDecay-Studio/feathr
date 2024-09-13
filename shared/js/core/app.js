@@ -57,8 +57,8 @@ class App {
     document.documentElement.classList.toggle('focus-mode', enable);
   }
 
-  quit = () => inApp && discardPrompt(() => {
-    if (!this.isMobile && this.settings.closeToTray.storeVal())
+  quit = (force = false) => inApp && discardPrompt(() => {
+    if (force || !this.isMobile && this.settings.closeToTray.storeVal())
     {
       this.file.close();
       getCurrentWindow().hide();

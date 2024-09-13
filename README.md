@@ -90,16 +90,17 @@ Head to the [releases](https://github.com/iDecay-Studio/feathr/releases) page to
 Before you build, you need to have everything required installed.\
 Follow this [guide](https://tauri.app/v1/guides/getting-started/prerequisites#installing) to install Tauri and its dependencies. 
 
-After everything is installed, run the following commands:
+After everything is installed, run the following commands to setup your local repository:
 ```
 git clone https://github.com/iDecay-Studio/feathr.git
 cd feathr
 bun install
 ```
 
+
 ## 🖥️ Desktop
 
-run: ```bun app-build```
+run: ```bun run app-build```\
 Once the build has been completed, you will find the executables in ```src-tauri/target/release/bundle```.
 
 
@@ -108,13 +109,13 @@ Once the build has been completed, you will find the executables in ```src-tauri
 [Android Studio and a few other steps will be required](https://v2.tauri.app/guides/prerequisites/#android) to get things up and running.
 > Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
 
-Once that's done, you can initialize the project:
-```bun tauri android init```
+Once that's done, you can initialize the project with:
+```tauri android init```
 
 Open Android Studio and run the development build:
-```bun android-dev```
-
+```bun android-dev```\
 This command should open the Android emulator and the app shortly after.
+
 If everything is working correctly, you can build the mobile app via: ```bun android-build```
 
 
@@ -123,9 +124,9 @@ If everything is working correctly, you can build the mobile app via: ```bun and
 [Check the prerequisites](https://v2.tauri.app/guides/prerequisites/#ios) for having iOS ready to run (MacOS only).
 
 Once that is done, let’s create the XCode project:
-```bun tauri ios init```
+```tauri ios init```
 
-If everything runs successfully, you can start the development server:
-```bun tauri ios dev --open```
+If everything runs successfully, you can start the development server with:\
+```tauri ios dev --open```
 
-This command will open XCode with your project, select the simulator and get ready to run.
+This command will open XCode with your project. Select the simulator and run the app.

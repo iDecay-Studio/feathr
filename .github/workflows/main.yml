@@ -17,7 +17,6 @@ jobs:
         platform: [windows-latest, macos-latest, ubuntu-22.04]
 
     runs-on: ${{ matrix.platform }}
-    environment: Signing
     steps:
       - uses: actions/checkout@v4
 
@@ -50,33 +49,7 @@ jobs:
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
           
       - name: Install packages
-        run: |
-          bun install --frozen-lockfile
-      
-      #- name: build for Windows & Linux
-      #  if: matrix.platform != 'macos-latest'
-      #  run: |
-      #    bun install --frozen-lockfile
-      #    bun run build
-      #  env:
-      #    TAURI_PRIVATE_SIGNING_KEY: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY }}
-      #    TAURI_PRIVATE_SIGNING_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY_PASSWORD }}
-          
-      #- name: bundle for Microsoft Store
-      #  if: matrix.platform == 'windows-latest'
-      #  run: |
-      #    bun run bundle-msstore
-      
-      #- name: Install x86_64-apple-darwin for mac and build Tauri binaries
-      #  if: matrix.platform == 'macos-latest'
-      #  run: |
-      #    rustup target add x86_64-apple-darwin
-      #    bun install --frozen-lockfile
-      #    bun tauri build --target x86_64-apple-darwin
-      #    bun tauri build --target aarch64-apple-darwin
-      #  env:
-      #    TAURI_PRIVATE_SIGNING_KEY: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY }}
-      #    TAURI_PRIVATE_SIGNING_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_SIGNING_KEY_PASSWORD }}
+        run: bun install --frozen-lockfile
       
         #https://github.com/tauri-apps/tauri-action
       - uses: tauri-apps/tauri-action@v0

@@ -6,9 +6,7 @@
 </script>
 
 <div data-tauri-drag-region class="header flex flex-row w-full">
-  <div class="flex flex-row items-center whitespace-nowrap px-3">
-    <Title/>
-  </div>
+  <Title/>
   <div class="flex flex-row whitespace-nowrap p-1 ml-auto">
     <BtnMinimize/>
     <BtnMaximize/>

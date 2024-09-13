@@ -1,9 +1,11 @@
 @import '@unocss/reset/tailwind.css' layer(base);
 @import "@feathr/shared/styles/base.pcss";
 @import "sidebar.pcss";
+@import "tooltip.pcss";
 
 :root {
   --header-height: 60px;
+  --sidebar-width: 100vw / 5;
 }
 
 html {
@@ -63,7 +65,7 @@ html:not(.focus-mode):not(.show-menubar) {
 }
 
 html.show-sidebar #highlights, html.show-sidebar #editor {
-  padding-right: calc((100vw / 4) - 40px) !important;
+  padding-right: calc(var(--sidebar-width) - 40px) !important;
 }
 
 #title {

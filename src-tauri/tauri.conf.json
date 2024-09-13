@@ -69,7 +69,9 @@
         "fullscreen": false,
         "decorations": false,
         "width": 640,
-        "height": 560
+        "height": 560,
+        "minWidth": 300,
+        "minHeight": 300
       }
     ],
     "macOSPrivateApi": true

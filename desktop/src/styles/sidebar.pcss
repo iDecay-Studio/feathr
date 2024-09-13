@@ -1,6 +1,6 @@
 #sidebar {
   display: block;
-  width: calc((100vw / 4) - 20px);
+  width: calc(var(--sidebar-width) - 20px);
   top: 55px;
   right: 0;
   z-index: var(--layer-fg);
@@ -30,7 +30,7 @@
     overflow: hidden;
     display: inline-block;
     text-overflow: ellipsis;
-    width: calc((100vw / 4) - 55px);
+    width: calc(var(--sidebar-width) - 55px);
     -webkit-app-region: no-drag;
 
     span {

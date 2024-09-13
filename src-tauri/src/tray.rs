@@ -1,9 +1,11 @@
+#[cfg(all(desktop))]
 use tauri::{
   menu::{Menu, MenuItem},
   tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
   Manager, Runtime,
 };
 
+#[cfg(all(desktop))]
 pub fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
   let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
   let menu = Menu::with_items(app, &[&quit_i])?;

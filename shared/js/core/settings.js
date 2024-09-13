@@ -11,7 +11,9 @@ export class Settings {
   fontType = new Setting('font-type', 'sans');
   fontSize = new FontSize();
   recentPaths = new RecentPaths();
-  unsavedChanges = new Setting('unsaved-changes', "");
+  unsavedChanges = new Setting('unsaved-changes', "", (val, init) => {
+    if (!init) app.file.updateTitle()
+  });
   closeToTray = new Setting('close-to-tray', true);
   showSidebar = new Setting('show-sidebar', true, val => {
     document.documentElement.classList.toggle('show-sidebar', val)

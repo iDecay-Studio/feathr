@@ -1,19 +1,20 @@
 import {check} from "@tauri-apps/plugin-updater";
 import {ask, message} from "@tauri-apps/plugin-dialog";
 import {invoke} from "@tauri-apps/api/core";
+import {inApp} from "@feathr/shared/js/core/utils.js";
 
 export async function checkForUpdates(onUserClick = false) {
+  if (!inApp) {
+    console.warn("Updater disabled outside app.");
+    return;
+  }
+
   try {
     const update = await check();
-    log(update);
+    log("update: ", update);
 
-    if (update === null) {
-      if (onUserClick) await message('Failed to check for updates.\nPlease try again later.', {
-        title: 'Error',
-        kind: 'error',
-        okLabel: 'OK'
-      });
-    } else if (update?.available) {
+    if (update === null) await errMsg(onUserClick, 'Please try again later.');
+    else if (update?.available) {
       const yes = await ask(`Update to ${update.version} is available!\n\nRelease notes: ${update.body}`, {
         title: 'Update Available',
         kind: 'info',
@@ -36,10 +37,16 @@ export async function checkForUpdates(onUserClick = false) {
       });
     } 
   } catch (err) {
-    if (onUserClick) await message('Failed to check for updates: ' + err, {
-        title: 'Error',
-        kind: 'error',
-        okLabel: 'OK'
-      });
+    await errMsg(onUserClick, err);
+  }
+}
+
+async function errMsg(onUserClick, suffix) {
+  if (onUserClick) {
+    await message(`Failed to check for updates.${suffix}`, {
+      title: 'Error',
+      kind: 'error',
+      okLabel: 'OK'
+    });
   }
 }

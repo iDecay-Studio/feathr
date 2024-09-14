@@ -1,6 +1,7 @@
 import app from "@feathr/shared/js/core/app.js";
 import {eol, platform} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
+import {readText} from "@tauri-apps/plugin-clipboard-manager";
 
 export const inApp = window.__TAURI__ ?? false;
 export const isMobile = inApp && ['android','ios'].indexOf(platform()) !== -1;
@@ -14,7 +15,7 @@ export const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 export const exec = (cmd, val = null, focus = true) => {
   if (focus) app.editor.focus()
   if (cmd !== "paste") document.execCommand(cmd, false, val);
-  else navigator.clipboard.readText().then(text => document.execCommand('insertText', false, text));
+  else readText().then(text => document.execCommand('insertText', false, text));
 };
 
 export const openLink = (link) => {

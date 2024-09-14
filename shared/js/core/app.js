@@ -59,12 +59,12 @@ class App {
   }
 
   quit = (force = false) => inApp && savePrompt(() => {
-    if (force || !isMobile && this.settings.closeToTray.storeVal())
+    if (!force && !isMobile && this.settings.closeToTray.storeVal())
     {
       this.file.close();
       getCurrentWindow().hide();
     }
-    else getCurrentWindow().quit();
+    else getCurrentWindow().close();
   });
 }
 

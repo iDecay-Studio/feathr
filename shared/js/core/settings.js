@@ -14,7 +14,7 @@ export class Settings {
   unsavedChanges = new Setting('unsaved-changes', "", (val, init) => {
     if (!init) app.file.updateTitle()
   });
-  closeToTray = new Setting('close-to-tray', true);
+  closeToTray = new Setting('close-to-tray', false);
   showSidebar = new Setting('show-sidebar', true, val => {
     document.documentElement.classList.toggle('show-sidebar', val)
   });

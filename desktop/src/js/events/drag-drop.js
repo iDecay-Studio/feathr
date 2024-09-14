@@ -30,11 +30,12 @@ export function initDragDrop() {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
       if (e.ctrlKey) e.dataTransfer.dropEffect = 'copy';
+      
+      //only show dragover effect when not dragging text inside the editor around
+      let types = e.dataTransfer.types;
+      if (types.length && types[0] !== "text/plain") document.documentElement.classList.add('dragover');
     }
-    
-    //only show dragover effect when not dragging text inside the editor around
-    let types = e.dataTransfer.types;
-    if (types.length && types[0] !== "text/plain") document.documentElement.classList.add('dragover');
+    else document.documentElement.classList.add('dragover');
   }
 
   function onDrop(e, files) {

@@ -13,6 +13,7 @@ fn create_window(app: tauri::AppHandle) {
     .inner_size(640 as f64, 560 as f64)
     .min_inner_size(300 as f64, 300 as f64)
     .decorations(false)
+    .transparent(true)
     .build()
     .unwrap();
 }
@@ -25,11 +26,10 @@ pub fn run() {
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_shell::init())
     .plugin(tauri_plugin_dialog::init())
-    .plugin(tauri_plugin_window_state::init())
     .plugin(tauri_plugin_clipboard_manager::init())
+    .plugin(tauri_plugin_window_state::Builder::default().build())
     .setup(|#[allow(unused_variables)] app| {
       let handle = app.handle();
-      //handle.get_webview_window("main").unwrap();
       
       if let Some(window) = handle.get_webview_window("main") {
         if window.is_visible().unwrap() {
@@ -40,6 +40,12 @@ pub fn run() {
         }
       } else {
         create_window(handle.clone());
+      
+        #[cfg(all(desktop))]
+        tray::create_tray(handle)?;
+        
+        #[cfg(desktop)]
+        handle.plugin(tauri_plugin_updater::Builder::new().build())?;
       }
       
       // -- file association start --
@@ -70,12 +76,6 @@ pub fn run() {
         file::handle_file_associations(handle.clone(), files);
       }
       // -- file association end --
-      
-      #[cfg(all(desktop))]
-      tray::create_tray(handle)?;
-      
-      #[cfg(desktop)]
-      handle.plugin(tauri_plugin_updater::Builder::new().build())?;
 
       Ok(())
     })

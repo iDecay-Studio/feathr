@@ -14,6 +14,7 @@
     "desktop-build": "cd desktop && bun run build",
     "mobile-dev": "cd mobile && bun run dev --host",
     "mobile-build": "cd mobile && bun run build",
+    "android-init": "tauri android init",
     "android-dev": "tauri android dev --config src-tauri/tauri.mobile.conf.json",
     "android-build": "tauri android build --config src-tauri/tauri.mobile.conf.json"
   },

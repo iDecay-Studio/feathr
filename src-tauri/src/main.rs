@@ -4,5 +4,8 @@
 )]
 
 fn main() {
-  feathr_lib::run();
+  #[cfg(not(any(target_os = "android", target_os = "ios")))]
+  feathr_lib::desktop();
+  #[cfg(any(target_os = "android", target_os = "ios"))]
+  feathr_lib::mobile();
 }

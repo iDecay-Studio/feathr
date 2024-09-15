@@ -1,12 +1,12 @@
-#[cfg(desktop)]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 mod tray;
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 mod file;
 
-#[cfg(any(target_os = "windows", target_os = "macos"))]
 use tauri::Manager;
-#[cfg(any(target_os = "windows", target_os = "linux"))]
 use std::path::PathBuf;
 
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 fn create_window(app: tauri::AppHandle) {
   tauri::WebviewWindowBuilder::new(&app, "main", tauri::WebviewUrl::default())
     .title("feathr.")
@@ -18,9 +18,8 @@ fn create_window(app: tauri::AppHandle) {
     .unwrap();
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-pub fn run() {
-  #[cfg(target_os = "windows")]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
+pub fn desktop() {
   let app = tauri::Builder::default()
     .plugin(tauri_plugin_os::init())
     .plugin(tauri_plugin_fs::init())
@@ -32,19 +31,12 @@ pub fn run() {
       let handle = app.handle();
       
       if let Some(window) = handle.get_webview_window("main") {
-        if window.is_visible().unwrap() {
-          window.set_focus().unwrap();
-        } else {
-          window.show().unwrap();
-          window.set_focus().unwrap();
-        }
+        window.show().unwrap();
+        window.set_focus().unwrap();
       } else {
         create_window(handle.clone());
       
-        #[cfg(all(desktop))]
         tray::create_tray(handle)?;
-        
-        #[cfg(desktop)]
         handle.plugin(tauri_plugin_updater::Builder::new().build())?;
       }
       
@@ -82,11 +74,11 @@ pub fn run() {
     .build(tauri::generate_context!())
     .expect("error while running tauri application");
   
-  #[cfg(not(any(target_os = "macos", target_os = "ios")))]
+  #[cfg(not(any(target_os = "macos")))]
   app.run(|_app_handle, _event| {});
   
-  //handle file associations on apple products
-  #[cfg(any(target_os = "macos", target_os = "ios"))]
+  //handle file associations on macos
+  #[cfg(any(target_os = "macos"))]
   app.run(|_app_handle, event| match event {
     tauri::RunEvent::Opened { urls } => {
       let files = urls
@@ -98,4 +90,24 @@ pub fn run() {
     }
     _ => {}
   });
+}
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+#[cfg(any(target_os = "android", target_os = "ios"))]
+pub fn mobile() {
+  let app = tauri::Builder::default()
+    .plugin(tauri_plugin_os::init())
+    .plugin(tauri_plugin_fs::init())
+    .plugin(tauri_plugin_shell::init())
+    .plugin(tauri_plugin_dialog::init())
+    .plugin(tauri_plugin_clipboard_manager::init())
+    .setup(|#[allow(unused_variables)] app| {
+      tauri::WebviewWindowBuilder::new(app.handle(), "main", tauri::WebviewUrl::default())
+        .build()
+        .unwrap();
+      
+      Ok(())
+    })
+    .run(tauri::generate_context!())
+    .expect("error while running tauri application");
 }

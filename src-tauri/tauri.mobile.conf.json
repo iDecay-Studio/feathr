@@ -2,7 +2,7 @@
   "build": {
     "beforeDevCommand": "bun run mobile-dev",
     "beforeBuildCommand": "bun run mobile-build",
-    "frontendDist": "../mobile",
+    "frontendDist": "../mobile/build",
     "devUrl": "http://192.168.8.16:1420"
   },
   "bundle": {

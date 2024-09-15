@@ -58,7 +58,7 @@ export const helpMenu = [
     {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
     {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
   ]},
-  {title:"Check for Updates", action:() => checkForUpdates(true)},
+  {title:"Check for Updates", action:() => checkForUpdates(true), hideOnMobile:true},
 ]
 
 export const settingsMenu = [

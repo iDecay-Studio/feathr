@@ -110,13 +110,20 @@ Once the build has been completed, you will find the executables in ```src-tauri
 > Note: When installing Android Studio via JetBrains Toolbox on Windows, the JAVA_HOME path is located at: ```C:\Users\<User>\AppData\Local\Programs\Android Studio\jbr```
 
 Once that's done, you can initialize the project with:
-```tauri android init```
+```bun run android-init```
+> Whenever you make changes to the Cargo dependencies or when you encounter some error messages unrelated to your code changes, run ```bun run android-init``` to re-initialize the ```src-tauri\gen\android``` folder.
 
 Open Android Studio and run the development build:
 ```bun android-dev```\
-This command should open the Android emulator and the app shortly after.
+This command should open the Android emulator and the app shortly after.\
+> When multiple android emulators are being detected, enter the index matching the desired emulator (e.g. ```Medium_Phone_API_35```).\
+> On some newer emulator versions, INFO is being listed as a device option. To fix this, [downgrade](https://github.com/expo/expo/issues/27440#issuecomment-1980049767) your emulator to the latest stable version.
 
 If everything is working correctly, you can build the mobile app via: ```bun android-build```
+
+___
+When the app starts with the following warning: *This app was build for an older version of Android*,
+go to ```src-tauri/gen/android/app/build.gradle.kts``` and insert ```targetSdk = 34``` inside ```android { defaultConfig { ... } }```.
 
 
 ## 🍎 iOS

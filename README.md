@@ -121,6 +121,7 @@ This command should open the Android emulator and the app shortly after.\
 
 If everything is working correctly, you can build the mobile app via: ```bun android-build```
 
+In order to upload the app to Google Play Console, it needs to be signed by following [this](https://v2.tauri.app/distribute/sign/android/) guide.
 ___
 When the app starts with the following warning: *This app was build for an older version of Android*,
 go to ```src-tauri/gen/android/app/build.gradle.kts``` and insert ```targetSdk = 34``` inside ```android { defaultConfig { ... } }```.

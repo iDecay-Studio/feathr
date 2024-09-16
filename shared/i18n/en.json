@@ -1,0 +1,90 @@
+{
+  "file": {
+    "title": "File",
+    "new": "New",
+    "open": "Open",
+    "open_recent": "Open Recent",
+    "open_in_explorer": "Open in Explorer",
+    "save": "Save",
+    "save_as": "Save as",
+    "discard_changes": "Discard Changes",
+    "quit_app": "Quit App"
+  },
+  "edit": {
+    "title": "Edit",
+    "undo": "Undo",
+    "redo": "Redo",
+    "find": "Find",
+    "replace": "Replace",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste"
+  },
+  "go": {
+    "title": "Go",
+    "navigate": "Navigate",
+    "line": "Line",
+    "prev_marker": "Prev. Marker",
+    "next_marker": "Next Marker",
+    "prev_file": "Prev. File",
+    "next_file": "Next File"
+  },
+  "help": {
+    "title": "Help",
+    "ext_links": "External Links",
+    "contact": "Contact",
+    "donate": "Donate",
+    "about": "About",
+    "check_updates": "Check for Updates"
+  },
+  "settings": {
+    "title": "Settings",
+    "font_size": "Font Size",
+    "increase": "Increase",
+    "decrease": "Decrease",
+    "reset": "Reset",
+    "font_type": "Font Type",
+    "sans": "Sans",
+    "sans_serif": "Sans-Serif",
+    "mono": "Mono", 
+    "search": "Search", 
+    "case_sensitive": "Case-sensitive", 
+    "match_words": "Match Words", 
+    "text": "Text", 
+    "auto_indent": "Auto-Indent", 
+    "word_wrap": "Word-wrap",
+    "language": "Language",
+    "english": "English",
+    "german": "German",
+    "theme": "Theme",
+    "theme_system": "System",
+    "theme_bright": "Bright",
+    "theme_creamy": "Creamy",
+    "theme_dimmed": "Dimmed",
+    "theme_mocha": "Mocha",
+    "theme_ocean": "Ocean",
+    "theme_dark": "Dark",
+    "theme_noir": "Noir",
+    "view": "View",
+    "show_sidebar": "Show Sidebar",
+    "focus_mode": "Focus Mode",
+    "close_to_tray": "Close to Tray",
+    "reset_all": "Reset All"
+  },
+  "prompts": {
+    "save_changes": "Would you like to save your changes?",
+    "discard_changes": "Are you sure you want to discard your changes?"
+  },
+  "updater": {
+    "update_available": "Update available",
+    "update_available_desc": "Update to version {0} is available!\\n\\nRelease notes: {1}",
+    "no_update_available": "No updates available",
+    "no_update_available_desc": "You are on the latest version.",
+    "failed_to_check": "Failed to check for updates.",
+    "try_again_later": "Please try again later",
+    "ok": "OK",
+    "update": "Update",
+    "cancel": "Cancel",
+    "error": "Error"
+  }
+}

@@ -1,3 +1,4 @@
+import {I18n} from "@feathr/shared/js/core/modules/i18n.js";
 import {Editor} from "@feathr/shared/js/editor/editor.js";
 import {Settings} from "@feathr/shared/js/core/settings.js";
 import {Dictionary} from "@feathr/shared/js/core/modules/dictionary.js";
@@ -14,6 +15,7 @@ import {getCurrentWindow} from '@tauri-apps/api/window';
 import {inApp, isMobile} from "@feathr/shared/js/core/utils.js";
 
 class App {
+  i18n = new I18n();
   editor = new Editor();
   file = new File();
   dictionary = new Dictionary();
@@ -23,15 +25,16 @@ class App {
   go = new Go();
   settings = new Settings();
   
-  init = async () => {
+  init = async () => {    
     //init modules
+    await this.i18n.init();
     await this.file.init();
     this.dictionary.init();
     this.editor.init();
     this.settings.init();
     
-    await this.update();
     initEvents();
+    await this.update();
     
     //open the file the app was started with (keyword: file-association)
     if (window.openedFiles && window.openedFiles.length)

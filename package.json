@@ -20,6 +20,7 @@
   },
   "workspaces": ["*"],
   "dependencies": {
+    "svelte-i18n": "^3.7.4",
     "@tauri-apps/api": "^2.0.0-rc.4",
     "@tauri-apps/plugin-clipboard-manager": "^2.0.0-rc.1",
     "@tauri-apps/plugin-dialog": "^2.0.0-rc.0",

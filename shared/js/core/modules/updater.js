@@ -2,6 +2,9 @@ import {check} from "@tauri-apps/plugin-updater";
 import {ask, message} from "@tauri-apps/plugin-dialog";
 import {invoke} from "@tauri-apps/api/core";
 import {inApp} from "@feathr/shared/js/core/utils.js";
+import {format, unwrapFunctionStore} from 'svelte-i18n'
+
+const _ = unwrapFunctionStore(format);
 
 export async function checkForUpdates(onUserClick = false) {
   if (!inApp) {
@@ -13,13 +16,14 @@ export async function checkForUpdates(onUserClick = false) {
     const update = await check();
     log("update: ", update);
 
-    if (update === null) await errMsg(onUserClick, 'Please try again later.');
+    if (update === null) await errMsg(onUserClick, _('updater.try_again_later'));
     else if (update?.available) {
-      const yes = await ask(`Update to ${update.version} is available!\n\nRelease notes: ${update.body}`, {
-        title: 'Update Available',
+      let msg = _('updater.update_available_desc', {values:{version: update.version, notes: update.body}});
+      const yes = await ask(msg, {
+        title: _('updater.update_available'),
         kind: 'info',
-        okLabel: 'Update',
-        cancelLabel: 'Cancel'
+        okLabel: _('updater.update'),
+        cancelLabel: _('updater.cancel')
       });
       if (yes) {
         await update.downloadAndInstall();
@@ -30,12 +34,12 @@ export async function checkForUpdates(onUserClick = false) {
         //alt.: await relaunch();
       }
     } else if (onUserClick) {
-      await message('You are on the latest version.', {
-        title: 'No Update Available',
+      await message(_('updater.no_update_available_desc'), {
+        title: _('updater.no_update_available'),
         kind: 'info',
-        okLabel: 'OK'
+        okLabel: _('updater.ok')
       });
-    } 
+    }
   } catch (err) {
     await errMsg(onUserClick, err);
   }
@@ -43,10 +47,10 @@ export async function checkForUpdates(onUserClick = false) {
 
 async function errMsg(onUserClick, suffix) {
   if (onUserClick) {
-    await message(`Failed to check for updates. ${suffix}`, {
-      title: 'Error',
+    await message(_('updater.failed_to_check') + ' ' + suffix, {
+      title: _('updater.error'),
       kind: 'error',
-      okLabel: 'OK'
+      okLabel: _('updater.ok')
     });
   }
 }

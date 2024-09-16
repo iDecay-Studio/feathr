@@ -5,6 +5,18 @@ mod file;
 
 use tauri::Manager;
 use std::path::PathBuf;
+use sys_locale::get_locale;
+
+struct ParaState{
+    current_path:String,
+    input_file_path:String,
+    current_locale:String
+}
+
+#[tauri::command]
+fn fetch_locale(state: tauri::State<ParaState>) -> String {
+  state.current_locale.clone()
+}
 
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
 fn create_window(app: tauri::AppHandle) {

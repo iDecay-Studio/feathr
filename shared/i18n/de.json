@@ -1,0 +1,90 @@
+{
+  "file": {
+    "title": "Datei",
+    "new": "Neu",
+    "open": "Öffnen",
+    "open_recent": "Kürzlich geöffnet",
+    "open_in_explorer": "Im Explorer öffnen",
+    "save": "Speichern",
+    "save_as": "Speichern als",
+    "discard_changes": "Änderungen verwerfen",
+    "quit_app": "App beenden"
+  },
+  "edit": {
+    "title": "Bearbeiten",
+    "undo": "Rückgängig",
+    "redo": "Wiederholen",
+    "find": "Finden",
+    "replace": "Ersetzen",
+    "cut": "Ausschneiden",
+    "copy": "Kopieren",
+    "paste": "Einfügen"
+  },
+  "go": {
+    "title": "Wechseln zu",
+    "navigate": "Navigieren",
+    "line": "Linie",
+    "prev_marker": "Vorheriger Marker",
+    "next_marker": "Nächster Marker",
+    "prev_file": "Vorherige Datei",
+    "next_file": "Nächste Datei"
+  },
+  "help": {
+    "title": "Hilfe",
+    "ext_links": "Externe Links",
+    "contact": "Kontakt",
+    "donate": "Spenden",
+    "about": "Über",
+    "check_updates": "Nach Updates prüfen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "font_size": "Fontgröße",
+    "increase": "Erhöhen",
+    "decrease": "Verringern",
+    "reset": "Zurücksetzen",
+    "font_type": "Font-Typ",
+    "sans": "Sans",
+    "sans_serif": "Sans-Serif",
+    "mono": "Mono", 
+    "search": "Suche", 
+    "case_sensitive": "Schreibungsabhängig", 
+    "match_words": "Wortübereinstimmung", 
+    "text": "Text", 
+    "auto_indent": "Auto-Indentierung", 
+    "word_wrap": "Zeilenumbruch",
+    "language": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "theme": "Thema",
+    "theme_system": "System",
+    "theme_bright": "Hell",
+    "theme_creamy": "Cremig",
+    "theme_dimmed": "Gedimmt",
+    "theme_mocha": "Mokka",
+    "theme_ocean": "Ozean",
+    "theme_dark": "Dunkel",
+    "theme_noir": "Noir",
+    "view": "Ansicht",
+    "show_sidebar": "Sidebar anzeigen",
+    "focus_mode": "Fokus-Modus",
+    "close_to_tray": "Zum Tray schließen",
+    "reset_all": "Alles zurücksetzen"
+  },
+  "prompts": {
+    "save_changes": "Willst du deine Änderungen speichern?",
+    "discard_changes": "Willst du wirklich deine Änderungen verwerfen?"
+  },
+  "updater": {
+    "update_available": "Update verfügbar",
+    "update_available_desc": "Update zu Version {0} ist verfügbar!\\n\\Versionshinweise: {1}",
+    "no_update_available": "Keine Updates verfügbar",
+    "no_update_available_desc": "Du bist auf der neuesten Version.",
+    "failed_to_check": "Konnte nicht nach Updates prüfen.",
+    "try_again_later": "Bitte versuche es später erneut",
+    "ok": "OK",
+    "update": "Update",
+    "cancel": "Abbrechen",
+    "error": "Fehler"
+  }
+}

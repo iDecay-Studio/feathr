@@ -1,7 +1,7 @@
-import {get, writable} from "svelte/store";
-import {clamp, isMobile} from "@feathr/shared/js/core/utils.js";
 import app from "@feathr/shared/js/core/app.js";
+import {clamp, isMobile} from "@feathr/shared/js/core/utils.js";
 import {setRecentFilesMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
+import {get, writable} from "svelte/store";
 
 export class Settings {
   caseSensitive = new Setting('case-sensitive', false);
@@ -26,11 +26,15 @@ export class Settings {
   focusMode = new Setting('focus-mode', false, async (val, init) => {
     if (!init) await app.setFocusMode(val);
   });
+  
+  language = new Setting('language', 'en-US', async (val, init) => {
+    if (!init) await app.i18n.setLanguage(val);
+  });
 
   theme = new Setting('theme', "system", (val, init) => {
     if (!init) {
       //make sure the retrieved theme from localStorage actually exists (in case it got renamed or removed) and revert to 'system' if not
-      let allThemes = settingsMenu.filter(item => item.title === "Theme")[0].submenu.map(subitem => subitem.title.toLowerCase());
+      let allThemes = get(settingsMenu).filter(item => item.title === "Theme")[0].submenu.map(subitem => subitem.title.toLowerCase());
       if (!allThemes.includes(val)) val = "system";
     }
     

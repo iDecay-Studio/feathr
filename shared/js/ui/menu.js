@@ -1,8 +1,9 @@
 import app from "@feathr/shared/js/core/app.js";
-import {exec, getFileNameFromPath, openLink} from "@feathr/shared/js/core/utils.js";
 import {findCmd, gotoCmd, replaceCmd} from "@feathr/shared/js/core/modules/cmdBar.js";
-import {writable} from "svelte/store";
+import {exec, getFileNameFromPath, openLink} from "@feathr/shared/js/core/utils.js";
 import {checkForUpdates} from "@feathr/shared/js/core/modules/updater.js";
+import {derived, get, writable} from "svelte/store";
+import {format} from 'svelte-i18n';
 
 //states
 export let isMenuOpen = writable(false);
@@ -12,88 +13,89 @@ export async function setRecentFilesMenu() {
   let result = [];
   let recentPaths = await app.settings.recentPaths.get();
   recentPaths.forEach(path => result.push({title: getFileNameFromPath(path), action: () => app.file.open(path)}));
-  
-  fileMenu[2].submenu = result;
+
+  get(fileMenu)[2].submenu = result;
 }
 
-export const fileMenu = [
-  {title:"New", shortcut:"Ctrl+N", action:() => app.file.new()},
-  {title:"Open...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
-  {title:"Open Recent", submenu: []},
-  {title:"Open in Explorer", shortcut:"Ctrl+E", action:() => app.file.openInExplorer(), hideOnMobile:true},
+export let fileMenu = derived(format, _ => [
+  {title:_('file.new'), shortcut:"Ctrl+N", action:() => app.file.new()},
+  {title:_('file.open')+"...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
+  {title:_('file.open_recent'), submenu: []},
+  {title:_('file.open_in_explorer'), shortcut:"Ctrl+E", action:() => app.file.openInExplorer(), hideOnMobile:true},
   {divider:true},
-  {title:"Save", shortcut:"Ctrl+S", action:() => app.file.save()},
-  {title:"Save as...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
+  {title:_('file.save'), shortcut:"Ctrl+S", action:() => app.file.save()},
+  {title:_('file.save_as')+"...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
-  {title:"Discard Changes", shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:"Quit App", shortcut:"Ctrl+Q", action:() => app.quit(true), color:'red'},
-];
+  {title:_('file.discard_changes'), shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
+  {title:_('file.quit_app'), shortcut:"Ctrl+Q", action:() => app.quit(true), color:'red'},
+]);
 
-export const editMenu = [
-  {title:"Undo", shortcut:"Ctrl+Z", action:() => exec("undo")},
-  {title:"Redo", shortcut:"Ctrl+Y", action:() => exec("redo")},
+export const editMenu = derived(format, _ => [
+  {title:_('edit.undo'), shortcut:"Ctrl+Z", action:() => exec("undo")},
+  {title:_('edit.redo'), shortcut:"Ctrl+Y", action:() => exec("redo")},
   {divider:true},
-  {title:"Find...", shortcut:"Ctrl+F", action:() => app.cmdBar.open(findCmd)},
-  {title:"Replace...", shortcut:"Ctrl+R", action:() => app.cmdBar.open(replaceCmd)},
+  {title:_('edit.find')+"...", shortcut:"Ctrl+F", action:() => app.cmdBar.open(findCmd)},
+  {title:_('edit.replace')+"...", shortcut:"Ctrl+R", action:() => app.cmdBar.open(replaceCmd)},
   {divider:true, hideOnMobile:true},
-  {title:"Cut", shortcut:"Ctrl+X", action:() => exec("cut"), hideOnMobile:true},
-  {title:"Copy", shortcut:"Ctrl+C", action:() => exec("copy"), hideOnMobile:true},
-  {title:"Paste", shortcut:"Ctrl+V", action:() => exec("paste"), hideOnMobile:true},
-  // {divider:true},
-  // {title:"Autocomplete", shortcut:"Tab", action:() => app.editor.selection.autocomplete()},
-  // {title:"Select Synonym", shortcut:"Shift+Tab", action:() => app.editor.selection.synonym()},
-];
+  {title:_('edit.cut'), shortcut:"Ctrl+X", action:() => exec("cut"), hideOnMobile:true},
+  {title:_('edit.copy'), shortcut:"Ctrl+C", action:() => exec("copy"), hideOnMobile:true},
+  {title:_('edit.paste'), shortcut:"Ctrl+V", action:() => exec("paste"), hideOnMobile:true},
+]);
 
-export const goMenu = [
-  {title:"Line...", shortcut:"Ctrl+G", action:() => app.cmdBar.open(gotoCmd)},
-  {title:"Prev. Marker", shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker(), hideOnMobile:true},
-  {title:"Next Marker", shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker(), hideOnMobile:true},
-  {title:"Prev. File", shortcut:"Ctrl+Left", action:() => app.file.prev()},
-  {title:"Next File", shortcut:"Ctrl+Right", action:() => app.file.next()},
-];
+export const goMenu = derived(format, _ => [
+  {title:_('go.line')+"...", shortcut:"Ctrl+G", action:() => app.cmdBar.open(gotoCmd)},
+  {title:_('go.prev_marker'), shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker(), hideOnMobile:true},
+  {title:_('go.next_marker'), shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker(), hideOnMobile:true},
+  {title:_('go.prev_file'), shortcut:"Ctrl+Left", action:() => app.file.prev()},
+  {title:_('go.next_file'), shortcut:"Ctrl+Right", action:() => app.file.next()},
+]);
 
-export const helpMenu = [
-  {title:"External Links", submenu: [
-    {title:"Contact", action:() => openLink("https://www.idecay.de/contact"), isLink:true},
-    {title:"Donate", action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
-    {title:"About", action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
-  ]},
-  {title:"Check for Updates", action:() => checkForUpdates(true), hideOnMobile:true},
-]
+export const helpMenu = derived(format, _ => [
+  {title:_('help.ext_links'), submenu: [
+      {title:_('help.contact'), action:() => openLink("https://www.idecay.de/contact"), isLink:true},
+      {title:_('help.donate'), action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
+      {title:_('help.about'), action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
+    ]},
+  {title:_('help.check_updates'), action:() => checkForUpdates(true), hideOnMobile:true},
+]);
 
-export const settingsMenu = [
-  {title:"Font Size", submenu: [
-    {title:"Increase", shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
-    {title:"Decrease", shortcut:"Ctrl+[-]", action:() => app.settings.fontSize.decrease(), closeMenu:false},
-    {title:"Reset", shortcut:"Ctrl+0", action:() => app.settings.fontSize.reset(), closeMenu:false},
-  ]},
-  {title:"Font Type", submenu: [
-    {title:"Sans", setting:() => app.settings.fontType, compareTo:"sans", closeMenu:false},
-    {title:"Sans-Serif", setting:() => app.settings.fontType, compareTo:"sans-serif", closeMenu:false},
-    {title:"Mono", setting:() => app.settings.fontType, compareTo:"mono", closeMenu:false},
-  ]},
-  {title:"Search", submenu: [
-    {title:"Case-sensitive", setting:() => app.settings.caseSensitive},
-    {title:"Match Words", setting:() => app.settings.matchWords},
-  ]},
-  {title:"Text", submenu: [
-    {title:"Auto-Indent", setting:() => app.settings.autoIndent},
-    {title:"Word-Wrap", setting:() => app.settings.wordWrap},
-  ]},
-  {title:"Theme", submenu: [
-    {title:"System", setting:() => app.settings.theme, compareTo:"system", closeMenu:false},
-    {title:"Bright", setting:() => app.settings.theme, compareTo:"bright", closeMenu:false},
-    {title:"Creamy", setting:() => app.settings.theme, compareTo:"creamy", closeMenu:false},
-    {title:"Dimmed", setting:() => app.settings.theme, compareTo:"dimmed", closeMenu:false},
-    {title:"Mocha", setting:() => app.settings.theme, compareTo:"mocha", closeMenu:false},
-    {title:"Ocean", setting:() => app.settings.theme, compareTo:"ocean", closeMenu:false},
-    {title:"Dark", setting:() => app.settings.theme, compareTo:"dark", closeMenu:false},
-    {title:"Noir", setting:() => app.settings.theme, compareTo:"noir", closeMenu:false},
-  ]},
-  {title:"View", wide:true, hideOnMobile:true, submenu: [
-    {title:"Show Sidebar", shortcut:"Shift+Tab", setting:() => app.settings.showSidebar},
-    {title:"Focus Mode", shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
-    {title:"Close to Tray", setting:() => app.settings.closeToTray, hideOnMobile:true},
-  ]},
-  {title:"Reset All", action:() => {app.settings.resetAll()}, color:'red'},
-];
+export const settingsMenu = derived(format, _ => [
+  {title:_('settings.language'), submenu: [
+      {title:_('settings.english'), setting:() => app.settings.language, compareTo:"en-US", closeMenu:false},
+      {title:_('settings.german'), setting:() => app.settings.language, compareTo:"de-DE", closeMenu:false},
+    ]},
+  {title:_('settings.theme'), submenu: [
+      {title:_('settings.theme_system'), setting:() => app.settings.theme, compareTo:"system", closeMenu:false},
+      {title:_('settings.theme_bright'), setting:() => app.settings.theme, compareTo:"bright", closeMenu:false},
+      {title:_('settings.theme_creamy'), setting:() => app.settings.theme, compareTo:"creamy", closeMenu:false},
+      {title:_('settings.theme_dimmed'), setting:() => app.settings.theme, compareTo:"dimmed", closeMenu:false},
+      {title:_('settings.theme_mocha'), setting:() => app.settings.theme, compareTo:"mocha", closeMenu:false},
+      {title:_('settings.theme_ocean'), setting:() => app.settings.theme, compareTo:"ocean", closeMenu:false},
+      {title:_('settings.theme_dark'), setting:() => app.settings.theme, compareTo:"dark", closeMenu:false},
+      {title:_('settings.theme_noir'), setting:() => app.settings.theme, compareTo:"noir", closeMenu:false},
+    ]},
+  {title:_('settings.font_size'), submenu: [
+      {title:_('settings.increase'), shortcut:"Ctrl+[+]", action:() => app.settings.fontSize.increase(), closeMenu:false},
+      {title:_('settings.decrease'), shortcut:"Ctrl+[-]", action:() => app.settings.fontSize.decrease(), closeMenu:false},
+      {title:_('settings.reset'), shortcut:"Ctrl+0", action:() => app.settings.fontSize.reset(), closeMenu:false},
+    ]},
+  {title:_('settings.font_type'), submenu: [
+      {title:_('settings.sans'), setting:() => app.settings.fontType, compareTo:"sans", closeMenu:false},
+      {title:_('settings.sans_serif'), setting:() => app.settings.fontType, compareTo:"sans-serif", closeMenu:false},
+      {title:_('settings.mono'), setting:() => app.settings.fontType, compareTo:"mono", closeMenu:false},
+    ]},
+  {title:_('settings.search'), submenu: [
+      {title:_('settings.case_sensitive'), setting:() => app.settings.caseSensitive, closeMenu:false},
+      {title:_('settings.match_words'), setting:() => app.settings.matchWords, closeMenu:false},
+    ]},
+  {title:_('settings.text'), submenu: [
+      {title:_('settings.auto_indent'), setting:() => app.settings.autoIndent, closeMenu:false},
+      {title:_('settings.word_wrap'), setting:() => app.settings.wordWrap, closeMenu:false},
+    ]},
+  {title:_('settings.view'), wide:true, hideOnMobile:true, submenu: [
+      {title:_('settings.show_sidebar'), shortcut:"Shift+Tab", setting:() => app.settings.showSidebar},
+      {title:_('settings.focus_mode'), shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
+      {title:_('settings.close_to_tray'), setting:() => app.settings.closeToTray, hideOnMobile:true},
+    ]},
+  {title:_('settings.reset_all'), action:() => {app.settings.resetAll()}, color:'red'},
+]);

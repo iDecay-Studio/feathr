@@ -5,6 +5,7 @@
   import {onMount} from "svelte";
   import {DragMenu} from "../../js/drag-menu.js";
   import {editMenu, fileMenu, goMenu, isMenuOpen, helpMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
+  import {_} from "svelte-i18n";
 
   let navEl;
   onMount(() => new DragMenu(navEl));
@@ -15,10 +16,10 @@
 <div bind:this={navEl} class="nav-drag-area" class:open={$isMenuOpen}
      use:clickOutside on:click_outside={() => $isMenuOpen = false}>
   <div class="nav">
-    <MobileNavDropdown title="File" icon="file" items={fileMenu}/>
-    <MobileNavDropdown title="Edit" icon="edit-alt" items={editMenu}/>
-    <MobileNavDropdown title="Navigate" icon="navigation" items={goMenu}/>
-    <MobileNavDropdown title="Settings" icon="cog" items={settingsMenu}/>
-    <MobileNavDropdown title="Help" icon="info-circle" items={helpMenu}/>
+    <MobileNavDropdown title="{$_('file.title')}" icon="file" items={$fileMenu}/>
+    <MobileNavDropdown title="{$_('edit.title')}" icon="edit-alt" items={$editMenu}/>
+    <MobileNavDropdown title="{$_('go.navigate')}" icon="navigation" items={$goMenu}/>
+    <MobileNavDropdown title="{$_('settings.title')}" icon="cog" items={$settingsMenu}/>
+    <MobileNavDropdown title="{$_('help.title')}" icon="info-circle" items={$helpMenu}/>
   </div>
 </div>

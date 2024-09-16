@@ -26,7 +26,7 @@
     {/if}
   </button>
   {#if $isMenuOpen && $openMenu === title}
-    <div in:flyIn class="menu-overlay bg flex flex-col absolute top-0 z-50 rounded-md mt-7 text-md p-1 shadow-md -translate-x-0.5 {isSettings ? 'right-0 w-40' : 'w-52 min-w-[9rem]'}">
+    <div in:flyIn class="menu-overlay bg flex flex-col absolute top-0 z-50 rounded-md mt-7 text-md p-1 shadow-md -translate-x-0.5 w-fit min-w-[9rem] {isSettings ? 'right-0' : ''}">
       {#each items as item}
         {#if item.divider}
           <MenuDiv/>

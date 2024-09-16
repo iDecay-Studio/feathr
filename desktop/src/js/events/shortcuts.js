@@ -1,5 +1,6 @@
 import app from "@feathr/shared/js/core/app.js";
 import {editMenu, fileMenu, goMenu, settingsMenu} from "@feathr/shared/js/ui/menu.js";
+import {get} from "svelte/store";
 
 const checkKey = (e, key, exclusive = true, prevDef = true) => {
   if (exclusive && (e.ctrlKey || e.shiftKey || (e.altKey && key !== "alt"))) return false;
@@ -51,9 +52,9 @@ export function initShortcuts() {
       }
     }
 
-    fileMenu.forEach(execShortcuts);
-    editMenu.forEach(execShortcuts);
-    goMenu.forEach(execShortcuts);
-    settingsMenu.forEach(execShortcuts);
+    get(fileMenu).forEach(execShortcuts);
+    get(editMenu).forEach(execShortcuts);
+    get(goMenu).forEach(execShortcuts);
+    get(settingsMenu).forEach(execShortcuts);
   }
 }

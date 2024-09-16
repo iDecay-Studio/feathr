@@ -11,7 +11,7 @@
   if (setting) action = typeof compareTo === "boolean" ? () => setting.toggle() : () => setting.set(compareTo);
 </script>
 
-<button class="btn relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 transition-all duration-100 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none {item.color ? 'text-' + item.color : ''}"
+<button class="btn relative flex gap-3 justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 transition-all duration-100 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none {item.color ? 'text-' + item.color : ''}"
         on:click={() => {action && action(); item.closeMenu !== false && isMenuOpen.set(false)}}
         data-disabled={item.disabled ? "" : undefined}
 >

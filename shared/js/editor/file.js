@@ -3,7 +3,7 @@ import {discardPrompt} from "@feathr/shared/js/ui/prompts.js";
 import {readTextFile, stat, writeTextFile} from "@tauri-apps/plugin-fs";
 import {ask as askDialog, message, open as openDialog, save as saveDialog} from "@tauri-apps/plugin-dialog";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
-import {clamp, getFileNameFromPath, inApp, isMobile} from "@feathr/shared/js/core/utils.js";
+import {clamp, getFileNameFromPath, inApp, isMobile, newDocument} from "@feathr/shared/js/core/utils.js";
 import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@feathr/shared/js/editor/file-node.js";
 import {setRecentFilesMenu} from "@feathr/shared/js/ui/menu.js";
 import {get, writable} from "svelte/store";
@@ -68,7 +68,7 @@ export class File {
   updateTitle = () => app.setTitle(this.getTitle());
   getTitle = (addSuffix = true) => {
     let suffix = addSuffix && app.editor.textEdited() ? "*" : "";
-    if (!this.hasPath()) return 'New Document' + suffix;
+    if (!this.hasPath()) return newDocument() + suffix;
 
     return getFileNameFromPath(this.getPath()) + suffix;
   }
@@ -148,7 +148,7 @@ export class File {
     const onSaveFail = reason => this.#errorSaving(reason);
     
     let defPath = this.getPath();
-    if (defPath === "" && inApp) defPath = (await desktopDir()) + sep() + "New Document.txt";
+    if (defPath === "" && inApp) defPath = (await desktopDir()) + sep() + newDocument();
     
     if (!inApp) return nodeSaveAs();
     return saveDialog({

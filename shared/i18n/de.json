@@ -2,6 +2,7 @@
   "file": {
     "title": "Datei",
     "new": "Neu",
+    "new_document": "Neues Dokument",
     "open": "Öffnen",
     "open_recent": "Kürzlich geöffnet",
     "open_in_explorer": "Im Explorer öffnen",

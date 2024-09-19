@@ -2,6 +2,7 @@
   "file": {
     "title": "File",
     "new": "New",
+    "new_document": "New Document",
     "open": "Open",
     "open_recent": "Open Recent",
     "open_in_explorer": "Open in Explorer",

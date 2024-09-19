@@ -28,7 +28,10 @@ export class Settings {
   });
   
   language = new Setting('language', 'en-US', async (val, init) => {
-    if (!init) await app.i18n.setLanguage(val);
+    if (!init) {
+      await app.i18n.setLanguage(val);
+      app.file.updateTitle();
+    }
   });
 
   theme = new Setting('theme', "system", (val, init) => {
@@ -38,8 +41,8 @@ export class Settings {
       if (!allThemes.includes(val)) val = "system";
     }
     
-    if (val === "system" && !isMobile) {
-      let prefersDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+    if (val === "system") {
+      let prefersDarkTheme = typeof window !== 'undefined' ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true : false;
       val = prefersDarkTheme ? "dark" : "creamy";
     }
     

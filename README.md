@@ -138,3 +138,6 @@ If everything runs successfully, you can start the development server with:\
 ```tauri ios dev --open```
 
 This command will open XCode with your project. Select the simulator and run the app.
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>

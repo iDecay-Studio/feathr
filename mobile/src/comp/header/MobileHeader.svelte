@@ -1,9 +1,10 @@
 <script>
   import {isMenuOpen} from "@feathr/shared/js/ui/menu.js";
+  import {newDocument} from "@feathr/shared/js/core/utils.js";
   import app from "@feathr/shared/js/core/app.js";
   import {tick} from "svelte";
 
-  export let fileName = "New Document";
+  export let fileName = newDocument();
   let searchInputEl;
   let showSearch = false;
   

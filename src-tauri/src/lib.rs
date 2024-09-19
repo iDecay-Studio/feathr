@@ -113,13 +113,6 @@ pub fn mobile() {
     .plugin(tauri_plugin_shell::init())
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_clipboard_manager::init())
-    .setup(|#[allow(unused_variables)] app| {
-      tauri::WebviewWindowBuilder::new(app.handle(), "main", tauri::WebviewUrl::default())
-        .build()
-        .unwrap();
-      
-      Ok(())
-    })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

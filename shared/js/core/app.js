@@ -36,11 +36,13 @@ class App {
     initEvents();
     await this.update();
     
-    //open the file the app was started with (keyword: file-association)
-    if (window.openedFiles && window.openedFiles.length)
-      this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep()));
-
-    if (!isMobile) await checkForUpdates();
+    if (!isMobile) {
+      //open the file the app was started with (keyword: file-association)
+      if (window.openedFiles && window.openedFiles.length)
+        this.file.open(window.openedFiles[0].replaceAll("\\\\", "\\").replaceAll("\\", sep()));
+      
+      await checkForUpdates();
+    }
   }
   
   update = async () => {

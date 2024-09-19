@@ -2,12 +2,17 @@ import app from "@feathr/shared/js/core/app.js";
 import {eol, platform} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {readText} from "@tauri-apps/plugin-clipboard-manager";
+import {format, unwrapFunctionStore} from 'svelte-i18n'
+
+const _ = unwrapFunctionStore(format);
 
 export const inApp = window.__TAURI__ ?? false;
 export const isMobile = inApp && ['android','ios'].indexOf(platform()) !== -1;
 
 export const EOL = /\r*\n/g;
 export const rawEOL = inApp ? eol() : "\r\n";
+
+export const newDocument = () => _('file.new_document');
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
 export const shuffle = (array) => array.sort(() => Math.random() - 0.5);

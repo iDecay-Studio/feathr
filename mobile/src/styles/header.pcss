@@ -21,7 +21,7 @@
 .header-search {
   width: 100%;
   display: flex;
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 5px 10px;
 }
 .header-search.open {
@@ -36,6 +36,22 @@
   border: none;
   outline: none;
   background-color: transparent;
+  
+  /* clears the 'X' from Internet Explorer */
+  &::-ms-clear,
+  &::-ms-reveal {
+    display: none;
+    width : 0;
+    height: 0;
+  }
+
+  /* clears the 'X' from Chrome */
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
 }
 
 .header-toggle {

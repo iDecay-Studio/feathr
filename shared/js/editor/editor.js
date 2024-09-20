@@ -1,5 +1,4 @@
 import app from "@feathr/shared/js/core/app.js";
-import {EOL} from "@feathr/shared/js/core/utils.js";
 import {Insert} from "@feathr/shared/js/editor/tools/insert.js";
 import {Locate} from "@feathr/shared/js/editor/tools/locate.js";
 import {Replace} from "@feathr/shared/js/editor/tools/replace.js";
@@ -10,6 +9,7 @@ import {Suggestions} from "@feathr/shared/js/editor/tools/suggestions.js";
 
 export class Editor {
   el = null;
+  textEdited = false;
   startingState = ""; //the editor content after opening the current file or app
 
   //editor tools
@@ -46,12 +46,11 @@ export class Editor {
   }
   reset(val = "") {
     this.startingState = val;
+    this.textEdited = false;
     this.set(val);
   }
 
   text = () => this.get().value;
   focus = () => this.get().focus();
   isFocused = () => this.get() === document.activeElement;
-
-  textEdited = () => this.text().trim() !== this.startingState.trim();
 }  

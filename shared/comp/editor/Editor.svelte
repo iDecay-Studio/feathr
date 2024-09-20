@@ -7,9 +7,10 @@
   let fontSize = app.settings.fontSize.store;
 
   const onInput = (e) => {
+    app.editor.textEdited = true;
     app.editor.caret.update(e);
     app.editor.highlighter.update();
-    if (app.editor.textEdited()) app.settings.unsavedChanges.set(app.editor.text());
+    app.settings.unsavedChanges.set(app.editor.text());
   }
   
   const onKeyDown = (e) => app.editor.suggestions.onKeyEvent(e);

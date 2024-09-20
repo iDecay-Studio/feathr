@@ -6,7 +6,7 @@ import {format, unwrapFunctionStore} from 'svelte-i18n'
 const _ = unwrapFunctionStore(format);
 
 export const savePrompt = (action) => {
-  if (!app.editor.textEdited()) action();
+  if (!app.editor.textEdited) action();
   else {
     if (inApp) {
       askDialog(_('prompts.save_changes')).then(confirmed => {
@@ -22,7 +22,7 @@ export const savePrompt = (action) => {
 };
 
 export const discardPrompt = (action) => {
-  if (!app.editor.textEdited()) action();
+  if (!app.editor.textEdited) action();
   else {
     if (inApp) {
       askDialog(_('prompts.discard_changes')).then(confirmed => {

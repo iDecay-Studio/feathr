@@ -1,5 +1,5 @@
 import app from "@feathr/shared/js/core/app.js";
-import {inApp} from "@feathr/shared/js/core/utils.js";
+import {demoPath, inApp} from "@feathr/shared/js/core/utils.js";
 import {getCurrentWebview} from "@tauri-apps/api/webview";
 
 let unlisten;
@@ -51,7 +51,7 @@ export function initDragDrop() {
       
       let blobURL = URL.createObjectURL(file);
       app.file.open(blobURL);
-      app.file.setPath("C:/Users/User/Desktop/" + file.name);
+      app.file.setPath(demoPath + file.name);
       window.URL.revokeObjectURL(blobURL);
     }
   }

@@ -64,7 +64,7 @@ export const settingsMenu = derived(format, _ => [
       {title:_('settings.english'), setting:() => app.settings.language, compareTo:"en-US", closeMenu:false},
       {title:_('settings.german'), setting:() => app.settings.language, compareTo:"de-DE", closeMenu:false},
     ]},
-  {title:_('settings.theme'), submenu: [
+  {title:_('settings.theme'), id:'theme', submenu: [
       {title:_('settings.theme_system'), setting:() => app.settings.theme, compareTo:"system", closeMenu:false},
       {title:_('settings.theme_bright'), setting:() => app.settings.theme, compareTo:"bright", closeMenu:false},
       {title:_('settings.theme_creamy'), setting:() => app.settings.theme, compareTo:"creamy", closeMenu:false},
@@ -95,7 +95,7 @@ export const settingsMenu = derived(format, _ => [
   {title:_('settings.view'), wide:true, hideOnMobile:true, submenu: [
       {title:_('settings.show_sidebar'), shortcut:"Shift+Tab", setting:() => app.settings.showSidebar},
       {title:_('settings.focus_mode'), shortcut:"Ctrl+Enter", setting:() => app.settings.focusMode},
-      {title:_('settings.close_to_tray'), setting:() => app.settings.closeToTray, hideOnMobile:true},
+      // {title:_('settings.close_to_tray'), setting:() => app.settings.closeToTray, hideOnMobile:true},
     ]},
   {title:_('settings.reset_all'), action:() => {app.settings.resetAll()}, color:'red'},
 ]);

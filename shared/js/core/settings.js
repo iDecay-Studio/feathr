@@ -37,13 +37,13 @@ export class Settings {
   theme = new Setting('theme', "system", (val, init) => {
     if (!init) {
       //make sure the retrieved theme from localStorage actually exists (in case it got renamed or removed) and revert to 'system' if not
-      let allThemes = get(settingsMenu).filter(item => item.title === "Theme")[0].submenu.map(subitem => subitem.title.toLowerCase());
+      let allThemes = get(settingsMenu).filter(item => item.id && item.id === "theme")[0].submenu.map(subitem => subitem.compareTo);
       if (!allThemes.includes(val)) val = "system";
     }
     
     if (val === "system") {
       let prefersDarkTheme = typeof window !== 'undefined' ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true : false;
-      val = prefersDarkTheme ? "dark" : "creamy";
+      val = prefersDarkTheme ? "dark" : "dimmed";
     }
     
     let themes = document.documentElement.className.match(/theme-[a-z]+/);

@@ -9,6 +9,7 @@ export class Stats {
     
     let hasSelection = app.editor.el.selectionStart !== app.editor.el.selectionEnd;
     this.el.innerHTML = !isMobile && hasSelection ? this.#selection() : "";
+    this.el.classList.toggle('hidden', this.el.innerHTML === ""); 
   };
 
   #selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this.#default()}`;

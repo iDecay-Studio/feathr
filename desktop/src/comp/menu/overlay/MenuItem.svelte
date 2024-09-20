@@ -15,7 +15,7 @@
         on:click={() => {action && action(); item.closeMenu !== false && isMenuOpen.set(false)}}
         data-disabled={item.disabled ? "" : undefined}
 >
-  <span>{item.title}</span>
+  <span class="truncate">{item.title}</span>
   {#if item.shortcut && item.shortcut !== ""}
     <span class="shortcut ml-auto text-sm tracking-widest transition-all duration-100">{item.shortcut}</span>
   {/if}

@@ -13,6 +13,7 @@ export const EOL = /\r*\n/g;
 export const rawEOL = inApp ? eol() : "\r\n";
 
 export const newDocument = () => _('file.new_document');
+export const demoPath = "C:/Users/User/Desktop/";
 
 export const clamp = (v, min, max) => v < min ? min : v > max ? max : v;
 export const shuffle = (array) => array.sort(() => Math.random() - 0.5);

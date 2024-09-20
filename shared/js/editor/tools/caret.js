@@ -1,5 +1,5 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {getCaretXY} from "@feathr/shared/js/core/utils.js";
+import {getCaretXY, isMobile} from "@feathr/shared/js/core/utils.js";
 import app from "@feathr/shared/js/core/app.js";
 
 export class Caret {
@@ -52,6 +52,8 @@ export class Caret {
     
     let height = app.settings.fontSize.storeVal();
     let width = height < 2 ? 2 : height < 3 ? 3 : 4;
+    if (isMobile && width < 4) width = 4;
+    
     this.el.style.width = `${width}px`;
     this.el.style.height = `${height}rem`;
   }

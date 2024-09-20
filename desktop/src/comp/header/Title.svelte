@@ -13,7 +13,11 @@
 </script>
 
 <div class="tooltip-wrapper relative grid items-center px-3 gap-0 w-fit">
-  <span id="title" title={isSmallWindow ? $currPath : ""} class="select-none truncate whitespace-nowrap"/>
+  <span id="title"
+        title={isSmallWindow ? $currPath : ""}
+        class="select-none truncate whitespace-nowrap"
+        data-tauri-drag-region
+  />
   {#if !isSmallWindow && $currPath !== ""}
     <span class="tooltip">{$currPath}</span>
   {/if}

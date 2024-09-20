@@ -1,6 +1,7 @@
 //these functions serve as as a fallback to the tauri-based methods
 // to test the file-handling inside the web-version of the app.
 import app from "@feathr/shared/js/core/app.js";
+import {demoPath} from "@feathr/shared/js/core/utils.js";
 
 export const nodeOpenWithDialog = (onOpenSuccess, onOpenFail) => {
   let input = document.createElement('input');
@@ -8,7 +9,7 @@ export const nodeOpenWithDialog = (onOpenSuccess, onOpenFail) => {
   input.onchange = _ => {
     let blobURL = URL.createObjectURL(input.files[0]);
     onOpenSuccess(blobURL);
-    app.file.setPath("C:/Users/User/Desktop/" + input.files[0].name);
+    app.file.setPath(demoPath + input.files[0].name);
     window.URL.revokeObjectURL(blobURL);
   };
   input.click();

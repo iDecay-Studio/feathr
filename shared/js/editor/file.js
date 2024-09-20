@@ -67,7 +67,7 @@ export class File {
   
   updateTitle = () => app.setTitle(this.getTitle());
   getTitle = (addSuffix = true) => {
-    let suffix = addSuffix && app.editor.textEdited() ? "*" : "";
+    let suffix = addSuffix && app.editor.textEdited ? "*" : "";
     if (!this.hasPath()) return newDocument() + suffix;
 
     return getFileNameFromPath(this.getPath()) + suffix;
@@ -148,7 +148,7 @@ export class File {
     const onSaveFail = reason => this.#errorSaving(reason);
     
     let defPath = this.getPath();
-    if (defPath === "" && inApp) defPath = (await desktopDir()) + sep() + newDocument();
+    if (defPath === "" && inApp && !isMobile) defPath = (await desktopDir()) + sep() + newDocument();
     
     if (!inApp) return nodeSaveAs();
     return saveDialog({

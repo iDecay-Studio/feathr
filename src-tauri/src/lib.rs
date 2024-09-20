@@ -1,5 +1,5 @@
-#[cfg(not(any(target_os = "android", target_os = "ios")))]
-mod tray;
+//#[cfg(not(any(target_os = "android", target_os = "ios")))]
+//mod tray;
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
 mod file;
 
@@ -26,6 +26,7 @@ fn create_window(app: tauri::AppHandle) {
     .min_inner_size(300 as f64, 300 as f64)
     .decorations(false)
     .transparent(true)
+    .visible(false) //enabled by window-state plugin after restoring pos./size
     .build()
     .unwrap();
 }
@@ -48,7 +49,7 @@ pub fn desktop() {
       } else {
         create_window(handle.clone());
       
-        tray::create_tray(handle)?;
+        //tray::create_tray(handle)?;
         handle.plugin(tauri_plugin_updater::Builder::new().build())?;
       }
       

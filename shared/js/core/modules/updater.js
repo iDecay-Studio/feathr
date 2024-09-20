@@ -2,7 +2,7 @@ import {check} from "@tauri-apps/plugin-updater";
 import {ask, message} from "@tauri-apps/plugin-dialog";
 import {invoke} from "@tauri-apps/api/core";
 import {inApp} from "@feathr/shared/js/core/utils.js";
-import {format, unwrapFunctionStore} from 'svelte-i18n'
+import {format, unwrapFunctionStore} from 'svelte-i18n';
 
 const _ = unwrapFunctionStore(format);
 

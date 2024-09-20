@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "identifier": "de.idecay.feathr",
+  "identifier": "de.iDecay.feathr",
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeDevCommand": "bun run desktop-dev",

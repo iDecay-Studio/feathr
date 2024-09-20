@@ -7,7 +7,7 @@
 :root {
   /*general*/
   --header-height: 3.25rem;
-  --nav-width: 15rem;
+  --nav-width: 75vw;
 }
 
 html {
@@ -20,10 +20,12 @@ html {
   margin: var(--header-height) 0 0 0;
 }
 
-button {
-  all: unset;
-  cursor: pointer;
-  user-select: none;
+@layer base {
+  button {
+    all: unset;
+    cursor: pointer;
+    user-select: none;
+  }
 }
 
 h3 {
@@ -46,20 +48,7 @@ img {
   margin-top: 0 !important;
 }
 
-#cmdBar {
-  display: grid;
-  grid-auto-rows: min-content;
-  
-  &.goto {
-    height: 92px;
-    bottom: -92px;
-  }
-  &.find {
-    height: 155px;
-    bottom: -155px;
-  }
-  &.replace {
-    height: 300px;
-    bottom: -300px;
-  }
+#cmdBar input,
+#cmdBar .flex {
+  width: 100% !important;
 }

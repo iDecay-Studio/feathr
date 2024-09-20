@@ -1,5 +1,8 @@
 import app from "@feathr/shared/js/core/app.js";
 import {EOL, isMobile} from "@feathr/shared/js/core/utils.js";
+import {format, unwrapFunctionStore} from 'svelte-i18n';
+
+const _ = unwrapFunctionStore(format);
 
 export class Stats {
   el = null;
@@ -19,9 +22,9 @@ export class Stats {
 
     const sep = ", ";
     let result = "";
-    result += stats.l + ' ' + (stats.l === 1 ? "line" : "lines") + sep;
-    result += stats.c + ' ' + (stats.c === 1 ? "char" : "chars") + sep;
-    result += stats.w + ' ' + (stats.w === 1 ? "word" : "words") + ` (${stats.v} unique)`;
+    result += stats.l + ' ' + _("stats.line" + (stats.l === 1 ? '' : 's')) + sep;
+    result += stats.c + ' ' + _("stats.char" + (stats.c === 1 ? '' : 's')) + sep;
+    result += stats.w + ' ' + _("stats.word" + (stats.w === 1 ? '' : 's')) + ` (${stats.v} ${_("stats.unique")})`;
     
     return result;
   };

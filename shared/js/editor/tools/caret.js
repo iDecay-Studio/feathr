@@ -52,7 +52,7 @@ export class Caret {
     
     let height = app.settings.fontSize.storeVal();
     let width = height < 2 ? 2 : height < 3 ? 3 : 4;
-    if (isMobile && width < 4) width = 4;
+    if (isMobile && width < 3) width = 3;
     
     this.el.style.width = `${width}px`;
     this.el.style.height = `${height}rem`;
@@ -66,8 +66,9 @@ export class Caret {
     const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
     let {x, y} = getCaretXY(app.editor.el, selectionEnd);
 
-    const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
-    const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));
+    let newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
+    let newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));
+    if (isMobile) newTop -= 1;
 
     this.el.style.top = `${newTop}px`;
     this.el.style.left = `${newLeft}px`;

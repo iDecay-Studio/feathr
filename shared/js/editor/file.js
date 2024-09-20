@@ -116,7 +116,7 @@ export class File {
     else nodeOpen(path, onOpenSuccess, onOpenFail);
   }
 
-  openInExplorer = async () => {
+  openFolder = async () => {
     if (inApp && this.hasPath()) {
       let dirPath = this.getPath().match(/(.*)[\/\\]/)[1] || '';
       await openWithDefault(dirPath);

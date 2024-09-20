@@ -1,5 +1,6 @@
 import {debounce} from "./utils.js";
 import {isMenuOpen} from "@feathr/shared/js/ui/menu.js";
+import {isMobile} from "@feathr/shared/js/core/utils.js";
 
 //based on: https://codepen.io/maves9/pen/qBqERPE
 export class DragMenu {
@@ -12,7 +13,7 @@ export class DragMenu {
 
     let min = parseInt(getComputedStyle(this.menu).left);
     this.position = {current: min, min: min, max: 0};
-    this.position.snapBorder = (this.position.min + this.position.max) * 0.35;
+    this.position.snapBorder = (this.position.min + this.position.max) * 0.5;
 
     this.hasTouch = 'ontouchstart' in window;
     this.eventStart  = this.hasTouch ? 'touchstart' : 'mousedown';
@@ -20,19 +21,22 @@ export class DragMenu {
     this.eventEnd  = this.hasTouch ? 'touchend' : 'mouseup';
 
     this.menu.addEventListener(this.eventStart, e => {
+      if (!isMobile) return;
+      
       this.updateCurrentPos(e);
       this.menu.style.pointerEvents = 'none';
     });
 
     //start swiping the sidebar in if not currently open
     document.addEventListener(this.eventStart, e => {
-      if (this.isOpen) return;
+      if (!isMobile || this.isOpen) return;
+      
       this.updateCurrentPos(e);
       this.dragOpen = this.getEvent(e, 'touchstart').clientX < 50;
     });
 
     document.addEventListener(this.eventMove, debounce(e => {
-      if (!this.dragOpen && this.menu.style.pointerEvents !== 'none') return;
+      if (!isMobile || !this.dragOpen && this.menu.style.pointerEvents !== 'none') return;
 
       let move = this.getEvent(e, 'touchmove').clientX - this.position.current;
       
@@ -44,6 +48,8 @@ export class DragMenu {
     }));
 
     document.addEventListener(this.eventEnd, e => {
+      if (!isMobile) return;
+      
       if (this.isMoving) {
         let l = parseInt(this.menu.style.left);
         this.setOpen(l > this.position.snapBorder);

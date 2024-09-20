@@ -2,7 +2,7 @@ import app from "@feathr/shared/js/core/app.js";
 import {eol, platform} from "@tauri-apps/plugin-os";
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {readText} from "@tauri-apps/plugin-clipboard-manager";
-import {format, unwrapFunctionStore} from 'svelte-i18n'
+import {format, unwrapFunctionStore} from 'svelte-i18n';
 
 const _ = unwrapFunctionStore(format);
 

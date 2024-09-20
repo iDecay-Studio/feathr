@@ -20,14 +20,14 @@ export async function setRecentFilesMenu() {
 export let fileMenu = derived(format, _ => [
   {title:_('file.new'), shortcut:"Ctrl+N", action:() => app.file.new()},
   {title:_('file.open')+"...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
-  {title:_('file.open_recent'), submenu: []},
-  {title:_('file.open_in_explorer'), shortcut:"Ctrl+E", action:() => app.file.openInExplorer(), hideOnMobile:true},
+  {title:_('file.open_recent'), submenu: [], hideOnMobile:true},
+  {title:_('file.open_folder'), shortcut:"Ctrl+E", action:() => app.file.openFolder()},
   {divider:true},
   {title:_('file.save'), shortcut:"Ctrl+S", action:() => app.file.save()},
   {title:_('file.save_as')+"...", shortcut:"Ctrl+Shift+S", action:() => app.file.saveAs()},
   {divider:true},
   {title:_('file.discard_changes'), shortcut:"Ctrl+D", action:() => app.file.discardChanges()},
-  {title:_('file.quit_app'), shortcut:"Ctrl+Q", action:() => app.quit(true), color:'red'},
+  {title:_('file.quit_app'), shortcut:"Ctrl+Q", action:() => app.quit(true), color:'red', hideOnMobile:true},
 ]);
 
 export const editMenu = derived(format, _ => [
@@ -46,16 +46,14 @@ export const goMenu = derived(format, _ => [
   {title:_('go.line')+"...", shortcut:"Ctrl+G", action:() => app.cmdBar.open(gotoCmd)},
   {title:_('go.prev_marker'), shortcut:"Ctrl+Up", action:() => app.sidebar.prev_marker(), hideOnMobile:true},
   {title:_('go.next_marker'), shortcut:"Ctrl+Down", action:() => app.sidebar.next_marker(), hideOnMobile:true},
-  {title:_('go.prev_file'), shortcut:"Ctrl+Left", action:() => app.file.prev()},
-  {title:_('go.next_file'), shortcut:"Ctrl+Right", action:() => app.file.next()},
+  // {title:_('go.prev_file'), shortcut:"Ctrl+Left", action:() => app.file.prev()},
+  // {title:_('go.next_file'), shortcut:"Ctrl+Right", action:() => app.file.next()},
 ]);
 
 export const helpMenu = derived(format, _ => [
-  {title:_('help.ext_links'), submenu: [
-      {title:_('help.contact'), action:() => openLink("https://www.idecay.de/contact"), isLink:true},
-      {title:_('help.donate'), action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
-      {title:_('help.about'), action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
-    ]},
+  {title:_('help.contact'), action:() => openLink("https://www.idecay.de/contact"), isLink:true},
+  {title:_('help.donate'), action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
+  {title:_('help.about'), action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
   {title:_('help.check_updates'), action:() => checkForUpdates(true), hideOnMobile:true},
 ]);
 
@@ -88,7 +86,7 @@ export const settingsMenu = derived(format, _ => [
       {title:_('settings.case_sensitive'), setting:() => app.settings.caseSensitive, closeMenu:false},
       {title:_('settings.match_words'), setting:() => app.settings.matchWords, closeMenu:false},
     ]},
-  {title:_('settings.text'), submenu: [
+  {title:_('settings.editor'), submenu: [
       {title:_('settings.auto_indent'), setting:() => app.settings.autoIndent, closeMenu:false},
       {title:_('settings.word_wrap'), setting:() => app.settings.wordWrap, closeMenu:false},
     ]},

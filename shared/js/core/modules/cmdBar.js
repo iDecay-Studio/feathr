@@ -2,6 +2,9 @@ import app from "@feathr/shared/js/core/app.js";
 import {EOL} from "@feathr/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
 import {tick} from "svelte";
+import {format, unwrapFunctionStore} from 'svelte-i18n';
+
+const _ = unwrapFunctionStore(format);
 
 export const currCmd = writable("");
 export const gotoCmd = "goto";
@@ -60,12 +63,12 @@ export class CmdBar {
     let goto = get(currCmd) === gotoCmd;
 
     let countVal = app.editor.highlighter.count();
-    this.counterEl.textContent = countVal + " found";
+    this.counterEl.textContent = countVal + " " + _("cmdBar.found");
     let hasSearchVal = app.cmdBar.inputSearch.value.length > 0;
 
     this.clearEl.classList.toggle('hidden', goto || !hasSearchVal);
     this.replaceAllEl.classList.toggle('hidden', goto || !hasSearchVal || !(get(currCmd) === replaceCmd));
-    this.counterEl.classList.toggle('hidden', goto || !hasSearchVal);
+    this.counterEl.classList.toggle('hidden', goto);
     this.prevEl.classList.toggle('hidden', goto || countVal === 0);
     this.nextEl.classList.toggle('hidden', goto || countVal === 0);
   };

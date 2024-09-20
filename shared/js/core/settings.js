@@ -42,8 +42,8 @@ export class Settings {
     }
     
     if (val === "system") {
-      let prefersDarkTheme = typeof window !== 'undefined' ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true : false;
-      val = prefersDarkTheme ? "dark" : "dimmed";
+      let prefersDarkTheme = typeof window !== 'undefined' ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches === true : true;
+      val = prefersDarkTheme ? "dark" : "bright";
     }
     
     let themes = document.documentElement.className.match(/theme-[a-z]+/);

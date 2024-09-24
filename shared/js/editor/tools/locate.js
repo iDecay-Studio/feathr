@@ -18,7 +18,7 @@ export class Locate {
     return a;
   };
 
-  active_word_location = (position = app.editor.el.selectionEnd) => {
+  active_word_location = (position = app.editor.selection.end()) => {
     let from = position - 1;
     let text = app.editor.text().toLowerCase();
 
@@ -47,7 +47,7 @@ export class Locate {
   };
 
   active_line_id = () => {
-    const segments = app.editor.text().substring(0, app.editor.el.selectionEnd).split(EOL);
+    const segments = app.editor.text().substring(0, app.editor.selection.end()).split(EOL);
     return segments.length - 1;
   };
 

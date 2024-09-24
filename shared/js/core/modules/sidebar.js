@@ -34,8 +34,8 @@ export class Sidebar {
   };
 
   on_scroll = () => {
-    const scrollDistance = app.editor.el.scrollTop;
-    const scrollMax = app.editor.el.scrollHeight - app.editor.el.offsetHeight;
+    const scrollDistance = app.editor.get().scrollTop;
+    const scrollMax = app.editor.get().scrollHeight - app.editor.get().offsetHeight;
     const scrollPerc = Math.min(1, (scrollMax === 0) ? 0 : (scrollDistance / scrollMax));
     const naviOverflowPerc = Math.max(0, (app.sidebar.el.scrollHeight / window.innerHeight) - 1);
 

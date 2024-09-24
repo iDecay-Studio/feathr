@@ -8,7 +8,7 @@ export class Caret {
   
   init() {
     this.observer = new ResizeObserver(this.update.bind(this));
-    this.observer.observe(app.editor.el);
+    this.observer.observe(app.editor.get());
   }
 
   onScroll = e => {
@@ -33,11 +33,11 @@ export class Caret {
         this.el.classList.add("caret");
         this.el.textContent = "";
         
-        document.body.appendChild(this.el);
+        document.getElementById('container').appendChild(this.el);
         this.updateSize();
         document.addEventListener('click', processClick);
       } else {
-        document.body.removeChild(this.el);
+        document.getElementById('container').removeChild(this.el);
         document.removeEventListener('click', processClick);
         this.el = null;
       }
@@ -60,11 +60,11 @@ export class Caret {
   
   updatePos = () => {
     if (!this.el || !this.isActive) return;
-    if (app.editor.el === null) return;
+    if (app.editor.get() === null) return;
 
-    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
-    const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
-    let {x, y} = getCaretXY(app.editor.el, selectionEnd);
+    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.get();
+    const {lineHeight, paddingRight} = getComputedStyle(app.editor.get());
+    let {x, y} = getCaretXY(app.editor.get(), selectionEnd);
 
     let newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     let newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));

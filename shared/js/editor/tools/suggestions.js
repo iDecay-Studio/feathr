@@ -20,7 +20,7 @@ export class Suggestions {
     if (isMobile && !enableOnMobile) return;
     
     this.observer = new ResizeObserver(this.#updatePos.bind(this));
-    this.observer.observe(app.editor.el);
+    this.observer.observe(app.editor.get());
   }
   
   update() {
@@ -62,7 +62,7 @@ export class Suggestions {
     
     this.isOpen.set(true);
     this.selItemStore.set(-1);
-    this.editStart = app.editor.el.selectionStart;
+    this.editStart = app.editor.selection.start();
     this.#updatePos();
   }
   
@@ -104,10 +104,10 @@ export class Suggestions {
     let insert = this.#isAutocomplete() ? selectedText.substring(app.editor.selection.word().length) + whitespace : selectedText;
     app.editor.insert.text(insert);
 
-    // const {selectionStart} = app.editor.el;
+    // const {selectionStart} = app.editor.get();
     //
-    // const start = app.editor.el.value.slice(0, this.editStart);
-    // const end = app.editor.el.value.slice(selectionStart, app.editor.el.value.length);
+    // const start = app.editor.get().value.slice(0, this.editStart);
+    // const end = app.editor.get().value.slice(selectionStart, app.editor.get().value.length);
     //
     // app.editor.set(`${start}${selectedText}${end}`);
     // app.editor.selection.set(selectionStart + selectedText.length);
@@ -120,7 +120,7 @@ export class Suggestions {
     if (app.settings.focusMode.storeVal()) return;
     
     const {which, type} = e;
-    const {selectionStart} = app.editor.el;
+    const {selectionStart} = app.editor.get();
     
     //shift/ctrl/alt
     if (which === 16 || which === 17 || which === 18) return;
@@ -188,12 +188,12 @@ export class Suggestions {
   };
 
   #updatePos = () => {
-    if (!this.el || !app.editor.el) return;
+    if (!this.el || !app.editor.get()) return;
     if (isMobile && !enableOnMobile) return;
     
-    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
-    const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
-    const {x, y} = getCaretXY(app.editor.el, selectionEnd);
+    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.get();
+    const {lineHeight, paddingRight} = getComputedStyle(app.editor.get());
+    const {x, y} = getCaretXY(app.editor.get(), selectionEnd);
 
     const newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     const newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));

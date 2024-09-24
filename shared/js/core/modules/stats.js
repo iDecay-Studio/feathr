@@ -10,12 +10,12 @@ export class Stats {
   update = async () => {
     if (!this.el) return;
     
-    let hasSelection = app.editor.el.selectionStart !== app.editor.el.selectionEnd;
+    let hasSelection = app.editor.selection.start() !== app.editor.selection.end();
     this.el.innerHTML = !isMobile && hasSelection ? this.#selection() : "";
     this.el.classList.toggle('hidden', this.el.innerHTML === ""); 
   };
 
-  #selection = () => `<b>[${app.editor.el.selectionStart},${app.editor.el.selectionEnd}]</b> ${this.#default()}`;
+  #selection = () => `<b>[${app.editor.selection.start()},${app.editor.selection.end()}]</b> ${this.#default()}`;
 
   #default = () => {
     const stats = this.#parse(app.editor.selection.get());

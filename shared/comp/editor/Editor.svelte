@@ -35,18 +35,18 @@
   const onDragLeave = (e) => {
     if (!e.ctrlKey) return;
     
-    let start = app.editor.el.selectionStart;
-    let finish = app.editor.el.selectionEnd;
+    let start = app.editor.selection.start();
+    let finish = app.editor.selection.end();
     let old_text = app.editor.text();
     let moved_text = old_text.substring(start, finish-1);
     exec('delete', moved_text);
     app.editor.selection.set(start);
   }
   
-  const onDblClick = (e) => setTimeout(() => {
+  const onDblClick = _ => setTimeout(() => {
     //remove trailing whitespace when double-clicking a word
-    while (app.editor.text().substring(app.editor.el.selectionEnd -1, app.editor.el.selectionEnd) === " ")
-      app.editor.el.selectionEnd = app.editor.el.selectionEnd - 1;
+    while (app.editor.text().substring(app.editor.selection.end() -1, app.editor.selection.end()) === " ")
+      app.editor.get().selectionStart -= 1;
   }, 0); //add a delay of 0ms to wait until the selection is in the final position
 </script>
 

@@ -24,7 +24,7 @@ export function initEvents() {
 
   document.addEventListener('keyup', e => {
     if (e.key === 'Enter' && app.settings.autoIndent.storeVal()) { // auto-indent
-      let cur_pos = app.editor.el.selectionStart; // get new position in textarea
+      let cur_pos = app.editor.selection.start(); // get new position in textarea
 
       // go back until beginning of last line and count spaces/tabs
       let indent = '';

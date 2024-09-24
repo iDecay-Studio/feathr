@@ -32,10 +32,10 @@ export class Replace {
   //   const newTextValue = app.editor.text().slice(0, del ? from - 1 : from) + newText + app.editor.text().slice(to)
   //
   //   // the cursor automatically moves to the changed position, so we have to set it back
-  //   let cursorStart = app.editor.el.selectionStart
-  //   let cursorEnd = app.editor.el.selectionEnd
+  //   let cursorStart = app.editor.selection.start()
+  //   let cursorEnd = app.editor.selection.end()
   //   const oldLength = app.editor.text().length
-  //   const oldScroll = app.editor.el.scrollTop
+  //   const oldScroll = app.editor.get().scrollTop
   //   // setting text area
   //   app.load(newTextValue)
   //   // adjusting the cursor position for the change in length
@@ -48,6 +48,6 @@ export class Replace {
   //   app.editor.selection.set(cursorStart, cursorEnd);
   //
   //   // setting the scroll position
-  //   app.editor.el.scrollTop = oldScroll
+  //   app.editor.get().scrollTop = oldScroll
   // }
 }

@@ -94,8 +94,7 @@ class FontSize extends Setting {
     super('font-size', 1.35, (val, isInit) => {
       if (isInit) return;
       app.editor.highlighter.update();
-      app.editor.caret.updateSize();
-      app.editor.caret.updatePos();
+      app.editor.caret.update();
     });
   }
 

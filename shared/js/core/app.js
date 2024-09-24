@@ -27,10 +27,13 @@ class App {
   
   init = async () => {    
     //init modules
+    this.editor.init();
     await this.i18n.init();
     await this.file.init();
     this.dictionary.init();
-    this.editor.init();
+    this.cmdBar.init();
+    this.stats.init();
+    this.sidebar.init();
     this.settings.init();
     
     initEvents();

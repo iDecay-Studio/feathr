@@ -3,9 +3,12 @@ import {clamp, EOL} from "@feathr/shared/js/core/utils.js";
 import {get, writable} from "svelte/store";
 
 export class Sidebar {
-  el = null;
   markers = writable([]);
   currMarker = writable(null);
+  
+  init = () => {
+    this.el = document.getElementById('sidebar');
+  }
 
   update = async () => {
     this.markers.set(this.getMarkers());
@@ -34,8 +37,8 @@ export class Sidebar {
   };
 
   on_scroll = () => {
-    const scrollDistance = app.editor.get().scrollTop;
-    const scrollMax = app.editor.get().scrollHeight - app.editor.get().offsetHeight;
+    const scrollDistance = app.editor.el.scrollTop;
+    const scrollMax = app.editor.el.scrollHeight - app.editor.el.offsetHeight;
     const scrollPerc = Math.min(1, (scrollMax === 0) ? 0 : (scrollDistance / scrollMax));
     const naviOverflowPerc = Math.max(0, (app.sidebar.el.scrollHeight / window.innerHeight) - 1);
 

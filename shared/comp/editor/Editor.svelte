@@ -23,8 +23,8 @@
   }
   const onSelectionChange = (e) => app.editor.caret.update(e);
   
-  const onClick = (e) => app.editor.caret.update(e);
-  const onFocus = (e) => app.editor.caret.update(e);
+  const onFocus = _ => app.editor.caret.show();
+  const onBlur = _ => app.editor.caret.hide();
   
   const onScroll = (e) => {
     app.editor.highlighter.onScroll();
@@ -45,29 +45,31 @@
   
   const onDblClick = _ => setTimeout(() => {
     //remove trailing whitespace when double-clicking a word
-    while (app.editor.text().substring(app.editor.selection.end() -1, app.editor.selection.end()) === " ")
-      app.editor.get().selectionStart -= 1;
+    if (app.editor.selection.get().slice(-1) !== " ") return;
+    
+    let selStart = app.editor.selection.start();
+    let selEnd = app.editor.selection.end();
+    
+    app.editor.selection.set(selStart, selEnd - 1);
   }, 0); //add a delay of 0ms to wait until the selection is in the final position
 </script>
 
-<div id="container"
-     style="font-size: {$fontSize}rem; line-height: {$fontSize+0.25}rem; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}">
-  <div id="highlights" bind:this={app.editor.highlighter.el}
-       class="font-{$fontType}" class:wrap-text={$wordWrap}
-  />
-  <textarea id="editor" bind:this={app.editor.el}
+<div id="container" style="font-size: {$fontSize}rem; line-height: {$fontSize+0.25}rem; text-overflow: {$wordWrap ? 'wrap' : 'no-wrap'}">
+  <div id="highlights" class="font-{$fontType}" class:wrap-text={$wordWrap}/>
+  <textarea id="editor"
             class="font-{$fontType}" class:wrap-text={$wordWrap}
             spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
-            on:input={onInput}
-            on:keydown={onKeyDown}
-            on:keypress={onKeyPress}
-            on:keyup={onKeyUp}
-            on:focus={onFocus}
-            on:click={onClick}
-            on:dblclick={onDblClick}
-            on:select={onSelect}
-            on:selectionchange={onSelectionChange}
-            on:dragleave={onDragLeave}
-            on:scroll={onScroll}
+            on:input={e => onInput(e)}
+            on:keydown={e => onKeyDown(e)}
+            on:keypress={e => onKeyPress(e)}
+            on:keyup={e => onKeyUp(e)}
+            on:focus={e => onFocus(e)}
+            on:blur={e => onBlur(e)}
+            on:dblclick={e => onDblClick(e)}
+            on:select={e => onSelect(e)}
+            on:selectionchange={e => onSelectionChange(e)}
+            on:dragleave={e => onDragLeave(e)}
+            on:scroll={e => onScroll(e)}
   />
+  <div id="caret"/>
 </div>

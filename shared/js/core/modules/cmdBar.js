@@ -13,18 +13,20 @@ export const replaceCmd = "replace";
 
 //opens a bar at the bottom for various actions like find & replace, goto line, ...
 export class CmdBar {
-  el = null;
-  inputSearch = null;
-  inputReplace = null;
-  prevEl = null;
-  nextEl = null;
-  clearEl = null;
-  replaceAllEl = null;
-  counterEl = null;
-  
   isOpen = false;
   prev = []; //list of previous inputs
   index = -1; //prev. input id
+  
+  init = () => {
+    this.el = document.getElementById('cmdBar');
+    this.inputSearch = document.getElementById('inputSearch');
+    this.inputReplace = document.getElementById('inputReplace');
+    this.counterEl = document.getElementById('count');
+    this.prevEl = document.getElementById('btnPrev');
+    this.nextEl = document.getElementById('btnNext');
+    this.clearEl = document.getElementById('btnClear');
+    this.replaceAllEl = document.getElementById('btnReplaceAll');
+  }
 
   open = (cmd) => {
     app.stats.el?.classList.add('hidden');

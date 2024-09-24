@@ -1,11 +1,11 @@
 import app from "@feathr/shared/js/core/app.js";
 
 export class Selection {
-  start = () => app.editor.get().selectionStart;
-  end = () => app.editor.get().selectionEnd;
+  start = () => app.editor.el.selectionStart;
+  end = () => app.editor.el.selectionEnd;
   
   get = () => app.editor.text().substring(this.start(), this.end());
-  set = (from, to) => app.editor.get().setSelectionRange(from, to ?? from);
+  set = (from, to) => app.editor.el.setSelectionRange(from, to ?? from);
   reset = () => this.set(0);
   
   //clamp the selection to the length of the text

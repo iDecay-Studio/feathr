@@ -20,7 +20,7 @@ export class Go {
   };
 
   // to_next = (str, scroll = true) => {
-  //   const ta = app.editor.get();
+  //   const ta = app.editor.el;
   //   const text = ta.value;
   //   const range = text.substring(ta.selectionStart, text.length + ta.selectionStart);
   //   const next = ta.selectionStart + range.indexOf(EOL);
@@ -32,12 +32,12 @@ export class Go {
     const div = document.createElement('div');
     div.innerHTML = textVal.slice(0, to);
     document.body.appendChild(div);
-    this.#animateScrollTo(app.editor.get(), div.offsetHeight - 60, 200);
+    this.#animateScrollTo(app.editor.el, div.offsetHeight - 60, 200);
     div.remove();
     
     //---alt. approach:---
     // //cache current text-area state
-    // const ta = app.editor.get();
+    // const ta = app.editor.el;
     // const text = ta.value;
     // const sliceText = text.slice(0, to);
     // const scrollFrom = ta.scrollTop;

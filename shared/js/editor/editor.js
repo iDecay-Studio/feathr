@@ -8,7 +8,6 @@ import {Highlighter} from "@feathr/shared/js/editor/tools/highlighter.js";
 import {Suggestions} from "@feathr/shared/js/editor/tools/suggestions.js";
 
 export class Editor {
-  el = null;
   textEdited = false;
   startingState = ""; //the editor content after opening the current file or app
 
@@ -22,21 +21,23 @@ export class Editor {
   replace = new Replace();
 
   init() {
-    this.focus();
-    this.selection.reset();
+    this.el = document.getElementById('editor');
     
+    this.selection.reset();
     this.caret.init();
     this.suggestions.init();
     this.highlighter.init();
+    
+    this.focus();
   }
 
   update = async () => {
+    this.caret.update();
     this.highlighter.update();
   };
 
-  get = () => this.el ?? (this.el = document.getElementById('editor'));
   set = (val = "") => {
-    this.get().value = val;
+    this.el.value = val;
     this.selection.clamp();
     app.update();
 
@@ -51,7 +52,7 @@ export class Editor {
     this.set(val);
   }
 
-  text = () => this.get().value;
-  focus = () => this.get().focus();
-  isFocused = () => this.get() === document.activeElement;
+  text = () => this.el.value;
+  focus = () => this.el.focus();
+  isFocused = () => this.el === document.activeElement;
 }  

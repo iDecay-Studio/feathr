@@ -14,7 +14,7 @@ export async function checkForUpdates(onUserClick = false) {
 
   try {
     const update = await check();
-    log("update: ", update);
+    // log("update: ", update);
 
     if (update === null) await errMsg(onUserClick, _('updater.try_again_later'));
     else if (update?.available) {

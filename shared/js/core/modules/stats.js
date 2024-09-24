@@ -5,7 +5,9 @@ import {format, unwrapFunctionStore} from 'svelte-i18n';
 const _ = unwrapFunctionStore(format);
 
 export class Stats {
-  el = null;
+  init = () => {
+    this.el = document.getElementById('stats');
+  }
 
   update = async () => {
     if (!this.el) return;

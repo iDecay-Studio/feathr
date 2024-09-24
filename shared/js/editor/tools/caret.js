@@ -1,55 +1,43 @@
 //based on: https://jh3y.medium.com/how-to-where-s-the-caret-getting-the-xy-position-of-the-caret-a24ba372990a
-import {getCaretXY, isMobile} from "@feathr/shared/js/core/utils.js";
+import {isMobile, getCaretXY} from "@feathr/shared/js/core/utils.js";
 import app from "@feathr/shared/js/core/app.js";
 
 export class Caret {
   isActive = false;
-  el = null;
   
   init() {
+    this.el = document.getElementById('caret');
+    
     this.observer = new ResizeObserver(this.update.bind(this));
-    this.observer.observe(app.editor.get());
+    this.observer.observe(app.editor.el);
+  }
+  
+  show = () => this.#toggle(true);
+  hide = () => this.#toggle(false);
+  
+  #toggle = (enable) => {
+    if (!this.el) return;
+    this.isActive = enable;
+    this.el.classList.toggle('hidden', !enable);
+    this.update();
   }
 
-  onScroll = e => {
+  onScroll = _ => {
     if (!this.el) return;
     //disable transitions while scrolling
     let prevTransition = this.el.style.transition;
     this.el.style.transition = "none";
-    this.update(e);
     this.el.style.transition = prevTransition;
+    this.#updatePos();
   }
   
-  update = e => {
-    const processClick = evt => {
-      if (e !== evt && evt.target !== e.target) toggleMarker();
-    };
-
-    const toggleMarker = () => {
-      this.isActive = !this.isActive;
-
-      if (this.isActive && !this.el) {
-        this.el = document.createElement('div');
-        this.el.classList.add("caret");
-        this.el.textContent = "";
-        
-        document.getElementById('container').appendChild(this.el);
-        this.updateSize();
-        document.addEventListener('click', processClick);
-      } else {
-        document.getElementById('container').removeChild(this.el);
-        document.removeEventListener('click', processClick);
-        this.el = null;
-      }
-    };
-    
-    if (!this.isActive) toggleMarker();
-    this.updatePos();
+  update = () => {
+    if (!this.isActive) return;
+    this.#updateSize();
+    this.#updatePos();
   };
 
-  updateSize = () => {
-    if (!this.el) return;
-    
+  #updateSize = () => {
     let height = app.settings.fontSize.storeVal();
     let width = height < 2 ? 2 : height < 3 ? 3 : 4;
     if (isMobile && width < 3) width = 3;
@@ -58,13 +46,10 @@ export class Caret {
     this.el.style.height = `${height}rem`;
   }
   
-  updatePos = () => {
-    if (!this.el || !this.isActive) return;
-    if (app.editor.get() === null) return;
-
-    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.get();
-    const {lineHeight, paddingRight} = getComputedStyle(app.editor.get());
-    let {x, y} = getCaretXY(app.editor.get(), selectionEnd);
+  #updatePos = () => {
+    const {offsetLeft, offsetTop, offsetHeight, offsetWidth, scrollLeft, scrollTop, selectionEnd} = app.editor.el;
+    const {lineHeight, paddingRight} = getComputedStyle(app.editor.el);
+    let {x, y} = getCaretXY(app.editor.el, selectionEnd);
 
     let newLeft = Math.min(x - scrollLeft, offsetLeft + offsetWidth - parseInt(paddingRight, 10));
     let newTop = Math.min(y - scrollTop, offsetTop + offsetHeight - parseInt(lineHeight, 10));

@@ -9,7 +9,7 @@
   let showSearch = false;
   
   function onInput(evt) {
-    log(evt.target.value);
+    // log(evt.target.value);
     app.editor.highlighter.search(evt.target.value);
   }
   

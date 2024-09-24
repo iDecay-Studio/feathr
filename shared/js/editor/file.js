@@ -5,7 +5,7 @@ import {ask as askDialog, message, open as openDialog, save as saveDialog} from 
 import {open as openWithDefault} from "@tauri-apps/plugin-shell";
 import {clamp, getFileNameFromPath, inApp, isMobile, newDocument} from "@feathr/shared/js/core/utils.js";
 import {nodeOpen, nodeOpenWithDialog, nodeSave, nodeSaveAs} from "@feathr/shared/js/editor/file-node.js";
-import {setRecentFilesMenu} from "@feathr/shared/js/ui/menu.js";
+import {setRecentFilesMenu, onPathChange} from "@feathr/shared/js/ui/menu.js";
 import {get, writable} from "svelte/store";
 import {desktopDir, sep} from "@tauri-apps/api/path";
 
@@ -24,6 +24,7 @@ export class File {
   startSize = 0 //the initial file size
   
   init = async () => {
+    this.setPath(this.getPath());
     this.startSize = await this.#getSize();
     await setRecentFilesMenu();
 
@@ -60,6 +61,7 @@ export class File {
   setPath = (path) => {
     app.settings.recentPaths.add(path !== "" ? path : this.getPath());
     this.pathStore.set(path);
+    onPathChange(path);
     this.update();
   }
   getPath = () => get(this.pathStore);
@@ -90,6 +92,8 @@ export class File {
       defaultPath: defPath,
       filters: dialogOpenFilters,
     }).then(result => {
+      if (!result) return;
+      
       if (typeof result === "string") onOpenSuccess(result);
       else if (result.path !== "") {
         this.size = result.size;
@@ -103,7 +107,8 @@ export class File {
   #open(path) {
     const onOpenSuccess = text => {
       if (!path.startsWith('blob')) this.setPath(path);
-      this.#getStats().then(stats => {
+      
+      this.getStats().then(stats => {
         if (stats) this.size = stats.size;
         app.editor.reset(text)
       });
@@ -118,7 +123,7 @@ export class File {
 
   openFolder = async () => {
     if (inApp && this.hasPath()) {
-      let dirPath = this.getPath().match(/(.*)[\/\\]/)[1] || '';
+      let dirPath = isMobile ? this.getPath() : this.getPath().match(/(.*)[\/\\]/)[1] || '';
       await openWithDefault(dirPath);
     }
   };
@@ -126,8 +131,7 @@ export class File {
   save = () => !this.hasPath() ? this.saveAs() : this.#save(this.getPath());
   #save(path, onSuccess = null) {
     const onSaveSuccess = (success) => {
-      app.editor.startingState = app.editor.text();
-      app.settings.unsavedChanges.reset();
+      app.editor.reset(app.editor.text());
       onSuccess && onSuccess();
       success();
     };
@@ -144,7 +148,10 @@ export class File {
   }
 
   async saveAs() {
-    const onSaveSuccess = path => this.setPath(path);
+    const onSaveSuccess = path => {
+      app.editor.reset(app.editor.text());
+      this.setPath(path);
+    }
     const onSaveFail = reason => this.#errorSaving(reason);
     
     let defPath = this.getPath();
@@ -162,7 +169,6 @@ export class File {
 
   close() {
     this.setPath("");
-    app.settings.unsavedChanges.reset();
     app.editor.reset();
   }
 
@@ -186,8 +192,8 @@ export class File {
     else console.error(`Error while ${op} file: ${err}`);
   }
   
-  #getStats = async () => inApp && !isMobile && this.hasPath() ? await stat(this.getPath()) : null;
-  #getSize = async () => (await this.#getStats())?.size ?? 0;
+  getStats = async () => inApp && this.hasPath() ? await stat(this.getPath()) : null;
+  #getSize = async () => (await this.getStats())?.size ?? 0;
 
   //read file-data at current path
   #read = async () => {

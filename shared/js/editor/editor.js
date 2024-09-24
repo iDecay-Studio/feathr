@@ -47,6 +47,7 @@ export class Editor {
   reset(val = "") {
     this.startingState = val;
     this.textEdited = false;
+    app.settings.unsavedChanges.reset();
     this.set(val);
   }
 

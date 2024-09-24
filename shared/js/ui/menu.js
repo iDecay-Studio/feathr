@@ -12,15 +12,19 @@ export let openMenu = writable("");
 export async function setRecentFilesMenu() {
   let result = [];
   let recentPaths = await app.settings.recentPaths.get();
-  recentPaths.forEach(path => result.push({title: getFileNameFromPath(path), action: () => app.file.open(path)}));
+  recentPaths.forEach(path => result.push({path:path, title: getFileNameFromPath(path), action: () => app.file.open(path)}));
 
   get(fileMenu)[2].submenu = result;
+}
+
+export async function onPathChange(path) {
+  get(fileMenu)[3].disabled = !path || path === "";
 }
 
 export let fileMenu = derived(format, _ => [
   {title:_('file.new'), shortcut:"Ctrl+N", action:() => app.file.new()},
   {title:_('file.open')+"...", shortcut:"Ctrl+O", action:() => app.file.openWithDialog()},
-  {title:_('file.open_recent'), submenu: [], hideOnMobile:true},
+  {title:_('file.open_recent'), id:'recentPaths', submenu: []},
   {title:_('file.open_folder'), shortcut:"Ctrl+E", action:() => app.file.openFolder()},
   {divider:true},
   {title:_('file.save'), shortcut:"Ctrl+S", action:() => app.file.save()},
@@ -55,6 +59,10 @@ export const helpMenu = derived(format, _ => [
   {title:_('help.donate'), action:() => openLink("https://ko-fi.com/just_deek"), isLink:true},
   {title:_('help.about'), action:() => openLink("https://github.com/iDecay-Studio/feathr"), isLink:true},
   {title:_('help.check_updates'), action:() => checkForUpdates(true), hideOnMobile:true},
+  // {title:"DEBUG", submenu: [
+  //     {title:"Get Path", action:() => log(app.file.getPath()), closeMenu:false},
+  //     {title:"Get Stats", action:async () => log(await app.file.getStats()), closeMenu:false},
+  //   ]},
 ]);
 
 export const settingsMenu = derived(format, _ => [

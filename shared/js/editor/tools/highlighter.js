@@ -28,6 +28,7 @@ export class Highlighter {
     });
     
     document.addEventListener('keyup', () => this.#setZPos());
+    this.#setZPos();
   }
 
   update = () => {

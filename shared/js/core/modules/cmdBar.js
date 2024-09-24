@@ -53,10 +53,10 @@ export class CmdBar {
 
     this.el.classList.remove('active');
     app.stats.el?.classList.remove('hidden');
-    app.editor.focus()
+    app.editor.focus();
 
-    // app.update();
-    app.editor.highlighter.clear()
+    this.update();
+    app.editor.highlighter.clear();
   };
 
   update = () => {

@@ -22,9 +22,6 @@
 }
 
 .nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   height: 100vh;
   padding: 0.75rem 0.75rem 2rem;
   box-shadow: 0 0 8px #00000040;
@@ -33,6 +30,9 @@
 }
 
 .nav-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   height: fit-content;
 }
 
@@ -43,6 +43,7 @@
   border-radius: 16px;
   margin: 3px 0;
   transition: .4s;
+  font-size: 1.1rem;
   
   &:hover {
     color: var(--link);
@@ -93,6 +94,8 @@
 
 .nav-dropdown-icon {
   margin-left: auto;
+  font-size: 2rem;
+  transition: .2s;
 }
 .nav-dropdown.open .nav-dropdown-icon {
   transform: rotate(180deg);

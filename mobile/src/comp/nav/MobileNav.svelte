@@ -19,7 +19,7 @@
     <div class="nav-content">
       <MobileNavDropdown title="{$_('file.title')}" icon="file" items={$fileMenu}/>
       <MobileNavDropdown title="{$_('edit.title')}" icon="edit-alt" items={$editMenu}/>
-      <MobileNavDropdown title="{$_('go.navigate')}" icon="navigation" items={$goMenu}/>
+      <!-- <MobileNavDropdown title="{$_('go.navigate')}" icon="navigation" items={$goMenu}/> -->
       <MobileNavDropdown title="{$_('settings.title')}" icon="cog" items={$settingsMenu}/>
       <MobileNavDropdown title="{$_('help.title')}" icon="info-circle" items={$helpMenu}/>
     </div>
